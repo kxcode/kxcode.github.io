@@ -1,7 +1,7 @@
 ---
 layout: page
-title: Latest Security Events
-description: "Latest Security Events"
+title: Latest Security Incidents
+description: "Latest Security Incidents"
 image:
   feature: abstract-11.jpg
 share: true
