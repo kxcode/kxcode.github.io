@@ -1,0 +1,26 @@
+# Menu navigation links
+
+- title: Security Incidents
+  url: /latest-events/
+
+- title: Vulnerabilities
+  url: /latest-vulns/
+
+- title: Archives
+  url: /posts/
+
+- title: Tags
+  url: /tags/
+
+# - title: SecEngine
+#   url: http://e.cih.so/s/
+
+
+- title: Tools
+  url: /pentest-tools/
+
+- title: Links
+  url: /links/
+
+- title: RSS
+  url: /feed.xml
