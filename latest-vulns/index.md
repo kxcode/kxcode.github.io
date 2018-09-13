@@ -9,10 +9,16 @@ share: true
 
 2018
 ---
+1. **【20180912】Microsoft XML Core Services MSXML Remote Code Execution CVE-2018-8420**
+    - POC：<https://github.com/Theropord/CVE-2018-8420/>
+    - 公告：<https://portal.msrc.microsoft.com/en-US/security-guidance/advisory/CVE-2018-8420>
+    - 实测PoC：<https://github.com/kxcode/snippet/blob/master/CVE-2018-8420>
+    - 描述：需要更改IE默认配置，IE安全设置-Internet区域，设置“对未标记为可安全执行脚本的ActiveX空间初始化并执行”为启用（不安全）。
+
 1. **【20180905】ECShop全版本命令执行漏洞**
     - 分析：<https://paper.seebug.org/695/>
 
-1. **【20180829】Windows ALPC 本地提权**
+1. **【20180829】Windows ALPC 本地提权 CVE-2018-8440**
     - <https://www.kb.cert.org/vuls/id/906424>
     - <https://github.com/SandboxEscaper/randomrepo/blob/master/PoC-LPE.rar>
     - <https://twitter.com/SandboxEscaper/status/1034125195148255235>
