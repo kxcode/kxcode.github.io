@@ -10,11 +10,15 @@ share: true
 
 Friend Links
 
-[扒个裤 - Monster](http://bug.cool)
+[LonelyRain's Blog](http://lonelyrain.me/)
 
-[LonelyRain](http://lonelyrain.me/)
+[c0rpse's Blog](http://suroot.cn/)
+
+[xnianq's Blog](http://xnianq.cn/)
+
 
 ---
+
 
 [漏洞赏金Writeups列表](https://pentester.land/list-of-bug-bounty-writeups)
 

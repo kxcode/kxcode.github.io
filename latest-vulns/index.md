@@ -9,6 +9,28 @@ share: true
 
 2018
 ---
+1. **【20181017】LibSSH 0.6及更高版本认证绕过漏洞**
+    - https://www.libssh.org/2018/10/16/libssh-0-8-4-and-0-7-6-security-and-bugfix-release/
+    - <https://mp.weixin.qq.com/s/mzxaX6g6Iq0ihQwrf6l8Mw>
+    - [MSF Exploit](https://github.com/rapid7/metasploit-framework/blob/22503209d9b8aa0a0e21ed60d9a0af7f1f2182f4/modules/auxiliary/scanner/ssh/libssh_auth_bypass.rb
+https://github.com/rapid7/metasploit-framework/blob/22503209d9b8aa0a0e21ed60d9a0af7f1f2182f4/lib/msf/core/exploit/ssh/auth_methods.rb)
+
+1. **【20181010】GhostScript命令执行漏洞Bypass CVE-2018-17961**
+    - 描述：<https://seclists.org/oss-sec/2018/q4/28>
+    - POC：<https://bugs.chromium.org/p/project-zero/issues/detail?id=1682&desc=2>
+
+1. **【20181009】CVE-2018-8453 | Win32k Elevation of Privilege Vulnerability**
+    - Zero-day exploit (CVE-2018-8453) used in targeted attacks <https://securelist.com/cve-2018-8453-used-in-targeted-attacks/88151/>
+
+1. **【20180930】GoogleProjectZero Linux内核提权 VMA-UAF 漏洞CVE-2018-17182**
+    - <https://github.com/jas502n/CVE-2018-17182>
+    - Linux内存管理子系统中的缓存失效错误，导致释放后使用漏洞。
+
+1. **【20180919】交易前端图表通用JS组件 Tradingview 存在XSS漏洞**
+    - POC：<http://topbtc.com/tradingview/charting_library/static/tv-chart.e816a7a6edc9de3ed709.html#enabledFeatures=[]&disabledFeatures=[]&indicatorsFile=https://kingx.me/p/x.js>
+    - 分析：通用K线展示JS库 TradingView 存在 XSS漏洞 <https://mp.weixin.qq.com/s/yfbKf_5Nk2NXFl2-xlFqKg>
+    - 漏洞文件：tv-chart.js 或者 library.xxxxxx.js
+
 1. **【20180912】Microsoft XML Core Services MSXML Remote Code Execution CVE-2018-8420**
     - POC：<https://github.com/Theropord/CVE-2018-8420/>
     - 公告：<https://portal.msrc.microsoft.com/en-US/security-guidance/advisory/CVE-2018-8420>
@@ -33,7 +55,7 @@ share: true
     - 作者博客：<https://lgtm.com/blog/apache_struts_CVE-2018-11776>
     - 国内分析：<https://xz.aliyun.com/t/2618>
     ````````````````````````
-1. **【20180822】GhostScript沙盒绕过命令执行，影响ImageMagick**
+1. **【20180822】GhostScript沙盒绕过命令执行，影响ImageMagick CVE-2018-16509**
     - USCERT：<https://www.kb.cert.org/vuls/id/332928>
     - seclist：<http://seclists.org/oss-sec/2018/q3/144>
     - PoC: <https://github.com/kxcode/snippet/blob/master/GhostScript.txt>
