@@ -9,6 +9,10 @@ share: true
 
 2018
 ---
+1. **【20181019】Oracle Weblogic远程代码执行漏洞CVE-2018-3191**
+    - 描述：这个漏洞利用的gadget是weblogic中自带的，跟JDK版本无关，所以只要系统能连外网，未禁止T3协议，漏洞就可以利用，威力巨大。
+    - 漏洞分析：<https://www.anquanke.com/post/id/162274>
+
 1. **【20181017】LibSSH 0.6及更高版本认证绕过漏洞**
     - https://www.libssh.org/2018/10/16/libssh-0-8-4-and-0-7-6-security-and-bugfix-release/
     - <https://mp.weixin.qq.com/s/mzxaX6g6Iq0ihQwrf6l8Mw>
