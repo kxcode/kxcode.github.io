@@ -9,6 +9,31 @@ share: true
 
 2018
 ---
+
+1. **【20181106】GOGS/Gitea任意代码执行(CVE-2018-18925/6)及利用流程**
+    - 漏洞分析：<https://xz.aliyun.com/t/3168> <https://www.anquanke.com/post/id/163575>
+    - Gogs 是一款极易搭建的自助 Git 服务。 Gogs 的目标是打造一个最简单、最快速和最轻松的方式搭建自助 Git 服务，使用 Go 语言开发。
+    - Gitea是从Gogs发展而来，同样的拥有极易安装，运行快速的特点，而且更新比Gogs频繁很多，维护的人也多。
+
+1. **【20181106】Struts 2.3.36使用了1.3.2版本的commons-fileupload组件，存在反序列化命令执行漏洞**
+    - 描述：2017-06-20 Struts 2.5.12已经使用了1.3.3版本的commons-fileupload组件 <https://issues.apache.org/jira/browse/WW-4812
+>
+    - US-CERT公告：<https://www.us-cert.gov/ncas/current-activity/2018/11/05/Apache-Releases-Security-Advisory-Apache-Struts>
+    - 开发者邮件：<http://mail-archives.us.apache.org/mod_mbox/www-announce/201811.mbox/%3CCAMopvkMo8WiP%3DfqVQuZ1Fyx%3D6CGz0Epzfe0gG5XAqP1wdJCoBQ%40mail.gmail.com%3E>
+    - NVD漏洞公告：2016-10-25 <https://nvd.nist.gov/vuln/detail/CVE-2016-1000031>
+    - 官方漏洞公告：2016-11-04 <https://issues.apache.org/jira/browse/FILEUPLOAD-279>
+    - 漏洞分析 By Tenable：<https://www.tenable.com/security/research/tra-2016-12>
+    - 漏洞分析：<https://blog.spoock.com/2018/10/15/cve-2016-1000031/>
+    - 影响版本：commons-fileupload 1.3.2及以下版本
+    - 时间线：
+        2014-02-07 FileUpload 1.3.1 发布 
+        2016-05-26 FileUpload 1.3.2 发布
+        2016-10-25 NVD漏洞分析 <https://nvd.nist.gov/vuln/detail/CVE-2016-1000031>
+        2016-11-04 Commons FileUpload 官方公告 CVE-2016-1000031 <https://issues.apache.org/jira/browse/FILEUPLOAD-279>
+        2017-06-13 FileUpload 1.3.3 发布
+        2017-06-20 Struts 2.5.12 将内置commons-fileupload组件更新到1.3.3
+        
+
 1. **【20181019】Oracle Weblogic远程代码执行漏洞CVE-2018-3191**
     - 描述：这个漏洞利用的gadget是weblogic中自带的，跟JDK版本无关，所以只要系统能连外网，未禁止T3协议，漏洞就可以利用，威力巨大。
     - 漏洞分析：<https://www.anquanke.com/post/id/162274>
@@ -25,6 +50,9 @@ https://github.com/rapid7/metasploit-framework/blob/22503209d9b8aa0a0e21ed60d9a0
 
 1. **【20181009】CVE-2018-8453 | Win32k Elevation of Privilege Vulnerability**
     - Zero-day exploit (CVE-2018-8453) used in targeted attacks <https://securelist.com/cve-2018-8453-used-in-targeted-attacks/88151/>
+
+1. **【20181007】MikroTik RouterOS未授权文件读取到GetShell**
+    - https://www.freebuf.com/vuls/187272.html
 
 1. **【20180930】GoogleProjectZero Linux内核提权 VMA-UAF 漏洞CVE-2018-17182**
     - <https://github.com/jas502n/CVE-2018-17182>
@@ -72,6 +100,10 @@ https://github.com/rapid7/metasploit-framework/blob/22503209d9b8aa0a0e21ed60d9a0
     -internet-explorer-to-run-shellcode/
     - 利用CVE-2018-8373 0day漏洞的攻击与Darkhotel团伙相关的分析 <https://ti.360.net/blog/articles/analyzing-attack-of-cve-2018-8373-and-darkhotel/>
 
+1. **【20180815】OpenSSH用户枚举漏洞CVE-2018-15473**
+    - 描述：OpenSSH 7.7及之前版本中存在用户枚举漏洞，该漏洞源于程序会对有效的和无效的用户身份验证请求发出不同的响应。攻击者可通过发送特制的请求利用该漏洞枚举用户名称。
+    - POC：
+
 1. **【20180815】Microsoft Exchange Server 远程代码执行 CVE-2018-8302**
     - 微软公告：<https://portal.msrc.microsoft.com/zh-CN/security-guidance/advisory/CVE-2018-8302>
     - 趋势分析：<https://www.thezdi.com/blog/2018/8/14/voicemail-vandalism-getting-remote-code-execution-on-microsoft-exchange-server>
@@ -107,9 +139,6 @@ https://github.com/rapid7/metasploit-framework/blob/22503209d9b8aa0a0e21ed60d9a0
 1. **【20180703】Wechat Pay SDK XXE漏洞**
     - 漏洞详情：<http://seclists.org/fulldisclosure/2018/Jul/3>
 
-1. **【20180512】Node Security - macaddress模块存在命令执行漏洞**
-    - Node Security Platform | Advisory <https://nodesecurity.io/advisories/654>
-    - 报告：<https://hackerone.com/reports/319467>
 
 1. **【20180604】Microsoft JScript命令执行漏洞 CVE-2018-8267**
     - <https://www.zerodayinitiative.com/advisories/ZDI-18-534/>
@@ -165,6 +194,16 @@ https://github.com/rapid7/metasploit-framework/blob/22503209d9b8aa0a0e21ed60d9a0
     - 漏洞公告：<https://mp.weixin.qq.com/s/SMpBQ4mZQLVLfgK7f84OYA>
     - 描述：WiFi劫持+解压+路径穿越
     - 漏洞Issue：<https://github.com/ZipArchive/ZipArchive/issues/453>
+
+1. **【20180512】Node Security - macaddress模块存在命令执行漏洞**
+    - Node Security Platform | Advisory <https://nodesecurity.io/advisories/654>
+    - 报告：<https://hackerone.com/reports/319467>
+
+1. **【20180508】CVE-2018-0824 | Microsoft Windows COM 远程命令执行漏洞**
+    - 该漏洞可远程调用一个计算机上的COM组件，根据内容分析，作者给出的POC无法对远程主机进行复现，是由于在调用CoGetInstanceFromIStorage()时未传递计算机名（COSERVERINFO），我们可以将调用COM组件的程序嵌入office或网页中，也能够获取目标主机的系统权限。 
+    - 影响：Microsoft Windows Server 2008 Microsoft Windows Server 2008 R2 Microsoft Windows 7 Microsoft Windows Windows Server 2012 Microsoft Windows 8.1 Microsoft Windows Server 2012 R2 Microsoft Windows RT 8.1 Microsoft Windows 10 Microsoft Windows Server 2016 
+    - 分析文章：https://codewhitesec.blogspot.com/2018/06/cve-2018-0624.html 
+    
 
 1. **【20180502】7-Zip命令执行漏洞（CVE-2018-10115）**
     - 分析：<https://landave.io/2018/05/7-zip-from-uninitialized-memory-to-remote-code-execution/>
@@ -455,3 +494,21 @@ https://github.com/rapid7/metasploit-framework/blob/22503209d9b8aa0a0e21ed60d9a0
     - CVE-2017-11610
     - POC: <https://github.com/kxcode/snippet/blob/master/Supervisord-RCE>
 
+2016
+---
+
+1. **【20160810】Shiro 1.2.4反序列化命令执行漏洞**
+    - 描述：Cookie中rememberMe字段使用硬编码的AES加密，并且会被反序列化。所以可以被篡改为反序列化Gadget进行命令执行。
+    - 漏洞利用：需要根据目标的环境选择相应的Gadget，目标环境如有`"commons-collections4:4.0"`的漏洞类库，则可以用ysoserial的`CommonsCollections2` payload直接打。但是如果目标环境是`"commons-collections:3.1、3.2.1"`类库的话，必须用JRMPClient中转一下，攻击者服务器监听JRMPListener再用`CommonsCollection6`等payload打。
+    - 利用分析：对于commons-collections3.2.1环境，如果直接打commonscollection的payload，会报错
+    ```
+    java.lang.ClassNotFoundException: Unable to load ObjectStreamClass [[Lorg.apache.commons.collections.Transformer;:
+    static final long serialVersionUID = -4803604734341277543L;]: 
+    ```
+    报错的原因是因为：Shiro resovleClass使用的是ClassLoader.loadClass()而非Class.forName()，而ClassLoader.loadClass不支持装载数组类型的class。
+    - 漏洞分析：直接利用CommonsCollection执行 <https://paper.seebug.org/shiro-rememberme-1-2-4/>
+    - 漏洞分析：利用JRMPListener执行 <http://www.yilan.io/article/5b4dce6512d8c64b05ffd540>
+
+1. **【201610】DirtyCow脏牛提权漏洞CVE-2016-5195**
+    - 影响范围：Linux 内核 >=2.6.22（2007 年发行）开始就受影响了，直到 2016 年 10 月 18 日才修复。
+    - PoC: <https://github.com/dirtycow/dirtycow.github.io/wiki/PoCs>
