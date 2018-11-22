@@ -78,6 +78,8 @@ https://github.com/rapid7/metasploit-framework/blob/22503209d9b8aa0a0e21ed60d9a0
     - <https://twitter.com/SandboxEscaper/status/1034125195148255235>
     - <https://doublepulsar.com/task-scheduler-alpc-exploit-high-level-analysis-ff08cda6ad4f>
     - <https://github.com/GossiTheDog/zeroday/tree/master/ALPC-TaskSched-LPE>
+    - POC分析：<http://www.qingpingshan.com/m/view.php?aid=394126>
+    - 描述：提权之后，系统上会残留一些文件，C:\Windows\Tasks\UpdateTask.job、C:\Windows\System32\DriverStore\FileRepository\prnms003.inf_amd64_4592475aca2acf83\Amd64\PrintConfig.dll。当新建excel，然后点击字体选择下拉选框按钮时，会触发执行。
 
 1. **【20180822】UEditor两个版本上传漏洞**
     - <http://www.freebuf.com/vuls/181814.html>
@@ -508,6 +510,7 @@ https://github.com/rapid7/metasploit-framework/blob/22503209d9b8aa0a0e21ed60d9a0
     报错的原因是因为：Shiro resovleClass使用的是ClassLoader.loadClass()而非Class.forName()，而ClassLoader.loadClass不支持装载数组类型的class。
     - 漏洞分析：直接利用CommonsCollection执行 <https://paper.seebug.org/shiro-rememberme-1-2-4/>
     - 漏洞分析：利用JRMPListener执行 <http://www.yilan.io/article/5b4dce6512d8c64b05ffd540>
+    - 官方issue：<https://issues.apache.org/jira/browse/SHIRO-550>
 
 1. **【201610】DirtyCow脏牛提权漏洞CVE-2016-5195**
     - 影响范围：Linux 内核 >=2.6.22（2007 年发行）开始就受影响了，直到 2016 年 10 月 18 日才修复。

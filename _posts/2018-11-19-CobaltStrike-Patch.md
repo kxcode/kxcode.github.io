@@ -101,19 +101,19 @@ public class License
 
 ## 修改重打包
 
-既然知道了破解思路，我们看下如何动手操作去修改源码并重编译。Java编程中我们可以使用`jar`工具将一系列的.class文件打包成jar包，供其他java程序使用。我们也可以修改jar包中.class文件的内容，并重新编译打包。比如修改demo.jar中的example.class并重新编译的过程如下：
+既然知道了破解思路，我们看下如何动手操作去修改源码并重编译。Java编程中我们可以使用`jar`工具将一系列的.class文件打包成jar包，供其他java程序使用。我们也可以修改jar包中.class文件的内容，并重新编译打包。比如修改demo.jar中的kingx.class并重新编译的过程如下：
 
-1. 使用jd-gui、luyten等工具把demo.jar包中的class反编译成源码，从中提取得到example.java
+1. 使用jd-gui、luyten等工具把demo.jar包中的class反编译成源码，从中提取得到kingx.java
 
-2. 执行`jar xvf demo.jar` 解压demo.jar得到jar包的子文件（注意会解压到当前目录），将example.java文件放置到与example.class文件同一目录
+2. 执行`jar xvf demo.jar` 解压demo.jar得到jar包的子文件（注意会解压到当前目录），将kingx.java文件放置到与kingx.class文件同一目录
 
-3. 执行`javac -cp a.jar;b.jar;c.jar example.java`重新编译。(或者javac -cp demo.jar example.java)得到新的example.class文件。
+3. 执行`javac -cp a.jar;b.jar;c.jar kingx.java`重新编译。(或者javac -cp demo.jar kingx.java)得到新的kingx.class文件。
 
     其中a.jar、b.jar、c.jar是依赖包，一般直接依赖一个原始解压的demo.jar包即可
 
-4. 确保编译后的example.class替换了原来的example.class文件（可以通过jd-gui反编译查看）
+4. 确保编译后的kingx.class替换了原来的kingx.class文件（可以通过jd-gui反编译查看）
 
-5. 执行`jar -uvf  demo.jar com/some/path/example.class`更新demo.jar包
+5. 执行`jar -uvf  demo.jar com/some/path/kingx.class`更新demo.jar包
 
 
 更新jar包中的class文件时，新的class文件目录路径需要与原package路径保持一致。比如修改了`aggressor.AggressorClient.java`并重新编译之后，更新jar包的命令如下：
