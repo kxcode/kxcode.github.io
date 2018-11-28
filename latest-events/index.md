@@ -9,6 +9,17 @@ share: true
 
 2018
 ---
+1. **【20181127】供应链攻击：JavaScript公共库event-stream被植入恶意代码**
+    - <https://cert.360.cn/warning/detail?id=00e13636ea1705250545e370bbd8b539>
+    - 恶意依赖已经存在了2.5个月内未被发现
+    - <https://mp.weixin.qq.com/s/IaOWxG0XLvn2znvvP1dmwA>
+    - 相关的Github Issues: <https://github.com/dominictarr/event-stream/issues/115><https://github.com/dominictarr/event-stream/issues/116>
+    - 详细介绍：<https://snyk.io/blog/malicious-code-found-in-npm-package-event-stream>
+    - 恶意的commit: <https://github.com/dominictarr/event-stream/commit/e3163361fed01384c986b9b4c18feb1fc42b8285>
+    - 影响范围：如果你的项目使用了加密货币相关的库并且当你运行命令npm ls event-stream flatmap-stream后你可以看到flatmap-stream@0.1.1，你很可能就受影响了
+    - 减轻方案：Downgrade to event-stream@3.3.4
+    - 受影响版本：event-stream@3.3.6 (目前已知) 或者 flatmap-stream@any
+
 1. **【20180828】华住大量开房信息泄露**
 
 1. **【20180817】APT DarkHotel**

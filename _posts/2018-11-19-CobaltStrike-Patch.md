@@ -137,7 +137,7 @@ public class License
 *Tips: 以下代码片段中行首的 - 代表删除，+ 代表新增*
 
 ## Patch 试用版本
-修改common.License，去掉checkLicenseGUI()、checkLicenseConsole()函数体，修改isTrial()返回值为true
+修改common.License，去掉checkLicenseGUI()、checkLicenseConsole()函数体，修改isTrial()返回值为false
 
 ## 修改主程序标题
 aggressor.AggressorClient，修改getTitle()函数

