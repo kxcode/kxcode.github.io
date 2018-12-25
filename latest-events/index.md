@@ -9,6 +9,10 @@ share: true
 
 2018
 ---
+1. **【20181214】供应链攻击：驱动人生升级通道被攻击，软件携带后门病毒**
+    - <https://www.freebuf.com/vuls/192014.html>
+    - 一场精心策划的针对驱动人生公司的定向攻<https://www.freebuf.com/articles/system/192194.html>
+    
 1. **【20181127】供应链攻击：JavaScript公共库event-stream被植入恶意代码**
     - <https://cert.360.cn/warning/detail?id=00e13636ea1705250545e370bbd8b539>
     - 恶意依赖已经存在了2.5个月内未被发现
@@ -97,6 +101,7 @@ share: true
 
 
 1. **【201709】Equifax数据泄露事件致CIO和CISO离职**
-    -  Struts2
+    - Struts2
+    - 2018年12月发布细节，<https://oversight.house.gov/wp-content/uploads/2018/12/Equifax-Report.pdf>
 
 1. **【201708】 XSHELL 后门植入**
