@@ -535,6 +535,7 @@ https://github.com/rapid7/metasploit-framework/blob/22503209d9b8aa0a0e21ed60d9a0
     - 漏洞分析：直接利用CommonsCollection执行 <https://paper.seebug.org/shiro-rememberme-1-2-4/>
     - 漏洞分析：利用JRMPListener执行 <http://www.yilan.io/article/5b4dce6512d8c64b05ffd540>
     - 官方issue：<https://issues.apache.org/jira/browse/SHIRO-550>
+    - 漏洞延伸：<https://mp.weixin.qq.com/s/NRx-rDBEFEbZYrfnRw2iDw>
 
 1. **【201610】DirtyCow脏牛提权漏洞CVE-2016-5195**
     - 影响范围：Linux 内核 >=2.6.22（2007 年发行）开始就受影响了，直到 2016 年 10 月 18 日才修复。
