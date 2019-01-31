@@ -7,8 +7,15 @@ image:
 share: true
 ---
 
-2018
+2019
 ---
+1. **【20190124】Numpy库存在反序列化命令执行漏洞CVE-2019-6446**
+    - <https://www.bleepingcomputer.com/news/security/numpy-is-awaiting-fix-for-critical-remote-code-execution-bug/>
+
+1. **【20190122】apt/apt-get 远程命令执行漏洞披露（CVE-2019-3462）**
+    - <https://justi.cz/security/2019/01/22/apt-rce.html>
+    - <https://www.anquanke.com/post/id/170090>
+    
 1. **【20190115】ThinkPHP 5.1~5.2 RCE漏洞**
     - ThinkPHP 5.0.x-5.0.23、5.1.x、5.2.x 全版本远程代码执行漏洞分析 <http://blog.nsfocus.net/thinkphp-full-version-rce-vulnerability-analysis/>
     - POC合集：<https://github.com/SkyBlueEternal/thinkphp-RCE-POC-Collection>
@@ -18,6 +25,8 @@ share: true
     - 在xterm终端下可逃逸并执行命令。利用场景：受害者执行curl http://xxx/xxx.txt，服务端返回的内容包含上述特殊字符，于是回显的数据逃逸了xterm的终端，并额外执行了命令。
     
 
+2018
+---
 1. **【20181221】Windows越权任意文件读取0day**
     - <https://thehackernews.com/2018/12/windows-zero-day-exploit.html>
     - <https://sandboxescaper.blogspot.com/2018/12/readfile-0day.html>
@@ -48,6 +57,7 @@ share: true
     - 分析CVE-2018-8581：在Microsoft Exchange上冒充用户 <https://www.anquanke.com/post/id/168337>
     - 分析CVE-2018-8581：<https://xz.aliyun.com/t/3670>
     - 新的攻击手法，可以拿域控：<https://dirkjanm.io/abusing-exchange-one-api-call-away-from-domain-admin/>
+    - 利用同样的方式拿到EWS Hash，通过这个Hash进行NTLM中继，攻击域控ldap，给指定用户提权，通过dscync导出人以用户Hash。
 
 1. **【20181106】GOGS/Gitea任意代码执行(CVE-2018-18925/6)及利用流程**
     - 漏洞分析：<https://xz.aliyun.com/t/3168> <https://www.anquanke.com/post/id/163575>

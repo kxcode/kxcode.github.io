@@ -7,11 +7,17 @@ image:
 share: true
 ---
 
+2019
+---
+1. **【20190130】LinkedIn数据泄露**
+    - 1月30日上午，一位名叫“Andrev”的黑客通过Pastebin发布了一则消息，声称其攻击了LinkedIn服务器，并窃取了约1.59亿的用户信息。
+    - <https://www.freebuf.com/news/195406.html>
+
 2018
 ---
 1. **【20190101】2018网络安全大事记**
     - <https://mp.weixin.qq.com/s/YvlUX8Zjp9gfAtJ6YY27BA>
-    
+
 1. **【20181214】供应链攻击：驱动人生升级通道被攻击，软件携带后门病毒**
     - <https://www.freebuf.com/vuls/192014.html>
     - 一场精心策划的针对驱动人生公司的定向攻<https://www.freebuf.com/articles/system/192194.html>
