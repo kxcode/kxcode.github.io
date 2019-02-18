@@ -9,6 +9,13 @@ share: true
 
 2019
 ---
+1. **【20190213】Nexus Repository Manager 3 访问控制缺失及远程代码执行CVE-2019-7238**
+    - <https://cloud.tencent.com/announce/detail/459>
+
+1. **【20190213】runc Docker逃逸漏洞CVE-2019-5736**
+    - 分析：<http://blog.nsfocus.net/runc-cve-2019-5736/>
+    - PoC：<https://github.com/q3k/cve-2019-5736-poc>
+
 1. **【20190124】Numpy库存在反序列化命令执行漏洞CVE-2019-6446**
     - <https://www.bleepingcomputer.com/news/security/numpy-is-awaiting-fix-for-critical-remote-code-execution-bug/>
 
@@ -45,6 +52,12 @@ share: true
 1. **【20181205】Kubernetes API特权提升漏洞CVE-2018-1002105**
     - <https://github.com/kubernetes/kubernetes/issues/71411>
 
+1. **【20181205】Flash命令执行漏洞CVE-2018-15982**
+    - 释放后重用，任意代码执行。
+    - <http://blog.nsfocus.net/adobe-flash-player-cve-2018-15982/>
+    - 攻击事件分析：<https://www.freebuf.com/column/191383.html>
+    - POC：<https://github.com/B1eed/VulRec/tree/master/CVE-2018-15982>
+
 1. **【20181128】PHPCMS 2008 任意文件写入 RCE CVE-2018-19127**
     - 描述：发恶意包：`/type.php?template=tag_(){};@unlink(FILE);assert($_POST[1]);{//../rss`Shell落在这个文件：`/cache_template/rss.tpl.php` 内容：`"@unlink(FILE);assert($_POST[1]);"`
     - <http://www.yncert.org.cn/article/show/8119.html>
@@ -58,6 +71,7 @@ share: true
     - 分析CVE-2018-8581：<https://xz.aliyun.com/t/3670>
     - 新的攻击手法，可以拿域控：<https://dirkjanm.io/abusing-exchange-one-api-call-away-from-domain-admin/>
     - 利用同样的方式拿到EWS Hash，通过这个Hash进行NTLM中继，攻击域控ldap，给指定用户提权，通过dscync导出人以用户Hash。
+    - 补丁：<https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/CVE-2019-0686>
 
 1. **【20181106】GOGS/Gitea任意代码执行(CVE-2018-18925/6)及利用流程**
     - 漏洞分析：<https://xz.aliyun.com/t/3168> <https://www.anquanke.com/post/id/163575>
