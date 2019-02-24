@@ -9,6 +9,13 @@ share: true
 
 2019
 ---
+1. **【20190221】WinRAR命令执行漏洞CVE-2018-20250, CVE-2018-20251, CVE-2018-20252, CVE-2018-20253**
+    - Extracting a 19 Year Old Code Execution from WinRAR<https://research.checkpoint.com/extracting-code-execution-from-winrar/>
+    - POC:<https://github.com/Ridter/acefile>
+
+1. **【20190220】Wordpress5.0.0命令执行漏洞**
+    - <http://www.4hou.com/vulnerable/16282.html>
+
 1. **【20190213】Nexus Repository Manager 3 访问控制缺失及远程代码执行CVE-2019-7238**
     - <https://cloud.tencent.com/announce/detail/459>
 
@@ -30,7 +37,7 @@ share: true
 1. **【20190110】xterm.js 命令执行漏洞CVE-2019-0542**
     - POC：`echo -e "abcdef\x1bP+qfoo;\ntouch /tmp/foo;aa\n\x1b\n"`
     - 在xterm终端下可逃逸并执行命令。利用场景：受害者执行curl http://xxx/xxx.txt，服务端返回的内容包含上述特殊字符，于是回显的数据逃逸了xterm的终端，并额外执行了命令。
-    
+
 
 2018
 ---

@@ -74,3 +74,6 @@ Living Off The Land Techniques
 一种使用系统默认程序、组件来绕过主机检测，隐藏恶意软件真实目的，进行命令执行、上传下载、编译、植入后门等操作的一种技术。
 常见的分类有：LOL Binaries、LOL Libs、LOL Scripts。
 
+VPC
+---
+Virtual Private Cloud 虚拟私有云
