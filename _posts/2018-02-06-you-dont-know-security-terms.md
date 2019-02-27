@@ -59,7 +59,6 @@ PHP接收到的是URL解码后的参数，Apache和Nginx会按照目录的方式
 
 由于Apache URL Rewrite相关配置，这个链接返回的内容实际上是`http://39.107.33.96:20000/index.php/view/article/23049`的内容。而`http://39.107.33.96:20000/index.php/view/article/23049`内容时我们插入的恶意文章，被浏览器当成JS解析了，造成XSS。
 
-
 Compromised
 ---
 攻陷
@@ -67,7 +66,6 @@ Compromised
 Breach
 ---
 (数据)泄露
-
 
 Living Off The Land Techniques
 ---
@@ -77,3 +75,13 @@ Living Off The Land Techniques
 VPC
 ---
 Virtual Private Cloud 虚拟私有云
+
+SAST / DAST
+---
+Static Application Security Testing / Dynamic Application Security Testing
+
+更多相关术语：<https://www.gartner.com/it-glossary/>
+
+
+
+

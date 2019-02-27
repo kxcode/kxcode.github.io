@@ -461,6 +461,7 @@ https://github.com/rapid7/metasploit-framework/blob/22503209d9b8aa0a0e21ed60d9a0
     - PoC：<https://github.com/bindecy/HugeDirtyCowPOC>
     - <https://medium.com/bindecy/huge-dirty-cow-cve-2017-1000405-110eca132de0>
     - <https://www.seebug.org/vuldb/ssvid-96908>
+    - 影响Linux内核2.6.38~4.14
 
 1. **【20171127】Office Word命令执行漏洞 CVE-2017-11882**
     - 2017年11月14日，微软发布了11月的安全补丁更新，其中CVE-2017-11882是一个远程执行漏洞，通杀目前市面上的所有office版本及Windows操作系统(包括刚刚停止支持的Office 2007)。该漏洞的成因是EQNEDT32.EXE进程在读入包含MathType的ole数据时，在拷贝公式字体名称时没有对名称长度进行校验，从而造成栈缓冲区溢出，是一个非常经典的栈溢出漏洞。
@@ -574,7 +575,9 @@ https://github.com/rapid7/metasploit-framework/blob/22503209d9b8aa0a0e21ed60d9a0
 1. **【201610】DirtyCow脏牛提权漏洞CVE-2016-5195**
     - 影响范围：Linux 内核 >=2.6.22（2007 年发行）开始就受影响了，直到 2016 年 10 月 18 日才修复。
     - PoC: <https://github.com/dirtycow/dirtycow.github.io/wiki/PoCs>
-
+    - <https://dirtycow.ninja/>
+    - 影响范围<https://github.com/dirtycow/dirtycow.github.io/wiki/VulnerabilityDetails>
+    - 影响范围<https://github.com/kcgthb/RHEL6.x-COW>
 
 1. **【20160718】Shiro 1.2.4反序列化命令执行漏洞**
     - 描述：Cookie中rememberMe字段使用硬编码的AES加密，并且会被反序列化。所以可以被篡改为反序列化Gadget进行命令执行。
