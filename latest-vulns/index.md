@@ -9,6 +9,15 @@ share: true
 
 2019
 ---
+1. **【20190307】Chrome 'FileReader' Use After Free命令执行漏洞CVE-2019-5786**
+    - <https://twitter.com/justinschuh/status/1103087046661267456>
+    - 代码Diff：<https://chromium.googlesource.com/chromium/src/+/150407e8d3610ff25a45c7c46877333c4425f062%5E%21/#F0>
+    - 新闻报道：
+    - <https://nakedsecurity.sophos.com/2019/03/06/serious-chrome-zero-day-google-says-update-right-this-minute/>
+    - <https://www.securityfocus.com/bid/107213>
+    - <https://www.solidot.org/story?sid=59806>
+    - <https://www.leiphone.com/news/201903/CzzG8lN74hZ3dUwK.html>
+
 1. **【20190221】WinRAR命令执行漏洞CVE-2018-20250, CVE-2018-20251, CVE-2018-20252, CVE-2018-20253**
     - Extracting a 19 Year Old Code Execution from WinRAR<https://research.checkpoint.com/extracting-code-execution-from-winrar/>
     - POC:<https://github.com/Ridter/acefile>
