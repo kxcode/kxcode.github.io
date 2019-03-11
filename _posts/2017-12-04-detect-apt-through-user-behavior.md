@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 数据挖掘 - 相似性度量
+title: 基于行为相似性度量检测APT活动
 description: "Data finds abnormal"
 tags: [DataScience,MachineLearning,APT]
 image:
@@ -8,10 +8,6 @@ image:
 ---
 
 ## 1. 概述
-
-Detecting anomalies in time series on daily or weekly data at scale. Anomalies indicate exceptional events.
-
-Now shift context with me to security-specific events and incidents, as the pertain to security monitoring, incident response, and threat hunting
 
 在基于大数据的安全防御建设中，为了从数据挖掘出异常行为，通常我们需要计算不同个体之间的差异，从而通过相似性和类别来判定异常行为和正常行为，找出偏离用户行为基线的异常点。数据科学中有很多常用的”距离“、”相似性“的计算方法。我们可以根据数据特性而采用不同的度量方法。比如：
 
