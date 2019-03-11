@@ -9,6 +9,13 @@ share: true
 
 2019
 ---
+1. **【20190307】Apache Solr 命令执行漏洞 CVE-2019-0192**
+    - POC <https://github.com/mpgn/CVE-2019-0192>
+    - Bug单 <https://issues.apache.org/jira/browse/SOLR-13301>
+    - 描述：攻击者可以通过Solr的HTTP Config API将Solr的JMX服务指向一个恶意的RMI服务，利用Solr不安全的反序列化功能，达到RCE的危害。
+    - 影响版本：5.0.0 ~ 5.5.5、6.0.0 ~ 6.6.5
+    - 安全版本：7.0
+
 1. **【20190307】Chrome 'FileReader' Use After Free命令执行漏洞CVE-2019-5786**
     - <https://twitter.com/justinschuh/status/1103087046661267456>
     - 代码Diff：<https://chromium.googlesource.com/chromium/src/+/150407e8d3610ff25a45c7c46877333c4425f062%5E%21/#F0>
