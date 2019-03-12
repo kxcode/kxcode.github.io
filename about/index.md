@@ -14,7 +14,7 @@ KINGX
 ---
  # print("qwerty")
  
- // console.log(/深夜饮酒/)
+ // console.log(/shenyeyinjiu/)
 
 关注企业安全建设、APT攻防、渗透测试、前端安全、Java安全
 
