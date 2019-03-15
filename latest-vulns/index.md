@@ -86,6 +86,11 @@ share: true
     - <http://www.yncert.org.cn/article/show/8119.html>
     - <https://github.com/ab1gale/phpcms-2008-CVE-2018-19127>
 
+1. **【20181127】Consul服务接口存在RCE漏洞**
+    - 官方公告：<https://www.hashicorp.com/blog/protecting-consul-from-rce-risk-in-specific-configurations>
+    - 描述： Consul的早期版本中HTTP API没有进行访问控制，可以用来执行命令。Consul 和 zookeeper 及 etcd 类似常用于分布式系统，HashiCorp公司推出的开源工具，用于实现分布式系统的服务发现与配置。问题出在老版本的默认配置（新版本已经改成可选配置）, server 和 client 会开放 8500 端口作为 web api，默认没有鉴权，v1/agent/service/register，v1/session/create 等接口都可用于执行命令。
+    - PoC：<https://packetstormsecurity.com/files/150940/consul_service_exec.rb.txt>
+
 1. **【20181113】严重，Exchange Server账号冒用，盗用任意用户邮件CVE-2018-8581**
     - <https://portal.msrc.microsoft.com/en-US/security-guidance/advisory/CVE-2018-8581>
     - POC：<https://github.com/thezdi/PoC/tree/master/CVE-2018-8581>
