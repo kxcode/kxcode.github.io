@@ -24,6 +24,7 @@ share: true
     - <https://www.securityfocus.com/bid/107213>
     - <https://www.solidot.org/story?sid=59806>
     - <https://www.leiphone.com/news/201903/CzzG8lN74hZ3dUwK.html>
+    - POC <https://github.com/exodusintel/CVE-2019-5786>
 
 1. **【20190221】WinRAR命令执行漏洞CVE-2018-20250, CVE-2018-20251, CVE-2018-20252, CVE-2018-20253**
     - Extracting a 19 Year Old Code Execution from WinRAR<https://research.checkpoint.com/extracting-code-execution-from-winrar/>
