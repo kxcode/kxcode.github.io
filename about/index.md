@@ -3,8 +3,6 @@ layout: page
 title: About me
 image:
   feature: abstract-5.jpg
-  credit: kingx
-  creditlink: http://kingx.me
 comments: false
 modified: 2016-02-01
 ---
