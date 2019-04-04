@@ -9,6 +9,9 @@ share: true
 
 2019
 ---
+1. **【20190403】Apache Http Server提权漏洞 CVE-2019-0211**
+    - 分析 <https://cfreal.github.io/carpe-diem-cve-2019-0211-apache-local-root.html>
+
 1. **【20190307】Apache Solr 命令执行漏洞 CVE-2019-0192**
     - POC <https://github.com/mpgn/CVE-2019-0192>
     - Bug单 <https://issues.apache.org/jira/browse/SOLR-13301>
@@ -18,13 +21,16 @@ share: true
 
 1. **【20190307】Chrome 'FileReader' Use After Free命令执行漏洞CVE-2019-5786**
     - <https://twitter.com/justinschuh/status/1103087046661267456>
+    - 影响范围：Chrome < 72.0.3626.121 或者 Chromium < 74.0.3721.0
     - 代码Diff：<https://chromium.googlesource.com/chromium/src/+/150407e8d3610ff25a45c7c46877333c4425f062%5E%21/#F0>
     - 新闻报道：
     - <https://nakedsecurity.sophos.com/2019/03/06/serious-chrome-zero-day-google-says-update-right-this-minute/>
     - <https://www.securityfocus.com/bid/107213>
     - <https://www.solidot.org/story?sid=59806>
     - <https://www.leiphone.com/news/201903/CzzG8lN74hZ3dUwK.html>
+    - 漏洞分析 <https://www.anquanke.com/post/id/173681>
     - POC <https://github.com/exodusintel/CVE-2019-5786>
+    - Exp <https://github.com/exodusintel/Chromium-941743>
 
 1. **【20190221】WinRAR命令执行漏洞CVE-2018-20250, CVE-2018-20251, CVE-2018-20252, CVE-2018-20253**
     - Extracting a 19 Year Old Code Execution from WinRAR<https://research.checkpoint.com/extracting-code-execution-from-winrar/>
