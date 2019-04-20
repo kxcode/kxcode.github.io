@@ -15,11 +15,13 @@ share: true
     - 描述：Confluence通常是一个用于企业内部的知识库和Wiki工具，在服务端模板渲染时存在漏洞，可导致任意文件读取、远程对象加载和RCE。漏洞点处在Widget Connector（小工具连接器）这个功能上。用户在创建文档时，可以在文章中嵌入一些视频、文档之类的（比如：Youtube视频、Flickr幻灯片、Google文档等内容），服务端会根据用户传入的远程资源URL进行渲染，此时用户可以手工传入`_template`参数，指定服务端模板文件，使服务端加载恶意的远程模板文件，在模板文件中利用Java反射达到命令执行的效果（模板引擎是velocity）。也可以将`_template`设置为服务器上的文件，从而读取文件内容，如：`/WEB-INF/web.xml`或者`../web.xml`。
     - POC <https://github.com/kxcode/snippet/blob/master/CVE-2019-3396.md>
     - 影响范围： <https://www.freebuf.com/news/200183.html>
+    - 漏洞利用不需要登录
 
 1. **【20190403】Apache Http Server提权漏洞 CVE-2019-0211**
     - 分析 <https://cfreal.github.io/carpe-diem-cve-2019-0211-apache-local-root.html>
     - Exploit <https://github.com/cfreal/exploits/tree/master/CVE-2019-0211-apache>
-
+    - 影响范围 2.4.17 ~ 2.4.28
+    
 1. **【20190307】Apache Solr 命令执行漏洞 CVE-2019-0192**
     - POC <https://github.com/mpgn/CVE-2019-0192>
     - Bug单 <https://issues.apache.org/jira/browse/SOLR-13301>
