@@ -9,6 +9,14 @@ share: true
 
 2019
 ---
+1. **【20190419】APT34军火库泄露**
+    - APT34攻击样本分析<http://blog.nsfocus.net/apt34-event-analysis-report/>
+    - 主要内容由：
+    - Glimpse（DNS隧道远控工具）
+    - PoisonFrog（窃取受控端信息和执行C&C端cmd指令的的远控工具）
+    - Webmask（DNS代理与HTTP劫持， 包括一个ICAP协议的透明代理脚本，ICAP通常用于扩展透明代理服务器，在透明HTTP代理缓存中实现内容过滤器等功能）
+    - ICAP协议全称是Internet Content Adaptation Protocol，RFC 3507
+
 1. **【20190130】LinkedIn数据泄露**
     - 1月30日上午，一位名叫“Andrev”的黑客通过Pastebin发布了一则消息，声称其攻击了LinkedIn服务器，并窃取了约1.59亿的用户信息。
     - <https://www.freebuf.com/news/195406.html>
@@ -40,11 +48,12 @@ share: true
 
 1. **【20180712】Carbanak APT团伙恶意木马源码泄露**
     - <http://mal4all.com/showthread.php?tid=494&action=lastpost>
-    - https://files.fm/u/t25ymgfm 
-    - https://ufile.io/x7412 
-    - http://transfiles.ru/lhjmn 
-    - https://dropmefiles.com/CnwWE 
-    - http://mega.dp.ua/file? source = 18070615225769991162
+    - <https://files.fm/u/t25ymgfm> 
+    - <https://ufile.io/x7412> 
+    - <http://transfiles.ru/lhjmn> 
+    - <https://dropmefiles.com/CnwWE>
+    - <http://mega.dp.ua/file?source=18070615225769991162>
+    - 跟进分析：<https://www.4hou.com/reverse/17598.html>
 
 1. **【20180709】Bancor交易所入侵**
     - <https://bcsec.org/index/detail?id=195&tag=1>

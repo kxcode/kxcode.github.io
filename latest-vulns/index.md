@@ -9,6 +9,13 @@ share: true
 
 2019
 ---
+1. **【20190418】Weblogic反序列化命令执行漏洞 CVE-2019-2725**
+    - 公告：<https://www.oracle.com/technetwork/security-advisory/alert-cve-2019-2725-5466295.html>
+    - 预警：<http://blog.nsfocus.net/weblogic-ns-2019-0015/>
+    - 分析：<https://www.anquanke.com/post/id/177381>
+    - 老POC：未绕过CVE-2017-10271 <https://github.com/No4l/MyTools/commit/9943385596143ac9e906354a7c1b42b5570e669f>
+    - 新POC：Weblogic10 -> toplink， Weblogic12 -> slf4j ，通用：JNDI JdbcRowSetImpl
+
 1. **【20190406】Apache Confluence命令执行漏洞 CVE-2019-3395 CVE-2019-3396**
     - 公告：<https://confluence.atlassian.com/doc/confluence-security-advisory-2019-03-20-966660264.html>
     - 漏洞分析：<https://paper.seebug.org/884/>
