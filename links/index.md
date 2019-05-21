@@ -22,4 +22,6 @@ Friend Links
 
 [漏洞赏金Writeups列表](https://pentester.land/list-of-bug-bounty-writeups)
 
+[H1漏洞公开列表](http://h1.nobbd.de/)
+
 ---
