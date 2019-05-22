@@ -9,6 +9,13 @@ share: true
 
 2019
 ---
+1. **【20190515】Windows RDP远程命令执行CVE-2019-0708**
+    - Windows RDP远程桌面存在远程命令执行漏洞。
+    - 影响：Windows XP/2003/7/Server 2008/Server 2008R2
+    - 漏洞分析：<https://www.anquanke.com/post/id/178964>
+    - 漏洞远程扫描：<https://github.com/zerosum0x0/CVE-2019-0708>
+    - 跟踪报道：<https://www.anquanke.com/post/id/178966>
+
 1. **【20190418】Weblogic反序列化命令执行漏洞 CVE-2019-2725**
     - 公告：<https://www.oracle.com/technetwork/security-advisory/alert-cve-2019-2725-5466295.html>
     - 预警：<http://blog.nsfocus.net/weblogic-ns-2019-0015/>
