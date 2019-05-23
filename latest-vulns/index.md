@@ -9,12 +9,18 @@ share: true
 
 2019
 ---
+1. **【20190522】Windows10提权0day**
+    - Twitter：<https://twitter.com/dangoodin001/status/1131345555186077697>
+    - US Cert公告：<https://kb.cert.org/vuls/id/119704/>
+    - PoC: <https://github.com/SandboxEscaper/polarbearrepo/tree/master/sandboxescape>
+
 1. **【20190515】Windows RDP远程命令执行CVE-2019-0708**
     - Windows RDP远程桌面存在远程命令执行漏洞。
     - 影响：Windows XP/2003/7/Server 2008/Server 2008R2
     - 漏洞分析：<https://www.anquanke.com/post/id/178964>
     - 漏洞远程扫描：<https://github.com/zerosum0x0/CVE-2019-0708>
     - 跟踪报道：<https://www.anquanke.com/post/id/178966>
+    - 漏洞分析：[深信服千里目](https://mp.weixin.qq.com/s?__biz=MzI4NjE2NjgxMQ==&mid=2650238047&idx=1&sn=0d9d727c877f05afebab54c38893852c&chksm=f3e2d62bc4955f3dbde5e58adccf8045ba9413d949b8fa62752c6d06e19ec14d0eea2b0d2bf7#rd)
 
 1. **【20190418】Weblogic反序列化命令执行漏洞 CVE-2019-2725**
     - 公告：<https://www.oracle.com/technetwork/security-advisory/alert-cve-2019-2725-5466295.html>
