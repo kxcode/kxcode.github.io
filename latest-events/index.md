@@ -9,6 +9,12 @@ share: true
 
 2019
 ---
+1. **【20190526】Canva 1.39 亿用户数据泄露**
+    - <https://www.solidot.org/story?sid=60755>
+
+1. **【20190526】易到用车服务器被攻击，核心数据库被锁**
+    - <https://www.cnbeta.com/articles/tech/850865.htm>
+
 1. **【20190419】APT34军火库泄露**
     - APT34攻击样本分析<http://blog.nsfocus.net/apt34-event-analysis-report/>
     - 主要内容由：
