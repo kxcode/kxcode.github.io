@@ -21,6 +21,7 @@ share: true
     - 漏洞远程扫描：<https://github.com/zerosum0x0/CVE-2019-0708>
     - 跟踪报道：<https://www.anquanke.com/post/id/178966>
     - 漏洞分析：[深信服千里目](https://mp.weixin.qq.com/s?__biz=MzI4NjE2NjgxMQ==&mid=2650238047&idx=1&sn=0d9d727c877f05afebab54c38893852c&chksm=f3e2d62bc4955f3dbde5e58adccf8045ba9413d949b8fa62752c6d06e19ec14d0eea2b0d2bf7#rd)
+    - ZDI漏洞分析：<https://www.thezdi.com/blog/2019/5/27/cve-2019-0708-a-comprehensive-analysis-of-a-remote-desktop-services-vulnerability>
 
 1. **【20190418】Weblogic反序列化命令执行漏洞 CVE-2019-2725**
     - 公告：<https://www.oracle.com/technetwork/security-advisory/alert-cve-2019-2725-5466295.html>
