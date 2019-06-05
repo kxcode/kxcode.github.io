@@ -9,8 +9,7 @@ image:
 
 ## 写在前面
 
-Java JNDI注入有很多种不同的利用方式，而这些利用方式的Payload分别有一些限制。在之前《深入理解JNDI注入与Java反序列化漏洞利用》中，我们主要讨论的是通过RMI服务返回 JNDI Naming Reference Payload 的攻击手法，除此之外还有 RMI Remote Object Payload、LDAP Naming Reference Payload 等等攻击手法，而所有这些利用方式分别都有一些限制。笔者在实际环境中也遇到过很多有限制的情况，这里做个梳理并讨论下绕过这些限制的方法，对上一篇做个补充和备忘。关于JNDI注入和RMI的基础知识，可以在我前面一篇JNDI的文章中获取。我们先看看JDK对这些利用有什么限制：
-
+Java JNDI注入有很多种不同的利用载荷，而这些Payload分别会面临一些限制。笔者在实际测试过程中也遇到过很多有限制的情况，这里做个梳理并分享下如何绕过这些限制。关于JNDI注入和RMI的基础知识，可以在我之前的文章《深入理解JNDI注入与Java反序列化漏洞利用》中获取。我们先看看JDK对各种Payload有什么限制：
 
 ### 1. RMI Remote Object Payload（限制较多，不常使用）
 
@@ -26,7 +25,7 @@ Changelog:
 - JDK 6u45 <https://docs.oracle.com/javase/7/docs/technotes/guides/rmi/relnotes.html>
 - JDK 7u21 <http://www.oracle.com/technetwork/java/javase/7u21-relnotes-1932873.html>
 
-### 2. RMI JNDI Reference Payload
+### 2. RMI + JNDI Reference Payload
 
 这也是我们在《深入理解JNDI注入与Java反序列化漏洞利用》中主要讨论的利用方式。攻击者通过RMI服务返回一个JNDI Naming Reference，受害者解码Reference时会去我们指定的Codebase远程地址加载Factory类，但是原理上并非使用RMI Class Loading机制的，因此不受 java.rmi.server.useCodebaseOnly 系统属性的限制，相对来说更加通用。
 
@@ -38,7 +37,7 @@ Changelog:
 - JDK 7u131 <http://www.oracle.com/technetwork/java/javase/7u131-relnotes-3338543.html>
 - JDK 8u121 <http://www.oracle.com/technetwork/java/javase/8u121-relnotes-3315208.html>
 
-### 3. LDAP JNDI Reference Payload
+### 3. LDAP + JNDI Reference Payload
 
 除了RMI服务之外，JNDI还可以对接LDAP服务，LDAP也能返回JNDI Reference对象，利用过程与上面RMI Reference基本一致，只是lookup()中的URL为一个LDAP地址：ldap://xxx/xxx，由攻击者控制的LDAP服务端返回一个恶意的JNDI Reference对象。并且LDAP服务的Reference远程加载Factory类不受上一点中 com.sun.jndi.rmi.object.trustURLCodebase、com.sun.jndi.cosnaming.object.trustURLCodebase等属性的限制，所以适用范围更广。
 
