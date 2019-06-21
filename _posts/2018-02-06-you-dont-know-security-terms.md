@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 你不知道的安全行业术语 - 持续更新
+title: 你不知道的安全行业术语
 description: "security"
 tags: [security,community]
 image:

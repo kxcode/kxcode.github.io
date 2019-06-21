@@ -20,7 +20,7 @@ image:
     {% endif %}
         {% if post.title contains 'unpublish' %}
         {% else %}
-        <li class="entry-title" style="padding:2px 0px;"><a href="{{ site.url }}{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a></li>
+        <li class="entry-title" style="padding:3px 0px;"><a href="{{ site.url }}{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a></li>
         {% endif %}
     {% if forloop.last %}
       </ul>
