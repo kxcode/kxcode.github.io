@@ -9,6 +9,12 @@ share: true
 
 2019
 ---
+1. **【20190615】Weblogic漏洞CVE-2019-2725绕过**
+    - TODO
+
+1. **【20190615】Windows NTLM认证漏洞CVE-2019-1040**
+    - TODO
+
 1. **【20190522】Windows10提权0day**
     - Twitter：<https://twitter.com/dangoodin001/status/1131345555186077697>
     - US Cert公告：<https://kb.cert.org/vuls/id/119704/>

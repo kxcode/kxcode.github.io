@@ -6,6 +6,9 @@ tags: [java,unserialize,exploit]
 image:
   background: triangular.png
 ---
+
+*本文中涉及到的相关漏洞为官方已经公开的漏洞并得到修复，本文仅限技术研究与讨论，严禁用于非法用途，否则产生的一切后果自行承担。*
+
 ## 0x01 背景
 
 今年公开的Java相关漏洞中，影响力最大的莫过于这段时间持续火热的Commons Collections反序列化漏洞了。

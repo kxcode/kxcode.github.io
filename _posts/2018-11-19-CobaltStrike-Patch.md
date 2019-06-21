@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 内网渗透有它就够了，手把手教你破解CobaltStrike3.12
+title: 内网渗透有它就够了，手把手教你分析CobaltStrike3.12
 description: "Patch CobaltStrike Step by Step"
 tags: [CobaltStrike, APT, Pentest]
 image:
@@ -9,11 +9,11 @@ image:
 
 # 1 - 概述
 
-CobaltStrike是一款内网渗透的商业远控软件，支持自定义脚本扩展，功能非常强大。前段时间Github上有好心人放出了CobaltStrike3.12的试用版，接着Lz1y很快就放出了破解版，加上热心老哥提供了的[xor64.bin](https://github.com/verctor/CS_xor64)（试用版中没有这个文件），一个比较完美的最新可用版本诞生了。下面我们看下最新试用版是如何被完美破解的。
+CobaltStrike是一款内网渗透的商业远控软件，支持自定义脚本扩展，功能非常强大。前段时间Github上有好心人放出了CobaltStrike3.12的试用版，接着Lz1y很快就放出了试用版补丁，加上热心老哥提供了的[xor64.bin](https://github.com/verctor/CS_xor64)（试用版中没有这个文件），一个比较完美的最新可用版本诞生了，下面我们分析下最新试用版。
 
 # 2 - 上手
 
-CobaltStrike（下面简称CS）主体代码是用Java开发的，逆起来比较友好。用jd-gui反编译cobaltstrike.jar文件，可以看到代码几乎没有做防破解。Java源码没有任何混淆。但是查看反编译的源码时，很多地方出现了`// INTERNAL ERROR //`，这里我推荐一款Java反编译工具`luyten`，几乎可以100%反编译获得cobaltstrike.jar源码。
+CobaltStrike（下面简称CS）主体代码是用Java开发的，逆起来比较友好。用jd-gui反编译cobaltstrike.jar文件，可以看到Java源码没有任何混淆。但是查看反编译的源码时，很多地方出现了`// INTERNAL ERROR //`，这里我推荐一款Java反编译工具`luyten`，几乎可以100%反编译获得cobaltstrike.jar源码。
 
 CS的License处理逻辑在`common/License.java`文件中：
 
@@ -101,7 +101,7 @@ public class License
 
 ## 修改重打包
 
-既然知道了破解思路，我们看下如何动手操作去修改源码并重编译。Java编程中我们可以使用`jar`工具将一系列的.class文件打包成jar包，供其他java程序使用。我们也可以修改jar包中.class文件的内容，并重新编译打包。比如修改demo.jar中的kingx.class并重新编译的过程如下：
+既然知道了思路，我们看下如何动手操作去修改源码并重编译。Java编程中我们可以使用`jar`工具将一系列的.class文件打包成jar包，供其他java程序使用。我们也可以修改jar包中.class文件的内容，并重新编译打包。比如修改demo.jar中的kingx.class并重新编译的过程如下：
 
 1. 使用jd-gui、luyten等工具把demo.jar包中的class反编译成源码，从中提取得到kingx.java
 
