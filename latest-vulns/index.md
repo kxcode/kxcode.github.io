@@ -628,6 +628,11 @@ https://github.com/rapid7/metasploit-framework/blob/22503209d9b8aa0a0e21ed60d9a0
     - NSA后门doublepulsar检测工具<https://github.com/countercept/doublepulsar-detection-script>
     - 影响范围：Windows 2003、Windows 2003 R2、Windows XP、Windows Vista、Windows 7、Windows 8.1、Windows 10、Windows Server 2008、Windows Server 2008 R2、Windows Server 2012 、 Windows Server 2012 R2、Windows Server 2016
 
+1. **【20170418】Fastjson反序列化漏洞**
+    - <http://blog.nsfocus.net/fastjson-remote-deserialization-program-validation-analysis/>
+    - <https://lazydog.me/post/fastjson-JdbcRowSetImpl-rce-exploit.html>
+    - 漏洞利用绕过：<http://xia0yu.win/java/34.html>
+
 1. **【20170401】Supervisord RPC服务端RCE漏洞（需认证）**
     - The XML-RPC server in supervisor before 3.0.1, 3.1.x before 3.1.4, 3.2.x before 3.2.4, and 3.3.x before 3.3.3 allows remote authenticated users to execute arbitrary commands via a crafted XML-RPC request, related to nested supervisord namespace lookups.
     - <https://www.exploit-db.com/exploits/42779/>
