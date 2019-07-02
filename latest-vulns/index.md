@@ -13,7 +13,7 @@ share: true
     - TODO
 
 1. **【20190615】Windows NTLM认证漏洞CVE-2019-1040**
-    - TODO
+    - 域提权深度分析 <https://mp.weixin.qq.com/s/NEBi8NflfaEDL2qw1WIqZw>
 
 1. **【20190522】Windows10提权0day**
     - Twitter：<https://twitter.com/dangoodin001/status/1131345555186077697>
