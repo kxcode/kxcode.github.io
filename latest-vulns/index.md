@@ -10,7 +10,7 @@ share: true
 2019
 ---
 1. **【2019-07-10】Fastjson反序列化命令执行，Autotype绕过**
-    - `com.alibaba.fastjson.serializer.MiscCodec`定义了特定class的序列化与反序列化逻辑，包括java.lang.Class等。利用java.lang.Class可以实例化`com.sun.rowset.JdbcRowSetImpl`。由于Fastjson的缓存特性，在利用com.sun.rowset.JdbcRowSetImpl进行JNDI注入时，直接从缓存表中取对象实例，则可以绕过autotype限制。
+    - com.alibaba.fastjson.serializer.MiscCodec 定义了特定class的序列化与反序列化逻辑，包括java.lang.Class等。利用java.lang.Class可以实例化 com.sun.rowset.JdbcRowSetImpl。由于Fastjson的缓存特性，在利用com.sun.rowset.JdbcRowSetImpl进行JNDI注入时，直接从缓存表中取对象实例，则可以绕过autotype限制。
     - PoC: <https://raw.githubusercontent.com/kxcode/snippet/master/FastJson1.2.47.txt>
     - 检测：java.net.InetAddress类在fastjson 1.2.48中被加入了autotype黑名单，如果dnslog服务器成功收到请求，则说明目标fastjson版本低于1.2.48。Payload如下：`{"@type":"java.net.InetAddress","val":"inetaddress.fastjson.rxxoow.ceye.io"}`
     
