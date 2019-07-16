@@ -658,8 +658,8 @@ https://github.com/rapid7/metasploit-framework/blob/22503209d9b8aa0a0e21ed60d9a0
     - 描述：Cookie中rememberMe字段使用硬编码的AES加密，并且会被反序列化。所以可以被篡改为反序列化Gadget进行命令执行。
     - 漏洞利用：需要根据目标的环境选择相应的Gadget，目标环境如有`"commons-collections4:4.0"`的漏洞类库，则可以用ysoserial的`CommonsCollections2` payload直接打。但是如果目标环境是`"commons-collections:3.1、3.2.1"`类库的话，必须用JRMPClient中转一下，攻击者服务器监听JRMPListener再用`CommonsCollection6`等payload打。
     - 利用分析：对于commons-collections3.2.1环境，如果直接打commonscollection的payload，会报错：
-    java.lang.ClassNotFoundException: Unable to load ObjectStreamClass `[[Lorg.apache.commons.collections.Transformer;:
-    static final long serialVersionUID = -4803604734341277543L;]:`
+    java.lang.ClassNotFoundException: Unable to load ObjectStreamClass \[\[Lorg.apache.commons.collections.Transformer;\:
+    static final long serialVersionUID = -4803604734341277543L;\]\:
     报错的原因是因为：Shiro resovleClass使用的是ClassLoader.loadClass()而非Class.forName()，而ClassLoader.loadClass不支持装载数组类型的class。
     - 漏洞分析：直接利用CommonsCollection执行 <https://paper.seebug.org/shiro-rememberme-1-2-4/>
     - 漏洞分析：利用JRMPListener执行 <http://www.yilan.io/article/5b4dce6512d8c64b05ffd540>
