@@ -9,6 +9,14 @@ share: true
 
 2019
 ---
+1. **【20190730】iMessage远程获取文件CVE-2019-8646**
+    - <https://bugs.chromium.org/p/project-zero/issues/detail?id=1858>
+
+1. **【2019-07-22】ProFTPd任意文件拷贝漏洞CVE-2019-12815**
+    - 需要登录或者匿名账号
+    - 官方补丁<https://github.com/proftpd/proftpd/pull/816>
+    - 官方漏洞信息<http://bugs.proftpd.org/show_bug.cgi?id=4372>
+
 1. **【2019-07-10】Fastjson反序列化命令执行，1.2.48以下Autotype绕过**
     - com.alibaba.fastjson.serializer.MiscCodec 定义了特定class的序列化与反序列化逻辑，包括java.lang.Class等。利用java.lang.Class可以实例化 com.sun.rowset.JdbcRowSetImpl。由于Fastjson的缓存特性，在利用com.sun.rowset.JdbcRowSetImpl进行JNDI注入时，直接从缓存表中取对象实例，则可以绕过autotype限制。
     - PoC: <https://raw.githubusercontent.com/kxcode/snippet/master/FastJson1.2.47.txt>

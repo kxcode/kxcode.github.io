@@ -180,6 +180,8 @@ ELProcessor.eval(\"\".getClass().forName("javax.script.ScriptEngineManager\").ne
 
 ELProcessor.eval()会对EL表达式进行求值，最终达到命令执行的效果。
 
+> 注意：实际操作过程中发现这种方式执行过程中通信交互比较多，要保证网络通畅，否则可能要等一会儿才会触发Payload。
+
 这种绕过方式需要目标环境中存在Tomcat相关依赖，当然其他Java Server可能也存在可被利用的Factory类，可以进一步研究。
 
 ## 绕过高版本JDK限制：利用LDAP返回序列化数据，触发本地Gadget
