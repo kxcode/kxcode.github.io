@@ -25,3 +25,7 @@ Friend Links
 [H1漏洞公开列表](http://h1.nobbd.de/)
 
 ---
+
+[Hackinn常见安全会议议题](https://www.hackinn.com/)
+
+[Vipread常见安全会议议题](http://vipread.com/library/category)

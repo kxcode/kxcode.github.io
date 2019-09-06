@@ -9,6 +9,25 @@ share: true
 
 2019
 ---
+1. **【20190905】FastJson拒绝服务漏洞 影响版本<1.2.60**
+    - FastJson在处理\x转义字符时没有进行格式判断，攻击者可以向服务器发送恶意请求，导致CPU/RAM过载。
+    - PoC：`{"a":"\x"}`
+
+1. **【20190814】MSCTF提权漏洞，影响XP到Win10所有版本**
+    - https://thehackernews.com/2019/08/ctfmon-windows-vulnerabilities.html
+    - https://googleprojectzero.blogspot.com/2019/08/down-rabbit-hole.html
+    - <https://github.com/taviso/ctftool>
+    - <https://bugs.chromium.org/p/project-zero/issues/detail?id=1859>
+
+1. **【20190814】Windows RDP蠕虫漏洞CVE-2019-1181、CVE-2019-1182**
+    - <http://blog.nsfocus.net/cve-2019-1181cve-2019-1182/>
+
+1. **【20190801】Apache Slor RCE CVE-2019-0193**
+    - 在Apache Solr中，DataImportHandler是一个可选但常用的模块，由于DIH配置可以包含脚本，因此dataConfig参数存在安全风险。而从Solr的8.2.0版开始，使用此参数需要将Java System属性enable.dih.dataConfigParam设置为true，并不能直接触发。
+    - <https://issues.apache.org/jira/browse/SOLR-13669>
+    - <https://www.jianshu.com/p/11ac6c7f4835>
+    - <https://www.anquanke.com/post/id/184151>
+
 1. **【20190730】iMessage远程获取文件CVE-2019-8646**
     - <https://bugs.chromium.org/p/project-zero/issues/detail?id=1858>
 
