@@ -9,6 +9,10 @@ share: true
 
 2019
 ---
+1. **【20190920】PHPStudy被爆出2016年以来被植入后门**
+    - 后门分析：<https://www.freebuf.com/news/topnews/214912.html>
+    - 隐藏后门分析：<https://mp.weixin.qq.com/s/dTzWfYGdkNqEl0vd72oC2w>
+
 1. **【20190526】Canva 1.39 亿用户数据泄露**
     - <https://www.solidot.org/story?sid=60755>
 
