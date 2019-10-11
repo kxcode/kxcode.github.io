@@ -9,6 +9,10 @@ share: true
 
 2019
 ---
+1. **【20191010】iTerm2存在严重漏洞可导致远程命令执行**
+    - <https://blog.mozilla.org/security/2019/10/09/iterm2-critical-issue-moss-audit/>
+    - 影响3.3.6以下版本
+
 1. **【20190905】FastJson拒绝服务漏洞 影响版本<1.2.60**
     - FastJson在处理\x转义字符时没有进行格式判断，攻击者可以向服务器发送恶意请求，导致CPU/RAM过载。
     - PoC：`{"a":"\x"}`
