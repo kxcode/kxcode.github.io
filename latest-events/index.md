@@ -9,6 +9,11 @@ share: true
 
 2019
 ---
+1. **【20191012】Twitter流传FireEyeSummit大会上曝出APT41曾入侵Teamview进行供应链攻击**
+    - <https://mp.weixin.qq.com/s/9_CvcElTDDl81ZkXSPtpdw>
+    - <https://www.fireeye.com/blog/threat-research/2019/08/apt41-dual-espionage-and-cyber-crime-operation.html>
+    - APT41 疑似与 Winnti、BARIUM 为同一团伙，而Winnti 疑似与Axiom、APT17、Ke3chang为同一团伙。
+
 1. **【20190920】PHPStudy被爆出2016年以来被植入后门**
     - 后门分析：<https://www.freebuf.com/news/topnews/214912.html>
     - 隐藏后门分析：<https://mp.weixin.qq.com/s/dTzWfYGdkNqEl0vd72oC2w>
