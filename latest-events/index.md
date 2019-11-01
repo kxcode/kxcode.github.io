@@ -9,6 +9,9 @@ share: true
 
 2019
 ---
+1. **【20191101】Web.com知名域名服务商信息泄露**
+    - <https://www.freebuf.com/news/218772.html>
+    
 1. **【20191012】Twitter流传FireEyeSummit大会上曝出APT41曾入侵Teamview进行供应链攻击**
     - <https://mp.weixin.qq.com/s/9_CvcElTDDl81ZkXSPtpdw>
     - <https://www.fireeye.com/blog/threat-research/2019/08/apt41-dual-espionage-and-cyber-crime-operation.html>
