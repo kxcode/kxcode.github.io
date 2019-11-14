@@ -9,8 +9,24 @@ share: true
 
 2019
 ---
+1. **【20191112】Flink未鉴权RCE**
+    - 未鉴权的Flink Dashboard可以提交任务，可以提交恶意的jar包来执行命令。
+    - PoC：<https://github.com/LandGrey/flink-unauth-rce>
+
+1. **【20191107】Squid缓冲区溢出远程代码执行CVE-2019-12526**
+    - Squid发布了新版本4.9，新版本修复了远程溢出漏洞CVE-2019-12526 <http://www.squid-cache.org/Advisories/SQUID-2019_7.txt>
+    - 早在 2019-07-12 Squid官方发布安全公告CVE-2019-12527，<http://www.squid-cache.org/Advisories/SQUID-2019_5.txt>
+    - CVE-2019-12527漏洞分析及PoC片段：<https://mp.weixin.qq.com/s/7oSuurI_h04GacLVOckaxQ>
+    - 2019-08-22 趋势科技发布CVE-2019-12527研究报告： <https://www.thezdi.com/blog/2019/8/22/cve-2019-12527-code-execution-on-squid-proxy-through-a-heap-buffer-overflow>
+
 1. **【20191031】Apache Solr Velocity模版注入RCE漏洞**
     - <https://gist.githubusercontent.com/s00py/a1ba36a3689fa13759ff910e179fc133/raw/fae5e663ffac0e3996fd9dbb89438310719d347a/gistfile1.txt>
+
+1. **【20191023】Apache Shiro Padding Oracle漏洞**
+    - 在获取一个有效的rememberme的情况下，通过PaddingOracle构造恶意的rememberme实现反序列化利用。
+    - 分析: <https://www.anquanke.com/post/id/192819>
+    - Issue: <https://issues.apache.org/jira/browse/SHIRO-721>
+    - 描述：1. 需要合法的Cookie然而很多业务Cookie里没有rememberMe 2. Padding Oracle依赖页面返回信息来进行侧信道攻击 3. 需要目标环境存在反序列化Gadget
 
 1. **【20191023】PHP远程命令执行漏洞CVE-2019-11043**
     - <https://bugs.php.net/bug.php?id=78599>
