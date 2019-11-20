@@ -9,6 +9,11 @@ share: true
 
 2019
 ---
+1. **【20191119】Apache Solr默认配置对外开放JMX端口导致命令执行CVE-2019-12409**
+    - <https://www.mail-archive.com/announce@apache.org/msg05559.html>
+    - 8.1.1和8.2.0版本中默认配置文件solr.in.sh中`ENABLE_REMOTE_JMX_OPTS`默认设置为true，会开放JMX服务，将RMI端口暴露，从而导致命令执行。默认端口为18983。
+    - 利用工具：mjet
+
 1. **【20191112】Flink未鉴权RCE**
     - 未鉴权的Flink Dashboard可以提交任务，可以提交恶意的jar包来执行命令。
     - PoC：<https://github.com/LandGrey/flink-unauth-rce>
@@ -27,6 +32,7 @@ share: true
     - 分析: <https://www.anquanke.com/post/id/192819>
     - Issue: <https://issues.apache.org/jira/browse/SHIRO-721>
     - 描述：1. 需要合法的Cookie然而很多业务Cookie里没有rememberMe 2. Padding Oracle依赖页面返回信息来进行侧信道攻击 3. 需要目标环境存在反序列化Gadget
+    - 关于PaddingOracle：<http://blog.zhaojie.me/2010/10/padding-oracle-attack-in-detail.html>
 
 1. **【20191023】PHP远程命令执行漏洞CVE-2019-11043**
     - <https://bugs.php.net/bug.php?id=78599>

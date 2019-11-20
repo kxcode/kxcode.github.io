@@ -16,12 +16,12 @@ owner:
   name:           KINGX
   avatar:         avatar.jpg
   bio:            "What is Security"
-  email:          
+  email:          root#kingx.me
   # Social networking links used in footer. Update and remove as you like.
-  twitter:        https://twitter.com/ShenYeYinJiu
+  twitter:        https://example.com
   facebook:
-  github:         https://github.com/KxCode
-  weibo:          http://weibo.com/u/1624430122
+  github:         https://example.com
+  weibo:          http://example.com
   stackexchange:
   linkedin:
   instagram:
