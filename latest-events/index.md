@@ -9,6 +9,9 @@ share: true
 
 2019
 ---
+1. **[20191122]一加被入侵订单信息泄露**
+    - <https://forums.oneplus.com/threads/security-notification.1144088/>
+
 1. **【20191101】Web.com知名域名服务商信息泄露**
     - <https://www.freebuf.com/news/218772.html>
     
