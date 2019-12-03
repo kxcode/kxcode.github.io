@@ -27,12 +27,13 @@ share: true
 1. **【20191031】Apache Solr Velocity模版注入RCE漏洞**
     - <https://gist.githubusercontent.com/s00py/a1ba36a3689fa13759ff910e179fc133/raw/fae5e663ffac0e3996fd9dbb89438310719d347a/gistfile1.txt>
 
-1. **【20191023】Apache Shiro Padding Oracle漏洞**
+1. **【20191023】Apache Shiro Padding Oracle漏洞 CVE-2019-12422**
     - 在获取一个有效的rememberme的情况下，通过PaddingOracle构造恶意的rememberme实现反序列化利用。
     - 分析: <https://www.anquanke.com/post/id/192819>
     - Issue: <https://issues.apache.org/jira/browse/SHIRO-721>
     - 描述：1. 需要合法的Cookie然而很多业务Cookie里没有rememberMe 2. Padding Oracle依赖页面返回信息来进行侧信道攻击 3. 需要目标环境存在反序列化Gadget
     - 关于PaddingOracle：<http://blog.zhaojie.me/2010/10/padding-oracle-attack-in-detail.html>
+    - <https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-12422>
 
 1. **【20191023】PHP远程命令执行漏洞CVE-2019-11043**
     - <https://bugs.php.net/bug.php?id=78599>
