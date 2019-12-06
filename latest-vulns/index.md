@@ -294,7 +294,7 @@ https://github.com/rapid7/metasploit-framework/blob/22503209d9b8aa0a0e21ed60d9a0
     - 公告：<https://cwiki.apache.org/confluence/display/WW/S2-057>
     - 作者博客：<https://lgtm.com/blog/apache_struts_CVE-2018-11776>
     - 国内分析：<https://xz.aliyun.com/t/2618>
-    ````````````````````````
+
 1. **【20180822】GhostScript沙盒绕过命令执行，影响ImageMagick CVE-2018-16509**
     - USCERT：<https://www.kb.cert.org/vuls/id/332928>
     - seclist：<http://seclists.org/oss-sec/2018/q3/144>
@@ -598,7 +598,7 @@ https://github.com/rapid7/metasploit-framework/blob/22503209d9b8aa0a0e21ed60d9a0
     - PoC：<https://github.com/bindecy/HugeDirtyCowPOC>
     - <https://medium.com/bindecy/huge-dirty-cow-cve-2017-1000405-110eca132de0>
     - <https://www.seebug.org/vuldb/ssvid-96908>
-    - 影响Linux内核2.6.38~4.14
+    - 影响Linux内核`2.6.38~4.14`
 
 1. **【20171127】Office Word命令执行漏洞 CVE-2017-11882**
     - 2017年11月14日，微软发布了11月的安全补丁更新，其中CVE-2017-11882是一个远程执行漏洞，通杀目前市面上的所有office版本及Windows操作系统(包括刚刚停止支持的Office 2007)。该漏洞的成因是EQNEDT32.EXE进程在读入包含MathType的ole数据时，在拷贝公式字体名称时没有对名称长度进行校验，从而造成栈缓冲区溢出，是一个非常经典的栈溢出漏洞。
@@ -646,8 +646,8 @@ https://github.com/rapid7/metasploit-framework/blob/22503209d9b8aa0a0e21ed60d9a0
     - 分析：<https://paper.seebug.org/399/>
     - <https://mailinglist-archive.mojah.be/varia-announce/2017-09/msg00013.php>
     - <http://tomcat.apache.org/security-7.html#Apache_Tomcat_7.x_vulnerabilities>
-    - 影响：7.0.0~7.0.81
-    - 利用：PUT /evil.jsp/ HTTP/1.1
+    - 影响：`7.0.0~7.0.81`
+    - 利用：`PUT /evil.jsp/ HTTP/1.1`
 
 
 1. **【20170920】Wordpress SQLi、XSS等高危漏洞修复**
