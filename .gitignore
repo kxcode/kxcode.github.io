@@ -5,3 +5,5 @@ _site/
 *.bak
 *unpublish.md
 bundle/
+serve.sh
+serve-docker.sh
