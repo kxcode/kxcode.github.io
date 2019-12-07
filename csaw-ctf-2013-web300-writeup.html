@@ -1,0 +1,439 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>CSAW CTF 2013 Web300 Writeup &#8211; KINGX</title>
+<meta name="description" content="csaw ctf android web writeup">
+<meta name="keywords" content="android, ctf">
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://kingx.me/images/">
+<meta name="twitter:title" content="CSAW CTF 2013 Web300 Writeup">
+<meta name="twitter:description" content="csaw ctf android web writeup">
+<meta name="twitter:creator" content="@https://example.com">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSAW CTF 2013 Web300 Writeup">
+<meta property="og:description" content="csaw ctf android web writeup">
+<meta property="og:url" content="https://kingx.me/csaw-ctf-2013-web300-writeup.html">
+<meta property="og:site_name" content="KINGX">
+
+
+
+
+
+<link rel="canonical" href="https://kingx.me/csaw-ctf-2013-web300-writeup.html">
+<link href="https://kingx.me/feed.xml" type="application/atom+xml" rel="alternate" title="KINGX Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="https://kingx.me/assets/css/main.css">
+<!-- Webfonts -->
+<link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel="stylesheet" type="text/css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script src="https://kingx.me/assets/js/vendor/modernizr-2.6.2.custom.min.js"></script>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="https://kingx.me/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="https://kingx.me/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="https://kingx.me/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://kingx.me/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://kingx.me/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://kingx.me/images/apple-touch-icon-144x144-precomposed.png">
+
+
+
+</head>
+
+<body id="post" >
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+<nav id="dl-menu" class="dl-menuwrapper" role="navigation">
+	<button class="dl-trigger">Open Menu</button>
+	<ul class="dl-menu">
+		<li><a href="https://kingx.me/">Home</a></li>
+		<li>
+			<a href="#">About</a>
+			<ul class="dl-submenu">
+				<li>
+					<img src="https://kingx.me/images/avatar.jpg" alt="KINGX photo" class="author-photo">
+					<h4>KINGX</h4>
+					<p>What is Security</p>
+				</li>
+				<li><a href="https://kingx.me/about/"><span class="btn btn-inverse">Learn More</span></a></li>
+				<li>
+					<a href="mailto:root#kingx.me"><i class="fa fa-fw fa-envelope"></i> Email</a>
+				</li>
+				<li>
+					<a href="https://example.com"><i class="fa fa-fw fa-twitter"></i> Twitter</a>
+				</li>
+				<li>
+					<a href="http://example.com"><i class="fa fa-fw fa-weibo"></i> Weibo</a>
+				</li>
+				
+				
+				
+				<li>
+					<a href="https://example.com"><i class="fa fa-fw fa-github"></i> GitHub</a>
+				</li>
+				
+				
+				
+				
+			</ul><!-- /.dl-submenu -->
+		</li>
+		<!-- <li>
+			<a href="#">Posts</a>
+			<ul class="dl-submenu">
+				<li><a href="https://kingx.me/posts/">All Posts</a></li>
+				<li><a href="https://kingx.me/tags/">All Tags</a></li>
+			</ul>
+		</li> -->
+		
+	    
+	    <li><a href="https://kingx.me/latest-events/" >Security Incidents</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/latest-vulns/" >Vulnerabilities</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/pentest-tools/" >Red Team</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/posts/" >Archives</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/tags/" >Tags</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/links/" >Links</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/feed.xml" >RSS</a></li>
+	  
+	</ul><!-- /.dl-menu -->
+</nav><!-- /.dl-menuwrapper -->
+
+
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    <header class="header-title">
+      <div class="header-title-wrap">
+        
+          <h1 class="entry-title"><a href="https://kingx.me/csaw-ctf-2013-web300-writeup.html" rel="bookmark" title="CSAW CTF 2013 Web300 Writeup">CSAW CTF 2013 Web300 Writeup</a></h1>
+        
+        <h2><span class="entry-date date published"><time datetime="2013-09-24T00:00:00-04:00">September 24, 2013</time></span></h2>
+        
+        <p class="entry-reading-time">
+          <i class="fa fa-clock-o"></i>
+          
+Reading time ~1 minute
+          
+          <span id="busuanzi_container_page_pv">
+             / Page View <span id="busuanzi_value_page_pv">0</span> / Site Visitor <span id="busuanzi_value_site_uv">0</span>
+          </span>
+          
+        </p><!-- /.entry-reading-time -->
+        
+
+      </div><!-- /.header-title-wrap -->
+    </header>
+    <div class="entry-content">
+      <span class="entry-tags" style="color:red;font-size:13px;margin-bottom: 0px;">「声明：本博客中涉及到的相关漏洞均为官方已经公开并修复的漏洞，涉及到的安全技术也仅用于企业安全建设和安全对抗研究。本文仅限业内技术研究与讨论，严禁用于非法用途，否则产生的一切后果自行承担。」</span>
+      <p>面向全球的入门级CSAW CTF 2013比赛已经落幕。</p>
+
+<p>中秋时跟Tony组队玩了一下。感觉好多<code class="highlighter-rouge">reverse</code>和<code class="highlighter-rouge">exploit</code>的题目，苦手啊。
+这里对其中Web类的300分题目作一个小结。
+题目内容是一个apk应用，运行如下图：</p>
+
+<p><img src="https://kingx.me/images/articles/201309/0.jpg" alt="apk" /></p>
+
+<p>很简单的一个应用，貌似只有一个简单的登录功能。通过查看资源文件，发现了url地址：<a href="https://webchal.isis.poly.edu/csaw.php">https://webchal.isis.poly.edu/csaw.php</a></p>
+
+<p>目测就是向这个地址提交登录数据。使用dex2jar反编译该apk,代码没有经过混淆，但是登录的关键类AuthRequest的主要方法无法编译出源码。</p>
+
+<p>于是打开burpsuit，配置模拟器代理，想抓包分析一下登录过程。但是发现apk好像会检测ssl证书的真实性，在模拟器上安装了burpsuit的证书仍然不行，会返回<code class="highlighter-rouge">Unknown Error</code>的错误信息。查找反编译出来的源码，发现apk中的有个方法会检查SSL证书：</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">AlwaysTrustManager</span>
+  <span class="kd">implements</span> <span class="n">X509TrustManager</span>
+<span class="o">{</span>
+  <span class="n">String</span> <span class="n">C</span> <span class="o">=</span> <span class="s">"C=US"</span><span class="o">;</span>
+  <span class="n">String</span> <span class="n">CN1</span> <span class="o">=</span> <span class="s">"CN=ROOT CA"</span><span class="o">;</span>
+  <span class="n">String</span> <span class="n">CN2</span> <span class="o">=</span> <span class="s">"CN=webchal.isis.poly.edu"</span><span class="o">;</span>
+  <span class="n">String</span> <span class="n">L</span> <span class="o">=</span> <span class="s">"L=New York"</span><span class="o">;</span>
+  <span class="n">String</span> <span class="n">O1</span> <span class="o">=</span> <span class="s">"O=Research and Development"</span><span class="o">;</span>
+  <span class="n">String</span> <span class="n">O2</span> <span class="o">=</span> <span class="s">"O=Clandestine Automations Intl"</span><span class="o">;</span>
+  <span class="n">String</span> <span class="n">OU</span> <span class="o">=</span> <span class="s">"OU=Black Ops"</span><span class="o">;</span>
+  <span class="n">BigInteger</span> <span class="n">SERIAL</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BigInteger</span><span class="o">(</span><span class="s">"4919"</span><span class="o">);</span>
+  <span class="n">String</span> <span class="n">ST</span> <span class="o">=</span> <span class="s">"ST=New York"</span><span class="o">;</span>
+
+  <span class="kd">private</span> <span class="n">Boolean</span> <span class="nf">isValid</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">paramArrayOfString1</span><span class="o">,</span> <span class="n">String</span><span class="o">[]</span> <span class="n">paramArrayOfString2</span><span class="o">,</span> <span class="n">BigInteger</span> <span class="n">paramBigInteger</span><span class="o">)</span>
+  <span class="o">{</span>
+    <span class="k">if</span> <span class="o">((</span><span class="n">paramArrayOfString1</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="na">equals</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">CN1</span><span class="o">))</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">paramArrayOfString1</span><span class="o">[</span><span class="mi">1</span><span class="o">].</span><span class="na">equals</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">OU</span><span class="o">))</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">paramArrayOfString1</span><span class="o">[</span><span class="mi">2</span><span class="o">].</span><span class="na">equals</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">O1</span><span class="o">))</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">paramArrayOfString1</span><span class="o">[</span><span class="mi">3</span><span class="o">].</span><span class="na">equals</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">O2</span><span class="o">))</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">paramArrayOfString1</span><span class="o">[</span><span class="mi">4</span><span class="o">].</span><span class="na">equals</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">L</span><span class="o">))</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">paramArrayOfString1</span><span class="o">[</span><span class="mi">5</span><span class="o">].</span><span class="na">equals</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">ST</span><span class="o">))</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">paramArrayOfString1</span><span class="o">[</span><span class="mi">6</span><span class="o">].</span><span class="na">equals</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">C</span><span class="o">))</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">paramArrayOfString2</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="na">equals</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">CN2</span><span class="o">))</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">paramArrayOfString2</span><span class="o">[</span><span class="mi">1</span><span class="o">].</span><span class="na">equals</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">OU</span><span class="o">))</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">paramArrayOfString2</span><span class="o">[</span><span class="mi">2</span><span class="o">].</span><span class="na">equals</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">O1</span><span class="o">))</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">paramArrayOfString2</span><span class="o">[</span><span class="mi">3</span><span class="o">].</span><span class="na">equals</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">O2</span><span class="o">))</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">paramArrayOfString2</span><span class="o">[</span><span class="mi">4</span><span class="o">].</span><span class="na">equals</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">ST</span><span class="o">))</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">paramArrayOfString2</span><span class="o">[</span><span class="mi">5</span><span class="o">].</span><span class="na">equals</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">C</span><span class="o">))</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">paramBigInteger</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">SERIAL</span><span class="o">)))</span>
+      <span class="k">return</span> <span class="n">Boolean</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+    <span class="k">return</span> <span class="n">Boolean</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
+  <span class="o">}</span></code></pre></figure>
+
+<p>使用apktool反汇编apk,得到smali源码，找到该方法对应的smali代码：</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="o">.</span><span class="na">method</span> <span class="kd">private</span> <span class="nf">isValid</span><span class="o">([</span><span class="n">Ljava</span><span class="o">/</span><span class="n">lang</span><span class="o">/</span><span class="n">String</span><span class="o">;[</span><span class="n">Ljava</span><span class="o">/</span><span class="n">lang</span><span class="o">/</span><span class="n">String</span><span class="o">;</span><span class="n">Ljava</span><span class="o">/</span><span class="n">math</span><span class="o">/</span><span class="n">BigInteger</span><span class="o">;)</span><span class="n">Ljava</span><span class="o">/</span><span class="n">lang</span><span class="o">/</span><span class="n">Boolean</span><span class="o">;</span>
+    <span class="o">.</span><span class="na">locals</span> <span class="mi">7</span>
+    <span class="o">.</span><span class="na">parameter</span> <span class="s">"issuerDN"</span>
+    <span class="o">.</span><span class="na">parameter</span> <span class="s">"subjectDN"</span>
+    <span class="o">.</span><span class="na">parameter</span> <span class="s">"serial"</span>
+
+    <span class="o">.</span><span class="na">prologue</span>
+    <span class="kd">const</span><span class="o">/</span><span class="mi">4</span> <span class="n">v6</span><span class="o">,</span> <span class="mh">0x4</span>
+
+    <span class="kd">const</span><span class="o">/</span><span class="mi">4</span> <span class="n">v5</span><span class="o">,</span> <span class="mh">0x3</span>
+
+    <span class="kd">const</span><span class="o">/</span><span class="mi">4</span> <span class="n">v4</span><span class="o">,</span> <span class="mh">0x2</span>
+
+    <span class="kd">const</span><span class="o">/</span><span class="mi">4</span> <span class="n">v3</span><span class="o">,</span> <span class="mh">0x1</span>
+
+    <span class="kd">const</span><span class="o">/</span><span class="mi">4</span> <span class="n">v2</span><span class="o">,</span> <span class="mh">0x0</span>
+
+    <span class="o">.</span><span class="na">line</span> <span class="mi">103</span>
+    <span class="n">aget</span><span class="o">-</span><span class="n">object</span> <span class="n">v0</span><span class="o">,</span> <span class="n">p1</span><span class="o">,</span> <span class="n">v2</span>
+
+    <span class="n">iget</span><span class="o">-</span><span class="n">object</span> <span class="n">v1</span><span class="o">,</span> <span class="n">p0</span><span class="o">,</span> <span class="n">Lops</span><span class="o">/</span><span class="n">black</span><span class="o">/</span><span class="n">herpderper</span><span class="o">/</span><span class="n">TrustModifier$AlwaysTrustManager</span><span class="o">;-&gt;</span><span class="nl">CN1:</span><span class="n">Ljava</span><span class="o">/</span><span class="n">lang</span><span class="o">/</span><span class="n">String</span><span class="o">;</span>
+
+    <span class="n">invoke</span><span class="o">-</span><span class="n">virtual</span> <span class="o">{</span><span class="n">v0</span><span class="o">,</span> <span class="n">v1</span><span class="o">},</span> <span class="n">Ljava</span><span class="o">/</span><span class="n">lang</span><span class="o">/</span><span class="n">String</span><span class="o">;-&gt;</span><span class="n">equals</span><span class="o">(</span><span class="n">Ljava</span><span class="o">/</span><span class="n">lang</span><span class="o">/</span><span class="n">Object</span><span class="o">;)</span><span class="n">Z</span>
+
+    <span class="n">move</span><span class="o">-</span><span class="n">result</span> <span class="n">v0</span>
+
+    <span class="k">if</span><span class="o">-</span><span class="n">eqz</span> <span class="n">v0</span><span class="o">,</span> <span class="o">:</span><span class="n">cond_0</span>
+
+    <span class="n">aget</span><span class="o">-</span><span class="n">object</span> <span class="n">v0</span><span class="o">,</span> <span class="n">p1</span><span class="o">,</span> <span class="n">v3</span>
+
+    <span class="n">iget</span><span class="o">-</span><span class="n">object</span> <span class="n">v1</span><span class="o">,</span> <span class="n">p0</span><span class="o">,</span> <span class="n">Lops</span><span class="o">/</span><span class="n">black</span><span class="o">/</span><span class="n">herpderper</span><span class="o">/</span><span class="n">TrustModifier$AlwaysTrustManager</span><span class="o">;-&gt;</span><span class="nl">OU:</span><span class="n">Ljava</span><span class="o">/</span><span class="n">lang</span><span class="o">/</span><span class="n">String</span><span class="o">;</span>
+
+    <span class="n">invoke</span><span class="o">-</span><span class="n">virtual</span> <span class="o">{</span><span class="n">v0</span><span class="o">,</span> <span class="n">v1</span><span class="o">},</span> <span class="n">Ljava</span><span class="o">/</span><span class="n">lang</span><span class="o">/</span><span class="n">String</span><span class="o">;-&gt;</span><span class="n">equals</span><span class="o">(</span><span class="n">Ljava</span><span class="o">/</span><span class="n">lang</span><span class="o">/</span><span class="n">Object</span><span class="o">;)</span><span class="n">Z</span>
+
+    <span class="n">move</span><span class="o">-</span><span class="n">result</span> <span class="n">v0</span>
+
+    <span class="k">if</span><span class="o">-</span><span class="n">eqz</span> <span class="n">v0</span><span class="o">,</span> <span class="o">:</span><span class="n">cond_0</span>
+
+    <span class="n">aget</span><span class="o">-</span><span class="n">object</span> <span class="n">v0</span><span class="o">,</span> <span class="n">p1</span><span class="o">,</span> <span class="n">v4</span></code></pre></figure>
+
+<p>与java代码比对，smali代码中，分别将传入的数组中的每个元素与对应的局部变量比较，如果不相等就跳转到:cond_0代码段。</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="o">.</span><span class="na">line</span> <span class="mi">119</span>
+<span class="n">invoke</span><span class="o">-</span><span class="kd">static</span> <span class="o">{</span><span class="n">v3</span><span class="o">},</span> <span class="n">Ljava</span><span class="o">/</span><span class="n">lang</span><span class="o">/</span><span class="n">Boolean</span><span class="o">;-&gt;</span><span class="n">valueOf</span><span class="o">(</span><span class="n">Z</span><span class="o">)</span><span class="n">Ljava</span><span class="o">/</span><span class="n">lang</span><span class="o">/</span><span class="n">Boolean</span><span class="o">;</span>
+
+<span class="n">move</span><span class="o">-</span><span class="n">result</span><span class="o">-</span><span class="n">object</span> <span class="n">v0</span>
+
+<span class="o">.</span><span class="na">line</span> <span class="mi">121</span>
+<span class="o">:</span><span class="n">goto_0</span>
+<span class="k">return</span><span class="o">-</span><span class="n">object</span> <span class="n">v0</span>
+
+<span class="o">:</span><span class="n">cond_0</span>
+<span class="n">invoke</span><span class="o">-</span><span class="kd">static</span> <span class="o">{</span><span class="n">v3</span><span class="o">},</span> <span class="n">Ljava</span><span class="o">/</span><span class="n">lang</span><span class="o">/</span><span class="n">Boolean</span><span class="o">;-&gt;</span><span class="n">valueOf</span><span class="o">(</span><span class="n">Z</span><span class="o">)</span><span class="n">Ljava</span><span class="o">/</span><span class="n">lang</span><span class="o">/</span><span class="n">Boolean</span><span class="o">;</span>
+
+<span class="n">move</span><span class="o">-</span><span class="n">result</span><span class="o">-</span><span class="n">object</span> <span class="n">v0</span>
+
+<span class="k">goto</span> <span class="o">:</span><span class="n">goto_0</span>
+<span class="o">.</span><span class="na">end</span> <span class="n">method</span></code></pre></figure>
+
+<p>:cond_0代码段就是将v2(也就是false)作为boolean型赋值给v0,然后跳转到:goto_0代码段return v0。如果全部相等则不会跳转直接顺序执行直到:goto_0代码段return v0(此时为true)。这里将:cond_0代码段改为也返回true。即绕过apk中ssl证书的验证。</p>
+
+<p>使用apktool重新构建，autosign给apk签名。使用篡改过的apk登录，可以正常抓包。但是服务端返回Client integrity fault。貌似会检测apk的完整性。查找源代码，登录代码如下：</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserLoginTask</span> <span class="kd">extends</span> <span class="n">AsyncTask</span><span class="o">&lt;</span><span class="n">Void</span><span class="o">,</span> <span class="n">Void</span><span class="o">,</span> <span class="n">Boolean</span><span class="o">&gt;</span>
+  <span class="o">{</span>
+    <span class="kd">public</span> <span class="nf">UserLoginTask</span><span class="o">()</span>
+    <span class="o">{</span>
+    <span class="o">}</span>
+
+    <span class="kd">protected</span> <span class="n">Boolean</span> <span class="nf">doInBackground</span><span class="o">(</span><span class="n">Void</span><span class="o">[]</span> <span class="n">paramArrayOfVoid</span><span class="o">)</span>
+    <span class="o">{</span>
+      <span class="k">try</span>
+      <span class="o">{</span>
+        <span class="n">String</span><span class="o">[]</span> <span class="n">arrayOfString</span> <span class="o">=</span> <span class="k">new</span> <span class="n">String</span><span class="o">[</span><span class="mi">4</span><span class="o">];</span>
+        <span class="n">arrayOfString</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">SuperSecretAuthorizationActivity</span><span class="o">.</span><span class="na">this</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="mi">2130968593</span><span class="o">);</span>
+        <span class="n">arrayOfString</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="o">=</span> <span class="n">SuperSecretAuthorizationActivity</span><span class="o">.</span><span class="na">this</span><span class="o">.</span><span class="na">mEmail</span><span class="o">;</span>
+        <span class="n">arrayOfString</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span> <span class="o">=</span> <span class="n">SuperSecretAuthorizationActivity</span><span class="o">.</span><span class="na">this</span><span class="o">.</span><span class="na">mPassword</span><span class="o">;</span>
+        <span class="n">arrayOfString</span><span class="o">[</span><span class="mi">3</span><span class="o">]</span> <span class="o">=</span> <span class="n">SuperSecretAuthorizationActivity</span><span class="o">.</span><span class="na">this</span><span class="o">.</span><span class="na">sigChar</span><span class="o">();</span>
+        <span class="n">SuperSecretAuthorizationActivity</span><span class="o">.</span><span class="na">this</span><span class="o">.</span><span class="na">authreq</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="n">arrayOfString</span><span class="o">);</span>
+        <span class="n">SuperSecretAuthorizationActivity</span><span class="o">.</span><span class="na">this</span><span class="o">.</span><span class="na">setMessage</span><span class="o">(</span><span class="n">SuperSecretAuthorizationActivity</span><span class="o">.</span><span class="na">this</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="mi">2130968590</span><span class="o">));</span>
+        <span class="n">Boolean</span> <span class="n">localBoolean</span> <span class="o">=</span> <span class="n">Boolean</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">localBoolean</span><span class="o">;</span>
+      <span class="o">}</span>
+      <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">localException</span><span class="o">)</span>
+      <span class="o">{</span>
+      <span class="o">}</span>
+      <span class="k">return</span> <span class="n">Boolean</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
+    <span class="o">}</span></code></pre></figure>
+
+<p>登录时除了传送email和password外，还会提交应用的signature值。
+写了一个小应用来获取apk的签名值，关键代码如下：</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="n">String</span> <span class="nf">getSingInfo</span><span class="o">(</span><span class="n">String</span> <span class="n">packageName</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">try</span> <span class="o">{</span>
+        <span class="n">PackageInfo</span> <span class="n">packageInfo</span> <span class="o">=</span> <span class="n">getPackageManager</span><span class="o">().</span><span class="na">getPackageInfo</span><span class="o">(</span>
+                            <span class="n">packageName</span><span class="o">,</span> <span class="n">PackageManager</span><span class="o">.</span><span class="na">GET_SIGNATURES</span><span class="o">);</span>
+        <span class="n">Signature</span><span class="o">[]</span> <span class="n">signs</span> <span class="o">=</span> <span class="n">packageInfo</span><span class="o">.</span><span class="na">signatures</span><span class="o">;</span>
+        <span class="n">Signature</span> <span class="n">sign</span> <span class="o">=</span> <span class="n">signs</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
+        <span class="n">String</span> <span class="n">signChars</span> <span class="o">=</span> <span class="k">new</span> <span class="n">String</span><span class="o">(</span><span class="n">sign</span><span class="o">.</span><span class="na">toChars</span><span class="o">());</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">signChars</span><span class="o">);</span>
+        <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">"signChars"</span><span class="o">,</span> <span class="n">signChars</span><span class="o">);</span>
+        <span class="n">signChars</span> <span class="o">=</span> <span class="n">signChars</span> <span class="o">+</span> <span class="s">"\n"</span> <span class="o">+</span> <span class="n">parseSignature</span><span class="o">(</span><span class="n">sign</span><span class="o">.</span><span class="na">toByteArray</span><span class="o">());</span>
+        <span class="k">return</span> <span class="n">signChars</span><span class="o">;</span>
+
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+            <span class="k">return</span> <span class="s">""</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>得到了原版apk的签名，抓包时提交正确的signature值，可以跟服务器正常交互。
+登录数据包为:
+    identity=base64(用户名)&amp;secret=base64(密码)=&amp;integrityid=APK签名值</p>
+
+<p>服务器返回信息为：</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{</span><span class="s2">"response"</span><span class="p">:{</span><span class="s2">"status"</span><span class="p">:</span><span class="s2">"failure"</span><span class="p">,</span><span class="s2">"msg"</span><span class="p">:</span><span class="s2">"Login failed"</span><span class="p">},</span><span class="s2">"timeStamp"</span><span class="p">:</span><span class="s2">"1379429423"</span><span class="p">,</span><span class="s2">"tZ"</span><span class="p">:</span><span class="s2">"America/New_York"</span><span class="p">,</span><span class="s2">"reqResourceId"</span><span class="p">:</span><span class="s2">"webchal.isis.poly.edu"</span><span class="p">,</span><span class="s2">"clientId"</span><span class="p">:{</span><span class="s2">"identitySig"</span><span class="p">:</span><span class="s2">"d033e22ae348aeb5660fc2140aec35850c4da997"</span><span class="p">,</span><span class="s2">"role"</span><span class="p">:</span><span class="s2">"anonymous"</span><span class="p">,</span><span class="s2">"accessToken"</span><span class="p">:</span><span class="s2">"YWRtaW46YW5vbnltb3VzOndlYmNoYWwuaXNpcy5wb2x5LmVkdQ=="</span><span class="p">}}</span></code></pre></figure>
+
+<p>经过多次尝试，最终发现登录时增加一个role字段，值为base64(‘admin’)时，可以直接通过验证。
+服务器返回信息为</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Key: Yo dawg I heard you leik to derp so i put a herp in your derp so you could herpderp while you derpderp
+</code></pre></div></div>
+
+<h3 id="references">References</h3>
+
+<ol>
+  <li><a href="http://pallergabor.uw.hu/androidblog/dalvik_opcodes.html">http://pallergabor.uw.hu/androidblog/dalvik_opcodes.html</a></li>
+</ol>
+
+      <footer class="entry-meta">
+        <span class="entry-tags" style="color:black;font-size:13px;margin-bottom: 0px;">欢迎订阅我的微信公众号</span>
+        <img src="/images/secengine.jpg" alt="welcome subscribe"/>
+        <span class="entry-tags"><a href="https://kingx.me/tags/#android" title="Pages tagged android" class="tag"><span class="term">android</span></a><a href="https://kingx.me/tags/#ctf" title="Pages tagged ctf" class="tag"><span class="term">ctf</span></a></span>
+        <span>Updated on <span class="entry-date date updated"><time datetime="2016-04-06">April 06, 2016</time></span></span>
+        <span class="author vcard"><span class="fn">KINGX</span></span>
+        <div class="social-share">
+  <ul class="socialcount socialcount-small inline-list">
+    <li class="weibo"><a href="http://service.weibo.com/share/share.php?title=分享KINGX的文章《CSAW CTF 2013 Web300 Writeup》&url=https://kingx.me/csaw-ctf-2013-web300-writeup.html&source=bookmark" title="Share on Weibo" target="_blank"><span class="count"><i class="fa fa-weibo"></i> WEIBO</span></a></li>
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=https://kingx.me/csaw-ctf-2013-web300-writeup.html" title="Share on Facebook"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=https://kingx.me/csaw-ctf-2013-web300-writeup.html" title="Share on Twitter"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <li class="googleplus"><a href="https://plus.google.com/share?url=https://kingx.me/csaw-ctf-2013-web300-writeup.html" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li>
+  </ul>
+</div><!-- /.social-share -->
+<!--
+<div class="ds-share" data-thread-key="/csaw-ctf-2013-web300-writeup" data-title="CSAW CTF 2013 Web300 Writeup" data-images="" data-content="CSAW CTF 2013 Web300 Writeup" data-url="https://kingx.me/csaw-ctf-2013-web300-writeup.html">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+</div>
+-->
+      </footer>
+    </div><!-- /.entry-content -->
+    
+    
+
+    <div class="read-more">
+  
+    <div class="read-more-header">
+      
+        <a href="https://kingx.me/beef-xss-framework-exploit.html" class="read-more-btn">Read More</a>
+      
+    </div><!-- /.read-more-header -->
+    <div class="read-more-content">
+      
+      <h3><a href="https://kingx.me/Restrictions-and-Bypass-of-JNDI-Manipulations-RCE.html" title="如何绕过高版本JDK的限制进行JNDI注入利用">如何绕过高版本JDK的限制进行JNDI注入利用</a></h3>
+      <p>Restrictions of JNDI Manipulation RCE & Bypass <a href="https://kingx.me/Restrictions-and-Bypass-of-JNDI-Manipulations-RCE.html">Continue reading</a></p>
+      
+    </div><!-- /.read-more-content -->
+  
+  <div class="read-more-list">
+    
+      
+      <div class="list-item">
+        <h4><a href="https://kingx.me/Thinking-about-Red-Teaming.html" title="【红蓝对抗】大型互联网企业安全蓝军建设">【红蓝对抗】大型互联网企业安全蓝军建设</a></h4>
+        <span>Published on March 12, 2019</span>
+      </div><!-- /.list-item -->
+      
+    
+      
+      <div class="list-item">
+        <h4><a href="https://kingx.me/CobaltStrike-Patch.html" title="内网渗透有它就够了，手把手教你分析CobaltStrike3.12">内网渗透有它就够了，手把手教你分析CobaltStrike3.12</a></h4>
+        <span>Published on November 19, 2018</span>
+      </div><!-- /.list-item -->
+      
+    
+  </div><!-- /.read-more-list -->
+</div><!-- /.read-more -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo">
+    <span>&copy; 2019 KINGX. Powered by Jekyll using the HPSTR Theme.</span>
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+<!-- <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="https://kingx.me/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="https://kingx.me/assets/js/scripts.min.js"></script>
+
+
+
+
+<script>
+
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  if(location.host=="kingx.me"){
+    hm.src = "https://hm.baidu.com/hm.js?d11d8512e0bc6992b9c9bbf2d266ce31";
+  }else if(location.host=="kingx.sinaapp.com"){
+    hm.src = "https://hm.baidu.com/hm.js?d1b3dbd97b73868454f102755fdf51ba";
+  }
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Busuanzi Analytics -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+	        
+
+</body>
+</html>

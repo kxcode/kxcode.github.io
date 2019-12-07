@@ -1,37 +1,471 @@
----
-layout: post-index
-title: Blog
-desc: share my thoughts
-description: "KingX's Blog"
-tags: [security, hack, kingx, qwerty, blog, cybersecurity]
-comments: false
-image:
-  feature: abstract-8.jpg
----
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>KINGX's Blog - What is Security?</title>
+<meta name="description" content="KingX's Blog">
+<meta name="keywords" content="security, hack, kingx, qwerty, blog, cybersecurity">
 
-{% for post in site.posts %}
-    {% capture this_year %}{{ post.date | date: "%Y" }}{% endcapture %}
-    {% capture next_year %}{{ post.previous.date | date: "%Y" }}{% endcapture %}
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://kingx.me/images/abstract-8.jpg">
 
-    {% if forloop.first %}
+<meta name="twitter:title" content="Blog">
+<meta name="twitter:description" content="KingX's Blog">
+<meta name="twitter:creator" content="@https://example.com">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Blog">
+<meta property="og:description" content="KingX's Blog">
+<meta property="og:url" content="https://kingx.me/">
+<meta property="og:site_name" content="KINGX">
+
+
+
+
+
+<link rel="canonical" href="https://kingx.me/">
+<link href="https://kingx.me/feed.xml" type="application/atom+xml" rel="alternate" title="KINGX Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="https://kingx.me/assets/css/main.css">
+<!-- Webfonts -->
+<link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel="stylesheet" type="text/css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script src="https://kingx.me/assets/js/vendor/modernizr-2.6.2.custom.min.js"></script>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="https://kingx.me/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="https://kingx.me/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="https://kingx.me/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://kingx.me/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://kingx.me/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://kingx.me/images/apple-touch-icon-144x144-precomposed.png">
+
+
+
+</head>
+
+<body id="post-index" class="feature">
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+<nav id="dl-menu" class="dl-menuwrapper" role="navigation">
+	<button class="dl-trigger">Open Menu</button>
+	<ul class="dl-menu">
+		<li><a href="https://kingx.me/">Home</a></li>
+		<li>
+			<a href="#">About</a>
+			<ul class="dl-submenu">
+				<li>
+					<img src="https://kingx.me/images/avatar.jpg" alt="KINGX photo" class="author-photo">
+					<h4>KINGX</h4>
+					<p>What is Security</p>
+				</li>
+				<li><a href="https://kingx.me/about/"><span class="btn btn-inverse">Learn More</span></a></li>
+				<li>
+					<a href="mailto:root#kingx.me"><i class="fa fa-fw fa-envelope"></i> Email</a>
+				</li>
+				<li>
+					<a href="https://example.com"><i class="fa fa-fw fa-twitter"></i> Twitter</a>
+				</li>
+				<li>
+					<a href="http://example.com"><i class="fa fa-fw fa-weibo"></i> Weibo</a>
+				</li>
+				
+				
+				
+				<li>
+					<a href="https://example.com"><i class="fa fa-fw fa-github"></i> GitHub</a>
+				</li>
+				
+				
+				
+				
+			</ul><!-- /.dl-submenu -->
+		</li>
+		<!-- <li>
+			<a href="#">Posts</a>
+			<ul class="dl-submenu">
+				<li><a href="https://kingx.me/posts/">All Posts</a></li>
+				<li><a href="https://kingx.me/tags/">All Tags</a></li>
+			</ul>
+		</li> -->
+		
+	    
+	    <li><a href="https://kingx.me/latest-events/" >Security Incidents</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/latest-vulns/" >Vulnerabilities</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/pentest-tools/" >Red Team</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/posts/" >Archives</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/tags/" >Tags</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/links/" >Links</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/feed.xml" >RSS</a></li>
+	  
+	</ul><!-- /.dl-menu -->
+</nav><!-- /.dl-menuwrapper -->
+
+
+<div class="entry-header">
+  
+  
+    <div class="entry-image">
+      <img src="https://kingx.me/images/abstract-8.jpg" alt="Blog">
+    </div><!-- /.entry-image -->
+  
+  <div class="header-title">
+    <div class="header-title-wrap">
+      <h1>KINGX</h1>
+      <!-- <h2>Blog</h2> -->
+      <h2>share my thoughts</h2>
+    </div><!-- /.header-title-wrap -->
+  </div><!-- /.header-title -->
+</div><!-- /.entry-header -->
+
+<div id="main" role="main">
+  
+    
+    
+
+    
     <article>
-      <h2 id="{{ this_year }}-ref">{{ this_year }}</h2>
+      <h2 id="2019-ref">2019</h2>
       <ul>
-    {% endif %}
-        {% if post.title contains 'unpublish' %}
-        {% else %}
-        <li class="entry-title" style="padding:3px 0px;"><a href="{{ site.url }}{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a></li>
-        {% endif %}
-    {% if forloop.last %}
-      </ul>
-    </article>
-    {% else %}
-        {% if this_year != next_year %}
+    
+        
+        <li class="entry-title" style="padding:3px 0px;"><a href="https://kingx.me/Restrictions-and-Bypass-of-JNDI-Manipulations-RCE.html" title="如何绕过高版本JDK的限制进行JNDI注入利用">如何绕过高版本JDK的限制进行JNDI注入利用</a></li>
+        
+    
+        
+    
+
+    
+    
+
+    
+        
+        <li class="entry-title" style="padding:3px 0px;"><a href="https://kingx.me/Thinking-about-Red-Teaming.html" title="【红蓝对抗】大型互联网企业安全蓝军建设">【红蓝对抗】大型互联网企业安全蓝军建设</a></li>
+        
+    
+        
           </ul>
         </article>
         <article>
-          <h2 id="{{ next_year }}-ref" class="year-heading">{{next_year}}</h2>
+          <h2 id="2018-ref" class="year-heading">2018</h2>
           <ul>
-        {% endif %}
-    {% endif %}
-{% endfor %}
+        
+    
+
+    
+    
+
+    
+        
+        <li class="entry-title" style="padding:3px 0px;"><a href="https://kingx.me/CobaltStrike-Patch.html" title="内网渗透有它就够了，手把手教你分析CobaltStrike3.12">内网渗透有它就够了，手把手教你分析CobaltStrike3.12</a></li>
+        
+    
+        
+    
+
+    
+    
+
+    
+        
+        <li class="entry-title" style="padding:3px 0px;"><a href="https://kingx.me/%E4%BF%A1%E4%BB%BB%E7%9A%84%E8%BF%9B%E5%8C%96.html" title="信任的进化">信任的进化</a></li>
+        
+    
+        
+    
+
+    
+    
+
+    
+        
+        <li class="entry-title" style="padding:3px 0px;"><a href="https://kingx.me/Exploit-Java-Deserialization-with-RMI.html" title="深入理解JNDI注入与Java反序列化漏洞利用">深入理解JNDI注入与Java反序列化漏洞利用</a></li>
+        
+    
+        
+    
+
+    
+    
+
+    
+        
+        <li class="entry-title" style="padding:3px 0px;"><a href="https://kingx.me/Details-in-FastJson-RCE.html" title="FastJson反序列化漏洞利用的三个细节 - TemplatesImpl的利用链">FastJson反序列化漏洞利用的三个细节 - TemplatesImpl的利用链</a></li>
+        
+    
+        
+    
+
+    
+    
+
+    
+        
+        <li class="entry-title" style="padding:3px 0px;"><a href="https://kingx.me/spring-messaging-rce-cve-2018-1270.html" title="SpringMessaging命令执行漏洞 - CVE-2018-1270">SpringMessaging命令执行漏洞 - CVE-2018-1270</a></li>
+        
+    
+        
+    
+
+    
+    
+
+    
+        
+        <li class="entry-title" style="padding:3px 0px;"><a href="https://kingx.me/you-dont-know-security-terms.html" title="你不知道的安全行业术语">你不知道的安全行业术语</a></li>
+        
+    
+        
+          </ul>
+        </article>
+        <article>
+          <h2 id="2017-ref" class="year-heading">2017</h2>
+          <ul>
+        
+    
+
+    
+    
+
+    
+        
+        <li class="entry-title" style="padding:3px 0px;"><a href="https://kingx.me/detect-apt-through-user-behavior.html" title="基于行为相似性度量检测APT活动">基于行为相似性度量检测APT活动</a></li>
+        
+    
+        
+    
+
+    
+    
+
+    
+        
+        <li class="entry-title" style="padding:3px 0px;"><a href="https://kingx.me/Struts2-S2-052.html" title="Struts2 S2-052与XStream漏洞调试分析">Struts2 S2-052与XStream漏洞调试分析</a></li>
+        
+    
+        
+    
+
+    
+    
+
+    
+        
+        <li class="entry-title" style="padding:3px 0px;"><a href="https://kingx.me/WebAssembly.html" title="下一代Web基石 - WebAssembly">下一代Web基石 - WebAssembly</a></li>
+        
+    
+        
+    
+
+    
+    
+
+    
+        
+        <li class="entry-title" style="padding:3px 0px;"><a href="https://kingx.me/c2c-with-dns-tunnel.html" title="利用DNS隧道进行隐蔽通信和远程控制">利用DNS隧道进行隐蔽通信和远程控制</a></li>
+        
+    
+        
+    
+
+    
+    
+
+    
+        
+        <li class="entry-title" style="padding:3px 0px;"><a href="https://kingx.me/dns-protocol.html" title="DNS协议">DNS协议</a></li>
+        
+    
+        
+    
+
+    
+    
+
+    
+        
+        <li class="entry-title" style="padding:3px 0px;"><a href="https://kingx.me/spark-programming-handbook.html" title="Spark编程手抄 - Python">Spark编程手抄 - Python</a></li>
+        
+    
+        
+    
+
+    
+    
+
+    
+        
+        <li class="entry-title" style="padding:3px 0px;"><a href="https://kingx.me/samba-rce-cve-2017-7494.html" title="Samba远程代码执行漏洞-CVE-2017-7494">Samba远程代码执行漏洞-CVE-2017-7494</a></li>
+        
+    
+        
+          </ul>
+        </article>
+        <article>
+          <h2 id="2016-ref" class="year-heading">2016</h2>
+          <ul>
+        
+    
+
+    
+    
+
+    
+        
+        <li class="entry-title" style="padding:3px 0px;"><a href="https://kingx.me/Java-Webshell-Hidden-in-JSP-Pages.html" title="利用Java Binary Webshell对抗静态检测">利用Java Binary Webshell对抗静态检测</a></li>
+        
+    
+        
+          </ul>
+        </article>
+        <article>
+          <h2 id="2015-ref" class="year-heading">2015</h2>
+          <ul>
+        
+    
+
+    
+    
+
+    
+        
+        <li class="entry-title" style="padding:3px 0px;"><a href="https://kingx.me/commons-collections-java-deserialization.html" title="Commons Collections Java反序列化漏洞深入分析">Commons Collections Java反序列化漏洞深入分析</a></li>
+        
+    
+        
+    
+
+    
+    
+
+    
+        
+        <li class="entry-title" style="padding:3px 0px;"><a href="https://kingx.me/hack-the-driver-courses.html" title="手把手教你制作科目一刷学时神器">手把手教你制作科目一刷学时神器</a></li>
+        
+    
+        
+          </ul>
+        </article>
+        <article>
+          <h2 id="2013-ref" class="year-heading">2013</h2>
+          <ul>
+        
+    
+
+    
+    
+
+    
+        
+        <li class="entry-title" style="padding:3px 0px;"><a href="https://kingx.me/csaw-ctf-2013-web300-writeup.html" title="CSAW CTF 2013 Web300 Writeup">CSAW CTF 2013 Web300 Writeup</a></li>
+        
+    
+        
+          </ul>
+        </article>
+        <article>
+          <h2 id="2012-ref" class="year-heading">2012</h2>
+          <ul>
+        
+    
+
+    
+    
+
+    
+        
+        <li class="entry-title" style="padding:3px 0px;"><a href="https://kingx.me/beef-xss-framework-exploit.html" title="BeEF XSS利用框架客户端脚本浅析">BeEF XSS利用框架客户端脚本浅析</a></li>
+        
+    
+        
+    
+
+    
+    
+
+    
+        
+        <li class="entry-title" style="padding:3px 0px;"><a href="https://kingx.me/about-oauth2-security.html" title="OAuth2安全问题的一些思考">OAuth2安全问题的一些思考</a></li>
+        
+    
+      </ul>
+    </article>
+    
+
+
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo">
+    <span>&copy; 2019 KINGX. Powered by Jekyll using the HPSTR Theme.</span>
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+<!-- <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="https://kingx.me/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="https://kingx.me/assets/js/scripts.min.js"></script>
+
+
+
+
+<script>
+
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  if(location.host=="kingx.me"){
+    hm.src = "https://hm.baidu.com/hm.js?d11d8512e0bc6992b9c9bbf2d266ce31";
+  }else if(location.host=="kingx.sinaapp.com"){
+    hm.src = "https://hm.baidu.com/hm.js?d1b3dbd97b73868454f102755fdf51ba";
+  }
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Busuanzi Analytics -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+          
+
+</body>
+</html>

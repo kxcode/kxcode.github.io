@@ -1,0 +1,497 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>内网渗透有它就够了，手把手教你分析CobaltStrike3.12 &#8211; KINGX</title>
+<meta name="description" content="Patch CobaltStrike Step by Step">
+<meta name="keywords" content="CobaltStrike, APT, Pentest">
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://kingx.me/images/">
+<meta name="twitter:title" content="内网渗透有它就够了，手把手教你分析CobaltStrike3.12">
+<meta name="twitter:description" content="Patch CobaltStrike Step by Step">
+<meta name="twitter:creator" content="@https://example.com">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="内网渗透有它就够了，手把手教你分析CobaltStrike3.12">
+<meta property="og:description" content="Patch CobaltStrike Step by Step">
+<meta property="og:url" content="https://kingx.me/CobaltStrike-Patch.html">
+<meta property="og:site_name" content="KINGX">
+
+
+
+
+
+<link rel="canonical" href="https://kingx.me/CobaltStrike-Patch.html">
+<link href="https://kingx.me/feed.xml" type="application/atom+xml" rel="alternate" title="KINGX Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="https://kingx.me/assets/css/main.css">
+<!-- Webfonts -->
+<link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel="stylesheet" type="text/css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script src="https://kingx.me/assets/js/vendor/modernizr-2.6.2.custom.min.js"></script>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="https://kingx.me/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="https://kingx.me/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="https://kingx.me/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://kingx.me/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://kingx.me/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://kingx.me/images/apple-touch-icon-144x144-precomposed.png">
+
+
+
+
+<style type="text/css">body {background-image:url(https://kingx.me/images/bg-white-wall2.jpg);}</style>
+
+
+</head>
+
+<body id="post" >
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+<nav id="dl-menu" class="dl-menuwrapper" role="navigation">
+	<button class="dl-trigger">Open Menu</button>
+	<ul class="dl-menu">
+		<li><a href="https://kingx.me/">Home</a></li>
+		<li>
+			<a href="#">About</a>
+			<ul class="dl-submenu">
+				<li>
+					<img src="https://kingx.me/images/avatar.jpg" alt="KINGX photo" class="author-photo">
+					<h4>KINGX</h4>
+					<p>What is Security</p>
+				</li>
+				<li><a href="https://kingx.me/about/"><span class="btn btn-inverse">Learn More</span></a></li>
+				<li>
+					<a href="mailto:root#kingx.me"><i class="fa fa-fw fa-envelope"></i> Email</a>
+				</li>
+				<li>
+					<a href="https://example.com"><i class="fa fa-fw fa-twitter"></i> Twitter</a>
+				</li>
+				<li>
+					<a href="http://example.com"><i class="fa fa-fw fa-weibo"></i> Weibo</a>
+				</li>
+				
+				
+				
+				<li>
+					<a href="https://example.com"><i class="fa fa-fw fa-github"></i> GitHub</a>
+				</li>
+				
+				
+				
+				
+			</ul><!-- /.dl-submenu -->
+		</li>
+		<!-- <li>
+			<a href="#">Posts</a>
+			<ul class="dl-submenu">
+				<li><a href="https://kingx.me/posts/">All Posts</a></li>
+				<li><a href="https://kingx.me/tags/">All Tags</a></li>
+			</ul>
+		</li> -->
+		
+	    
+	    <li><a href="https://kingx.me/latest-events/" >Security Incidents</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/latest-vulns/" >Vulnerabilities</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/pentest-tools/" >Red Team</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/posts/" >Archives</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/tags/" >Tags</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/links/" >Links</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/feed.xml" >RSS</a></li>
+	  
+	</ul><!-- /.dl-menu -->
+</nav><!-- /.dl-menuwrapper -->
+
+
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    <header class="header-title">
+      <div class="header-title-wrap">
+        
+          <h1 class="entry-title"><a href="https://kingx.me/CobaltStrike-Patch.html" rel="bookmark" title="内网渗透有它就够了，手把手教你分析CobaltStrike3.12">内网渗透有它就够了，手把手教你分析CobaltStrike3.12</a></h1>
+        
+        <h2><span class="entry-date date published"><time datetime="2018-11-19T00:00:00-05:00">November 19, 2018</time></span></h2>
+        
+        <p class="entry-reading-time">
+          <i class="fa fa-clock-o"></i>
+          
+Reading time ~3 minutes
+          
+          <span id="busuanzi_container_page_pv">
+             / Page View <span id="busuanzi_value_page_pv">0</span> / Site Visitor <span id="busuanzi_value_site_uv">0</span>
+          </span>
+          
+        </p><!-- /.entry-reading-time -->
+        
+
+      </div><!-- /.header-title-wrap -->
+    </header>
+    <div class="entry-content">
+      <span class="entry-tags" style="color:red;font-size:13px;margin-bottom: 0px;">「声明：本博客中涉及到的相关漏洞均为官方已经公开并修复的漏洞，涉及到的安全技术也仅用于企业安全建设和安全对抗研究。本文仅限业内技术研究与讨论，严禁用于非法用途，否则产生的一切后果自行承担。」</span>
+      <h1 id="1---概述">1 - 概述</h1>
+
+<p>CobaltStrike是一款内网渗透的商业远控软件，支持自定义脚本扩展，功能非常强大。前段时间Github上有好心人放出了CobaltStrike3.12的试用版，接着Lz1y很快就放出了试用版补丁，加上热心老哥提供了的<a href="https://github.com/verctor/CS_xor64">xor64.bin</a>（试用版中没有这个文件），一个比较完美的最新可用版本诞生了，下面我们分析下最新试用版。</p>
+
+<h1 id="2---上手">2 - 上手</h1>
+
+<p>CobaltStrike（下面简称CS）主体代码是用Java开发的，逆起来比较友好。用jd-gui反编译cobaltstrike.jar文件，可以看到Java源码没有任何混淆。但是查看反编译的源码时，很多地方出现了<code class="highlighter-rouge">// INTERNAL ERROR //</code>，这里我推荐一款Java反编译工具<code class="highlighter-rouge">luyten</code>，几乎可以100%反编译获得cobaltstrike.jar源码。</p>
+
+<p>CS的License处理逻辑在<code class="highlighter-rouge">common/License.java</code>文件中：</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="n">common</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">aggressor.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.swing.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.awt.*</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">License</span>
+<span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kt">long</span> <span class="n">life</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kt">long</span> <span class="n">today</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kt">long</span> <span class="n">start</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kt">long</span> <span class="n">difference</span><span class="o">;</span>
+    
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kt">long</span> <span class="nf">getTimeSinceStart</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kd">final</span> <span class="n">Prefs</span> <span class="n">options</span> <span class="o">=</span> <span class="n">Prefs</span><span class="o">.</span><span class="na">getPreferences</span><span class="o">();</span>
+        <span class="n">License</span><span class="o">.</span><span class="na">today</span> <span class="o">=</span> <span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">();</span>
+        <span class="n">License</span><span class="o">.</span><span class="na">start</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="na">getLongNumber</span><span class="o">(</span><span class="s">"cobaltstrike.start.int"</span><span class="o">,</span> <span class="mi">0L</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">License</span><span class="o">.</span><span class="na">start</span> <span class="o">==</span> <span class="mi">0L</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">options</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="s">"cobaltstrike.start.int"</span><span class="o">,</span> <span class="n">License</span><span class="o">.</span><span class="na">today</span> <span class="o">+</span> <span class="s">""</span><span class="o">);</span>
+            <span class="n">options</span><span class="o">.</span><span class="na">save</span><span class="o">();</span>
+            <span class="n">License</span><span class="o">.</span><span class="na">start</span> <span class="o">=</span> <span class="n">License</span><span class="o">.</span><span class="na">today</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">License</span><span class="o">.</span><span class="na">difference</span> <span class="o">=</span> <span class="o">(</span><span class="n">License</span><span class="o">.</span><span class="na">today</span> <span class="o">-</span> <span class="n">License</span><span class="o">.</span><span class="na">start</span><span class="o">)</span> <span class="o">/</span> <span class="mi">86400000L</span><span class="o">;</span>
+    <span class="o">}</span>
+    
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">checkLicenseGUI</span><span class="o">(</span><span class="kd">final</span> <span class="n">Authorization</span> <span class="n">auth</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">getTimeSinceStart</span><span class="o">();</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">License</span><span class="o">.</span><span class="na">difference</span> <span class="o">&gt;</span> <span class="n">License</span><span class="o">.</span><span class="na">life</span> <span class="o">||</span> <span class="n">License</span><span class="o">.</span><span class="na">today</span> <span class="o">-</span> <span class="n">License</span><span class="o">.</span><span class="na">start</span> <span class="o">&lt;</span> <span class="mi">0L</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">JOptionPane</span><span class="o">.</span><span class="na">showMessageDialog</span><span class="o">(</span><span class="kc">null</span><span class="o">,</span> <span class="s">"Your Cobalt Strike trial is now expired.\nPlease purchase a license and use the\nsoftware update feature to continue.\n\nFor details, visit:\nhttps://www.cobaltstrike.com/"</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">exit</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">else</span> <span class="o">{</span>
+            <span class="kd">final</span> <span class="kt">long</span> <span class="n">left</span> <span class="o">=</span> <span class="n">License</span><span class="o">.</span><span class="na">life</span> <span class="o">-</span> <span class="n">License</span><span class="o">.</span><span class="na">difference</span><span class="o">;</span>
+            <span class="n">String</span> <span class="n">form</span> <span class="o">=</span> <span class="n">left</span> <span class="o">+</span> <span class="s">" day"</span><span class="o">;</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">left</span> <span class="o">!=</span> <span class="mi">1L</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">form</span> <span class="o">+=</span> <span class="s">"s"</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="n">CommonUtils</span><span class="o">.</span><span class="na">print_warn</span><span class="o">(</span><span class="s">"This is a trial version of Cobalt Strike. You have "</span> <span class="o">+</span> <span class="n">form</span> <span class="o">+</span> <span class="s">" left of your trial. If you purchased Cobalt Strike. Run the Update program and enter your license."</span><span class="o">);</span>
+            <span class="n">CommonUtils</span><span class="o">.</span><span class="na">print_trial</span><span class="o">(</span><span class="s">"WARNING! This trial is *built* to get caught by standard defenses. The licensed product does not have these restrictions. See: http://blog.cobaltstrike.com/2015/10/14/the-cobalt-strike-trials-evil-bit/"</span><span class="o">);</span>
+            <span class="n">JOptionPane</span><span class="o">.</span><span class="na">showMessageDialog</span><span class="o">(</span><span class="kc">null</span><span class="o">,</span> <span class="s">"This is a trial version of Cobalt Strike.\nYou have "</span> <span class="o">+</span> <span class="n">form</span> <span class="o">+</span> <span class="s">" left of your trial.\n\nIf you purchased Cobalt Strike. Run the\nUpdate program and enter your license."</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">boolean</span> <span class="nf">isTrial</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+    
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">checkLicenseConsole</span><span class="o">(</span><span class="kd">final</span> <span class="n">Authorization</span> <span class="n">auth</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">getTimeSinceStart</span><span class="o">();</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">License</span><span class="o">.</span><span class="na">difference</span> <span class="o">&gt;</span> <span class="n">License</span><span class="o">.</span><span class="na">life</span> <span class="o">||</span> <span class="n">License</span><span class="o">.</span><span class="na">today</span> <span class="o">-</span> <span class="n">License</span><span class="o">.</span><span class="na">start</span> <span class="o">&lt;</span> <span class="mi">0L</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">CommonUtils</span><span class="o">.</span><span class="na">print_error</span><span class="o">(</span><span class="s">"Your Cobalt Strike trial is now expired. Please purchase a license and use the software update feature to continue. For details, visit: https://www.cobaltstrike.com/"</span><span class="o">);</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">exit</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">else</span> <span class="o">{</span>
+            <span class="kd">final</span> <span class="kt">long</span> <span class="n">left</span> <span class="o">=</span> <span class="n">License</span><span class="o">.</span><span class="na">life</span> <span class="o">-</span> <span class="n">License</span><span class="o">.</span><span class="na">difference</span><span class="o">;</span>
+            <span class="n">String</span> <span class="n">form</span> <span class="o">=</span> <span class="n">left</span> <span class="o">+</span> <span class="s">" day"</span><span class="o">;</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">left</span> <span class="o">!=</span> <span class="mi">1L</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">form</span> <span class="o">+=</span> <span class="s">"s"</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="n">CommonUtils</span><span class="o">.</span><span class="na">print_warn</span><span class="o">(</span><span class="s">"This is a trial version of Cobalt Strike. You have "</span> <span class="o">+</span> <span class="n">form</span> <span class="o">+</span> <span class="s">" left of your trial. If you purchased Cobalt Strike. Run the Update program and enter your license."</span><span class="o">);</span>
+            <span class="n">CommonUtils</span><span class="o">.</span><span class="na">print_trial</span><span class="o">(</span><span class="s">"WARNING! This trial is *built* to get caught by standard defenses. The licensed product does not have these restrictions. See: http://blog.cobaltstrike.com/2015/10/14/the-cobalt-strike-trials-evil-bit/"</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    
+    <span class="kd">static</span> <span class="o">{</span>
+        <span class="n">License</span><span class="o">.</span><span class="na">life</span> <span class="o">=</span> <span class="mi">21L</span><span class="o">;</span>
+        <span class="n">License</span><span class="o">.</span><span class="na">today</span> <span class="o">=</span> <span class="mi">0L</span><span class="o">;</span>
+        <span class="n">License</span><span class="o">.</span><span class="na">start</span> <span class="o">=</span> <span class="mi">0L</span><span class="o">;</span>
+        <span class="n">License</span><span class="o">.</span><span class="na">difference</span> <span class="o">=</span> <span class="mi">0L</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+<p>代码逻辑很清晰，这里我们有两个方向进行patch：</p>
+
+<ol>
+  <li>修改<code class="highlighter-rouge">License.life</code>无限延长试用</li>
+  <li>修改<code class="highlighter-rouge">isTrial()</code>返回值，伪造成正式版</li>
+</ol>
+
+<p>因为CS很多地方的试用版和正式版处理逻辑不同，所以修改了<code class="highlighter-rouge">isTrial()</code>返回值之后，我们还需要修改所有调用了<code class="highlighter-rouge">isTrial()</code>函数的地方，对代码进行调整。另外试用版CS留了一些特征指纹和限制，我们也需要去除相应的特征代码。</p>
+
+<h2 id="修改重打包">修改重打包</h2>
+
+<p>既然知道了思路，我们看下如何动手操作去修改源码并重编译。Java编程中我们可以使用<code class="highlighter-rouge">jar</code>工具将一系列的.class文件打包成jar包，供其他java程序使用。我们也可以修改jar包中.class文件的内容，并重新编译打包。比如修改demo.jar中的kingx.class并重新编译的过程如下：</p>
+
+<ol>
+  <li>
+    <p>使用jd-gui、luyten等工具把demo.jar包中的class反编译成源码，从中提取得到kingx.java</p>
+  </li>
+  <li>
+    <p>执行<code class="highlighter-rouge">jar xvf demo.jar</code> 解压demo.jar得到jar包的子文件（注意会解压到当前目录），将kingx.java文件放置到与kingx.class文件同一目录</p>
+  </li>
+  <li>
+    <p>执行<code class="highlighter-rouge">javac -cp a.jar;b.jar;c.jar kingx.java</code>重新编译。(或者javac -cp demo.jar kingx.java)得到新的kingx.class文件。</p>
+
+    <p>其中a.jar、b.jar、c.jar是依赖包，一般直接依赖一个原始解压的demo.jar包即可</p>
+  </li>
+  <li>
+    <p>确保编译后的kingx.class替换了原来的kingx.class文件（可以通过jd-gui反编译查看）</p>
+  </li>
+  <li>
+    <p>执行<code class="highlighter-rouge">jar -uvf  demo.jar com/some/path/kingx.class</code>更新demo.jar包</p>
+  </li>
+</ol>
+
+<p>更新jar包中的class文件时，新的class文件目录路径需要与原package路径保持一致。比如修改了<code class="highlighter-rouge">aggressor.AggressorClient.java</code>并重新编译之后，更新jar包的命令如下：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>17:16 KINGX modified_java_files &gt;jar -uvf cobaltstrike-with-xor64.jar aggressor/AggressorClient*.class
+正在添加: aggressor/AggressorClient$1.class(输入 = 650) (输出 = 403)(压缩了 38%)
+正在添加: aggressor/AggressorClient$2.class(输入 = 1263) (输出 = 704)(压缩了 44%)
+正在添加: aggressor/AggressorClient.class(输入 = 11115) (输出 = 5196)(压缩了 53%)
+
+</code></pre></div></div>
+
+<h2 id="可能遇到的问题">可能遇到的问题</h2>
+
+<p>修改后的java文件在重新编译为class文件时，可能会遇到很多奇怪的报错。有时候是因为反编译出的源码存在错误导致的，这个时候我们可以将luyten、jad、jd-gui等反编译工具结合使用，尽量还原成正确的源码，再重新编译。
+比如：AggressorClient.java，<code class="highlighter-rouge">jad aggressor/AggressorClient*.class</code>和<code class="highlighter-rouge">luyten</code>反编译得到的源码是不一样的。</p>
+
+<h1 id="3---试用版patch详细分析">3 - 试用版Patch详细分析</h1>
+
+<p><em>Tips: 以下代码片段中行首的 - 代表删除，+ 代表新增</em></p>
+
+<h2 id="patch-试用版本">Patch 试用版本</h2>
+<p>修改common.License，去掉checkLicenseGUI()、checkLicenseConsole()函数体，修改isTrial()返回值为false</p>
+
+<h2 id="修改主程序标题">修改主程序标题</h2>
+<p>aggressor.AggressorClient，修改getTitle()函数</p>
+
+<h2 id="解除listener同类数量限制">解除listener同类数量限制</h2>
+
+<p>一个teamserver默认只能监听一个listener，可以通过修改代码去除限制。</p>
+
+<p>aggressor.dialogs.ListenerDialog，去除以下代码：</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">...</span>
+<span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">Listener</span><span class="o">.</span><span class="na">isEgressBeacon</span><span class="o">(</span><span class="n">payload</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">DataUtils</span><span class="o">.</span><span class="na">isBeaconDefined</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">datal</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">name</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">DataUtils</span><span class="o">.</span><span class="na">getEgressBeaconListener</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">datal</span><span class="o">)))</span> <span class="o">{</span>
+    <span class="n">DialogUtils</span><span class="o">.</span><span class="na">showError</span><span class="o">(</span><span class="s">"You may only define one egress Beacon per team server.\nThere are a few things I need to sort before you can\nput multiple Beacon HTTP/DNS listeners on one server.\nSpin up a new team server and add your listener there."</span><span class="o">);</span>
+<span class="o">}</span>
+<span class="o">...</span>
+</code></pre></div></div>
+
+<h2 id="去除eicar后门指纹特征">去除EICAR后门指纹特征</h2>
+
+<p>试用版有几个地方存在EICAR特征字符：<code class="highlighter-rouge">X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*</code>，都需要进行清理：</p>
+
+<h3 id="commonlistenerconfig">common.ListenerConfig</h3>
+<p>修改pad()函数：</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">-</span>  <span class="n">result</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">"5O!P%@AP[4\\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*\u0000"</span><span class="o">);</span>
+<span class="o">+</span>  <span class="n">result</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">"123\u0000"</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h3 id="resourcestemplatex64ps1resourcestemplatex86ps1">resources/template.x64.ps1、resources/template.x86.ps1</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">-</span>  <span class="n">$eicar</span> <span class="o">=</span> <span class="err">'</span><span class="n">X5O</span><span class="o">!</span><span class="n">P</span><span class="o">%</span><span class="nd">@AP</span><span class="o">[</span><span class="mi">4</span><span class="err">\</span><span class="n">PZX54</span><span class="o">(</span><span class="n">P</span><span class="o">^)</span><span class="mi">7</span><span class="n">CC</span><span class="o">)</span><span class="mi">7</span><span class="o">}</span><span class="n">$EICAR</span><span class="o">-</span><span class="n">STANDARD</span><span class="o">-</span><span class="n">ANTIVIRUS</span><span class="o">-</span><span class="n">TEST</span><span class="o">-</span><span class="n">FILE</span><span class="o">!</span><span class="n">$H</span><span class="o">+</span><span class="n">H</span><span class="o">*</span><span class="err">'</span>
+<span class="o">+</span>  <span class="n">$eicar</span> <span class="o">=</span> <span class="err">''</span>
+</code></pre></div></div>
+
+<h3 id="serverprofileedits">server.ProfileEdits</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">-</span>  <span class="n">c2profile</span><span class="o">.</span><span class="na">addCommand</span><span class="o">(</span><span class="s">".http-get.server"</span><span class="o">,</span> <span class="s">"!header"</span><span class="o">,</span> <span class="s">"X-Malware: X5O!P%@AP[4\\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*"</span><span class="o">);</span>
+<span class="o">-</span>  <span class="n">c2profile</span><span class="o">.</span><span class="na">addCommand</span><span class="o">(</span><span class="s">".http-post.server"</span><span class="o">,</span> <span class="s">"!header"</span><span class="o">,</span> <span class="s">"X-Malware: X5O!P%@AP[4\\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*"</span><span class="o">);</span>
+<span class="o">-</span>  <span class="n">c2profile</span><span class="o">.</span><span class="na">addCommand</span><span class="o">(</span><span class="s">".http-stager.server"</span><span class="o">,</span> <span class="s">"!header"</span><span class="o">,</span> <span class="s">"X-Malware: X5O!P%@AP[4\\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*"</span><span class="o">);</span>
+<span class="o">-</span>  <span class="n">c2profile</span><span class="o">.</span><span class="na">addCommand</span><span class="o">(</span><span class="s">".stage.transform-x86"</span><span class="o">,</span> <span class="s">"append"</span><span class="o">,</span> <span class="s">"X5O!P%@AP[4\\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*"</span><span class="o">);</span>
+<span class="o">-</span>  <span class="n">c2profile</span><span class="o">.</span><span class="na">addCommand</span><span class="o">(</span><span class="s">".stage.transform-x64"</span><span class="o">,</span> <span class="s">"append"</span><span class="o">,</span> <span class="s">"X5O!P%@AP[4\\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*"</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h3 id="commonartifactutils">common.ArtifactUtils</h3>
+<p>因为已经修改了License.isTrial()返回值为false，所以下面这段改不改也没什么影响。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="o">(</span><span class="n">License</span><span class="o">.</span><span class="na">isTrial</span><span class="o">())</span> <span class="o">{</span>
+    <span class="n">packer</span><span class="o">.</span><span class="na">addString</span><span class="o">(</span><span class="s">"X5O!P%@AP[4\\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*"</span><span class="o">);</span>
+    <span class="n">CommonUtils</span><span class="o">.</span><span class="na">print_trial</span><span class="o">(</span><span class="s">"Added EICAR string to "</span> <span class="o">+</span> <span class="n">s</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h2 id="添加xor64bin">添加XOR64.BIN</h2>
+
+<p>生成payload时，会调用common.ArtifactUtils中的XorEncode()进行编码：</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">byte</span><span class="o">[]</span> <span class="nf">_XorEncode</span><span class="o">(</span><span class="kd">final</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">data</span><span class="o">,</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">arch</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">AssertUtils</span><span class="o">.</span><span class="na">TestArch</span><span class="o">(</span><span class="n">arch</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(</span><span class="s">"x86"</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">arch</span><span class="o">))</span> <span class="o">{</span>
+        <span class="kd">final</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">decoder</span> <span class="o">=</span> <span class="n">XorStub</span><span class="o">();</span>
+        <span class="kd">final</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">payload</span> <span class="o">=</span> <span class="n">XorEncoder</span><span class="o">.</span><span class="na">encode</span><span class="o">(</span><span class="n">data</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">CommonUtils</span><span class="o">.</span><span class="na">join</span><span class="o">(</span><span class="n">decoder</span><span class="o">,</span> <span class="n">payload</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">if</span> <span class="o">(</span><span class="s">"x64"</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">arch</span><span class="o">))</span> <span class="o">{</span>
+        <span class="kd">final</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">decoder</span> <span class="o">=</span> <span class="n">CommonUtils</span><span class="o">.</span><span class="na">readResource</span><span class="o">(</span><span class="s">"resources/xor64.bin"</span><span class="o">);</span>
+        <span class="kd">final</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">payload</span> <span class="o">=</span> <span class="n">XorEncoder</span><span class="o">.</span><span class="na">encode</span><span class="o">(</span><span class="n">data</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">CommonUtils</span><span class="o">.</span><span class="na">join</span><span class="o">(</span><span class="n">decoder</span><span class="o">,</span> <span class="n">payload</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">byte</span><span class="o">[]</span> <span class="nf">XorEncode</span><span class="o">(</span><span class="kd">final</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">data</span><span class="o">,</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">arch</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">License</span><span class="o">.</span><span class="na">isTrial</span><span class="o">())</span> <span class="o">{</span>
+        <span class="n">CommonUtils</span><span class="o">.</span><span class="na">print_trial</span><span class="o">(</span><span class="s">"Disabled "</span> <span class="o">+</span> <span class="n">arch</span> <span class="o">+</span> <span class="s">" payload stage encoding."</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">data</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="n">AssertUtils</span><span class="o">.</span><span class="na">Test</span><span class="o">(</span><span class="n">data</span><span class="o">.</span><span class="na">length</span> <span class="o">&gt;</span> <span class="mi">16384</span><span class="o">,</span> <span class="s">"XorEncode used on a stager (or some other small thing)"</span><span class="o">);</span>
+    <span class="k">return</span> <span class="nf">_XorEncode</span><span class="o">(</span><span class="n">data</span><span class="o">,</span> <span class="n">arch</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>试用版不会进行<code class="highlighter-rouge">payload stage encoding</code>，所以试用版软件包中并没有带xor.bin/xor64.bin文件，如果有这两个文件的话，可以添加到<code class="highlighter-rouge">resources/xor.bin</code>、<code class="highlighter-rouge">resources/xor64.bin</code>路径下。Github上有热心老哥提供了xor64的生成脚本：<a href="https://github.com/verctor/CS_xor64">https://github.com/verctor/CS_xor64</a></p>
+
+<p>源码逐个修改完，重新编译更新到cobaltstrike.jar包中，再拷贝替换掉原版的jar包就OK了。</p>
+
+      <footer class="entry-meta">
+        <span class="entry-tags" style="color:black;font-size:13px;margin-bottom: 0px;">欢迎订阅我的微信公众号</span>
+        <img src="/images/secengine.jpg" alt="welcome subscribe"/>
+        <span class="entry-tags"><a href="https://kingx.me/tags/#CobaltStrike" title="Pages tagged CobaltStrike" class="tag"><span class="term">CobaltStrike</span></a><a href="https://kingx.me/tags/#APT" title="Pages tagged APT" class="tag"><span class="term">APT</span></a><a href="https://kingx.me/tags/#Pentest" title="Pages tagged Pentest" class="tag"><span class="term">Pentest</span></a></span>
+        
+        <div class="social-share">
+  <ul class="socialcount socialcount-small inline-list">
+    <li class="weibo"><a href="http://service.weibo.com/share/share.php?title=分享KINGX的文章《内网渗透有它就够了，手把手教你分析CobaltStrike3.12》&url=https://kingx.me/CobaltStrike-Patch.html&source=bookmark" title="Share on Weibo" target="_blank"><span class="count"><i class="fa fa-weibo"></i> WEIBO</span></a></li>
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=https://kingx.me/CobaltStrike-Patch.html" title="Share on Facebook"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=https://kingx.me/CobaltStrike-Patch.html" title="Share on Twitter"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <li class="googleplus"><a href="https://plus.google.com/share?url=https://kingx.me/CobaltStrike-Patch.html" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li>
+  </ul>
+</div><!-- /.social-share -->
+<!--
+<div class="ds-share" data-thread-key="/CobaltStrike-Patch" data-title="内网渗透有它就够了，手把手教你分析CobaltStrike3.12" data-images="" data-content="内网渗透有它就够了，手把手教你分析CobaltStrike3.12" data-url="https://kingx.me/CobaltStrike-Patch.html">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+</div>
+-->
+      </footer>
+    </div><!-- /.entry-content -->
+    
+    
+
+    <div class="read-more">
+  
+    <div class="read-more-header">
+      
+        <a href="https://kingx.me/%E4%BF%A1%E4%BB%BB%E7%9A%84%E8%BF%9B%E5%8C%96.html" class="read-more-btn">Read More</a>
+      
+    </div><!-- /.read-more-header -->
+    <div class="read-more-content">
+      
+      <h3><a href="https://kingx.me/Restrictions-and-Bypass-of-JNDI-Manipulations-RCE.html" title="如何绕过高版本JDK的限制进行JNDI注入利用">如何绕过高版本JDK的限制进行JNDI注入利用</a></h3>
+      <p>Restrictions of JNDI Manipulation RCE & Bypass <a href="https://kingx.me/Restrictions-and-Bypass-of-JNDI-Manipulations-RCE.html">Continue reading</a></p>
+      
+    </div><!-- /.read-more-content -->
+  
+  <div class="read-more-list">
+    
+      
+      <div class="list-item">
+        <h4><a href="https://kingx.me/Thinking-about-Red-Teaming.html" title="【红蓝对抗】大型互联网企业安全蓝军建设">【红蓝对抗】大型互联网企业安全蓝军建设</a></h4>
+        <span>Published on March 12, 2019</span>
+      </div><!-- /.list-item -->
+      
+    
+      
+      <div class="list-item">
+        <h4><a href="https://kingx.me/%E4%BF%A1%E4%BB%BB%E7%9A%84%E8%BF%9B%E5%8C%96.html" title="信任的进化">信任的进化</a></h4>
+        <span>Published on October 28, 2018</span>
+      </div><!-- /.list-item -->
+      
+    
+  </div><!-- /.read-more-list -->
+</div><!-- /.read-more -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo">
+    <span>&copy; 2019 KINGX. Powered by Jekyll using the HPSTR Theme.</span>
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+<!-- <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="https://kingx.me/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="https://kingx.me/assets/js/scripts.min.js"></script>
+
+
+
+
+<script>
+
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  if(location.host=="kingx.me"){
+    hm.src = "https://hm.baidu.com/hm.js?d11d8512e0bc6992b9c9bbf2d266ce31";
+  }else if(location.host=="kingx.sinaapp.com"){
+    hm.src = "https://hm.baidu.com/hm.js?d1b3dbd97b73868454f102755fdf51ba";
+  }
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Busuanzi Analytics -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+	        
+
+</body>
+</html>

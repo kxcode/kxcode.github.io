@@ -1,0 +1,505 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>FastJson反序列化漏洞利用的三个细节 - TemplatesImpl的利用链 &#8211; KINGX</title>
+<meta name="description" content="Vulnerability - Java FastJson">
+<meta name="keywords" content="Vulnerability, Java">
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://kingx.me/images/">
+<meta name="twitter:title" content="FastJson反序列化漏洞利用的三个细节 - TemplatesImpl的利用链">
+<meta name="twitter:description" content="Vulnerability - Java FastJson">
+<meta name="twitter:creator" content="@https://example.com">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FastJson反序列化漏洞利用的三个细节 - TemplatesImpl的利用链">
+<meta property="og:description" content="Vulnerability - Java FastJson">
+<meta property="og:url" content="https://kingx.me/Details-in-FastJson-RCE.html">
+<meta property="og:site_name" content="KINGX">
+
+
+
+
+
+<link rel="canonical" href="https://kingx.me/Details-in-FastJson-RCE.html">
+<link href="https://kingx.me/feed.xml" type="application/atom+xml" rel="alternate" title="KINGX Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="https://kingx.me/assets/css/main.css">
+<!-- Webfonts -->
+<link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel="stylesheet" type="text/css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script src="https://kingx.me/assets/js/vendor/modernizr-2.6.2.custom.min.js"></script>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="https://kingx.me/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="https://kingx.me/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="https://kingx.me/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://kingx.me/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://kingx.me/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://kingx.me/images/apple-touch-icon-144x144-precomposed.png">
+
+
+
+
+<style type="text/css">body {background-image:url(https://kingx.me/images/triangular.png);}</style>
+
+
+</head>
+
+<body id="post" >
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+<nav id="dl-menu" class="dl-menuwrapper" role="navigation">
+	<button class="dl-trigger">Open Menu</button>
+	<ul class="dl-menu">
+		<li><a href="https://kingx.me/">Home</a></li>
+		<li>
+			<a href="#">About</a>
+			<ul class="dl-submenu">
+				<li>
+					<img src="https://kingx.me/images/avatar.jpg" alt="KINGX photo" class="author-photo">
+					<h4>KINGX</h4>
+					<p>What is Security</p>
+				</li>
+				<li><a href="https://kingx.me/about/"><span class="btn btn-inverse">Learn More</span></a></li>
+				<li>
+					<a href="mailto:root#kingx.me"><i class="fa fa-fw fa-envelope"></i> Email</a>
+				</li>
+				<li>
+					<a href="https://example.com"><i class="fa fa-fw fa-twitter"></i> Twitter</a>
+				</li>
+				<li>
+					<a href="http://example.com"><i class="fa fa-fw fa-weibo"></i> Weibo</a>
+				</li>
+				
+				
+				
+				<li>
+					<a href="https://example.com"><i class="fa fa-fw fa-github"></i> GitHub</a>
+				</li>
+				
+				
+				
+				
+			</ul><!-- /.dl-submenu -->
+		</li>
+		<!-- <li>
+			<a href="#">Posts</a>
+			<ul class="dl-submenu">
+				<li><a href="https://kingx.me/posts/">All Posts</a></li>
+				<li><a href="https://kingx.me/tags/">All Tags</a></li>
+			</ul>
+		</li> -->
+		
+	    
+	    <li><a href="https://kingx.me/latest-events/" >Security Incidents</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/latest-vulns/" >Vulnerabilities</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/pentest-tools/" >Red Team</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/posts/" >Archives</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/tags/" >Tags</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/links/" >Links</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/feed.xml" >RSS</a></li>
+	  
+	</ul><!-- /.dl-menu -->
+</nav><!-- /.dl-menuwrapper -->
+
+
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    <header class="header-title">
+      <div class="header-title-wrap">
+        
+          <h1 class="entry-title"><a href="https://kingx.me/Details-in-FastJson-RCE.html" rel="bookmark" title="FastJson反序列化漏洞利用的三个细节 - TemplatesImpl的利用链">FastJson反序列化漏洞利用的三个细节 - TemplatesImpl的利用链</a></h1>
+        
+        <h2><span class="entry-date date published"><time datetime="2018-07-09T00:00:00-04:00">July 09, 2018</time></span></h2>
+        
+        <p class="entry-reading-time">
+          <i class="fa fa-clock-o"></i>
+          
+Reading time ~2 minutes
+          
+          <span id="busuanzi_container_page_pv">
+             / Page View <span id="busuanzi_value_page_pv">0</span> / Site Visitor <span id="busuanzi_value_site_uv">0</span>
+          </span>
+          
+        </p><!-- /.entry-reading-time -->
+        
+
+      </div><!-- /.header-title-wrap -->
+    </header>
+    <div class="entry-content">
+      <span class="entry-tags" style="color:red;font-size:13px;margin-bottom: 0px;">「声明：本博客中涉及到的相关漏洞均为官方已经公开并修复的漏洞，涉及到的安全技术也仅用于企业安全建设和安全对抗研究。本文仅限业内技术研究与讨论，严禁用于非法用途，否则产生的一切后果自行承担。」</span>
+      <h1 id="0-前言">0. 前言</h1>
+
+<p>记录在FastJson反序列化RCE漏洞分析和利用时的一些细节问题。</p>
+
+<h1 id="1-templatesimpl的利用链">1. TemplatesImpl的利用链</h1>
+
+<h2 id="关于-parse-和-parseobject">关于 parse 和 parseObject</h2>
+
+<p>FastJson中的 parse() 和 parseObject()方法都可以用来将JSON字符串反序列化成Java对象，parseObject() 本质上也是调用 parse() 进行反序列化的。但是 parseObject() 会额外的将Java对象转为 JSONObject对象，即 JSON.toJSON()。所以进行反序列化时的细节区别在于，parse() 会识别并调用目标类的 setter 方法及某些特定条件的 getter 方法，而 parseObject() 由于多执行了 JSON.toJSON(obj)，所以在处理过程中会调用反序列化目标类的所有 setter 和 getter 方法。parseObject() 的源代码如下：</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="n">JSONObject</span> <span class="nf">parseObject</span><span class="o">(</span><span class="n">String</span> <span class="n">text</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Object</span> <span class="n">obj</span> <span class="o">=</span> <span class="n">parse</span><span class="o">(</span><span class="n">text</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">obj</span> <span class="k">instanceof</span> <span class="n">JSONObject</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="o">(</span><span class="n">JSONObject</span><span class="o">)</span> <span class="n">obj</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="k">return</span> <span class="o">(</span><span class="n">JSONObject</span><span class="o">)</span> <span class="n">JSON</span><span class="o">.</span><span class="na">toJSON</span><span class="o">(</span><span class="n">obj</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>举个简单的例子：</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">FastJsonTest</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="n">age</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="nf">FastJsonTest</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span><span class="o">{</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setName</span><span class="o">(</span><span class="n">String</span> <span class="n">test</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"name setter called"</span><span class="o">);</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">test</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getName</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"name getter called"</span><span class="o">);</span>
+        <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">name</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getAge</span><span class="o">(){</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"age getter called"</span><span class="o">);</span>
+        <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">age</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Object</span> <span class="n">obj</span> <span class="o">=</span> <span class="n">JSON</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="s">"{\"@type\":\"fastjsontest.FastJsonTest\",\"name\":\"thisisname\", \"age\":\"thisisage\"}"</span><span class="o">);</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">obj</span><span class="o">);</span>
+
+        <span class="n">Object</span> <span class="n">obj2</span> <span class="o">=</span> <span class="n">JSON</span><span class="o">.</span><span class="na">parseObject</span><span class="o">(</span><span class="s">"{\"@type\":\"fastjsontest.FastJsonTest\",\"name\":\"thisisname\", \"age\":\"thisisage\"}"</span><span class="o">);</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">obj2</span><span class="o">);</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>上述代码运行后可以看到，执行parse() 时，只有 setName() 会被调用。执行parseObject() 时，setName()、getAge()、getName() 均会被调用。</p>
+
+<h2 id="为什么会触发getoutputproperties">为什么会触发getOutputProperties()</h2>
+
+<p>感觉上 parse() 进行反序列化创建Java类应该只会调用 setter 方法进行成员变量赋值才对，会什么会触发TemplatesImpl类中的 getOutputProperties() 方法呢？</p>
+
+<p>另外 _outputProperties 成员变量和 getOutputProperties() 明明差了一个<code class="highlighter-rouge">_</code>字符，是怎么被 FastJson 关联上的?</p>
+
+<p>如上一小节所述，parse() 进行反序列化时其实会调用某些特定的 getter 方法进行字段解析，而 TemplatesImpl类中的 getOutputProperties() 方法恰好满足这一条件。</p>
+
+<p>FastJson反序列化到Java类时主要逻辑如下：</p>
+
+<ol>
+  <li>获取并保存目标Java类中的成员变量、setter、getter。</li>
+  <li>解析JSON字符串，对字段逐个处理，调用相应的setter、getter进行变量赋值。</li>
+</ol>
+
+<p>我们先看第一步，这里由 JavaBeanInfo.build() 进行处理，FastJson会创建一个filedList数组，用来保存目标Java类的成员变量以及相应的setter或getter方法信息，供后续反序列化字段时调用。</p>
+
+<p>filedList大致结构如下：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[
+    {
+        name:"outputProperties",
+        method:{
+            clazz:{},
+            name:"getOutputProperties",
+            returnType:{},
+            ...
+        }
+    }
+]
+</code></pre></div></div>
+
+<p>FastJson并不是直接反射获取目标Java类的成员变量的，而是会对setter、getter、成员变量分别进行处理，智能提取出成员变量信息。逻辑如下：</p>
+
+<ol>
+  <li>识别setter方法名，并根据setter方法名提取出成员变量名。如：识别出setAge()方法，FastJson会提取出age变量名并插入filedList数组。</li>
+  <li>通过clazz.getFields()获取成员变量。</li>
+  <li>识别getter方法名，并根据getter方法名提取出成员变量名。</li>
+</ol>
+
+<p>可以看到在 JavaBeanInfo.build() 中，有一段代码会对getter方法进行判断，在某些特殊条件下，会从getter方法中提取出成员变量名并附加到filedList数组中。而TemplatesImpl类中的 getOutputProperties() 正好满足这个特定条件。getter方法的处理代码为：</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">JavaBeanInfo</span><span class="o">.</span><span class="na">java</span>
+
+<span class="kd">public</span> <span class="kd">static</span> <span class="n">JavaBeanInfo</span> <span class="nf">build</span><span class="o">(</span><span class="n">Class</span><span class="o">&lt;?&gt;</span> <span class="n">clazz</span><span class="o">,</span> <span class="n">Type</span> <span class="n">type</span><span class="o">,</span> <span class="n">PropertyNamingStrategy</span> <span class="n">propertyNamingStrategy</span><span class="o">)</span> <span class="o">{</span>
+    <span class="o">...</span>
+    <span class="k">for</span> <span class="o">(</span><span class="n">Method</span> <span class="n">method</span> <span class="o">:</span> <span class="n">clazz</span><span class="o">.</span><span class="na">getMethods</span><span class="o">())</span> <span class="o">{</span> <span class="c1">// getter methods</span>
+        <span class="n">String</span> <span class="n">methodName</span> <span class="o">=</span> <span class="n">method</span><span class="o">.</span><span class="na">getName</span><span class="o">();</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">methodName</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">continue</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">Modifier</span><span class="o">.</span><span class="na">isStatic</span><span class="o">(</span><span class="n">method</span><span class="o">.</span><span class="na">getModifiers</span><span class="o">()))</span> <span class="o">{</span>
+            <span class="k">continue</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">methodName</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="s">"get"</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">Character</span><span class="o">.</span><span class="na">isUpperCase</span><span class="o">(</span><span class="n">methodName</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="mi">3</span><span class="o">)))</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">method</span><span class="o">.</span><span class="na">getParameterTypes</span><span class="o">().</span><span class="na">length</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">continue</span><span class="o">;</span>
+            <span class="o">}</span>
+
+            <span class="c1">// 关键条件</span>
+
+            <span class="k">if</span> <span class="o">(</span><span class="n">Collection</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">isAssignableFrom</span><span class="o">(</span><span class="n">method</span><span class="o">.</span><span class="na">getReturnType</span><span class="o">())</span> <span class="c1">//</span>
+                <span class="o">||</span> <span class="n">Map</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">isAssignableFrom</span><span class="o">(</span><span class="n">method</span><span class="o">.</span><span class="na">getReturnType</span><span class="o">())</span> <span class="c1">//</span>
+                <span class="o">||</span> <span class="n">AtomicBoolean</span><span class="o">.</span><span class="na">class</span> <span class="o">==</span> <span class="n">method</span><span class="o">.</span><span class="na">getReturnType</span><span class="o">()</span> <span class="c1">//</span>
+                <span class="o">||</span> <span class="n">AtomicInteger</span><span class="o">.</span><span class="na">class</span> <span class="o">==</span> <span class="n">method</span><span class="o">.</span><span class="na">getReturnType</span><span class="o">()</span> <span class="c1">//</span>
+                <span class="o">||</span> <span class="n">AtomicLong</span><span class="o">.</span><span class="na">class</span> <span class="o">==</span> <span class="n">method</span><span class="o">.</span><span class="na">getReturnType</span><span class="o">()</span> <span class="c1">//</span>
+            <span class="o">)</span> <span class="o">{</span>
+                <span class="n">String</span> <span class="n">propertyName</span><span class="o">;</span>
+
+                <span class="n">JSONField</span> <span class="n">annotation</span> <span class="o">=</span> <span class="n">method</span><span class="o">.</span><span class="na">getAnnotation</span><span class="o">(</span><span class="n">JSONField</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">annotation</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">annotation</span><span class="o">.</span><span class="na">deserialize</span><span class="o">())</span> <span class="o">{</span>
+                    <span class="k">continue</span><span class="o">;</span>
+                <span class="o">}</span>
+                
+                <span class="k">if</span> <span class="o">(</span><span class="n">annotation</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">annotation</span><span class="o">.</span><span class="na">name</span><span class="o">().</span><span class="na">length</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">propertyName</span> <span class="o">=</span> <span class="n">annotation</span><span class="o">.</span><span class="na">name</span><span class="o">();</span>
+                <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                    <span class="n">propertyName</span> <span class="o">=</span> <span class="n">Character</span><span class="o">.</span><span class="na">toLowerCase</span><span class="o">(</span><span class="n">methodName</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="mi">3</span><span class="o">))</span> <span class="o">+</span> <span class="n">methodName</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="mi">4</span><span class="o">);</span>
+                <span class="o">}</span>
+                
+                <span class="n">FieldInfo</span> <span class="n">fieldInfo</span> <span class="o">=</span> <span class="n">getField</span><span class="o">(</span><span class="n">fieldList</span><span class="o">,</span> <span class="n">propertyName</span><span class="o">);</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">fieldInfo</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="k">continue</span><span class="o">;</span>
+                <span class="o">}</span>
+
+                <span class="k">if</span> <span class="o">(</span><span class="n">propertyNamingStrategy</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">propertyName</span> <span class="o">=</span> <span class="n">propertyNamingStrategy</span><span class="o">.</span><span class="na">translate</span><span class="o">(</span><span class="n">propertyName</span><span class="o">);</span>
+                <span class="o">}</span>
+                
+                <span class="n">add</span><span class="o">(</span><span class="n">fieldList</span><span class="o">,</span> <span class="k">new</span> <span class="n">FieldInfo</span><span class="o">(</span><span class="n">propertyName</span><span class="o">,</span> <span class="n">method</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="n">clazz</span><span class="o">,</span> <span class="n">type</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">annotation</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">));</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="o">...</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>接下来，FastJson会语义分析JSON字符串。根据字段key，调用filedList数组中存储的相应方法进行变量初始化赋值。具体逻辑在 parseField() 中实现：</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">JavaBeanDeserializer</span>
+
+<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">parseField</span><span class="o">(</span><span class="n">DefaultJSONParser</span> <span class="n">parser</span><span class="o">,</span> <span class="n">String</span> <span class="n">key</span><span class="o">,</span> <span class="n">Object</span> <span class="n">object</span><span class="o">,</span> <span class="n">Type</span> <span class="n">objectType</span><span class="o">,</span>
+                              <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">fieldValues</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">JSONLexer</span> <span class="n">lexer</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="na">lexer</span><span class="o">;</span> <span class="c1">// xxx</span>
+
+        <span class="n">FieldDeserializer</span> <span class="n">fieldDeserializer</span> <span class="o">=</span> <span class="n">smartMatch</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
+
+        <span class="o">...</span>
+
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<p>这里调用了一个神奇的 smartMatch() 方法，smartMatch()时会替换掉字段key中的<code class="highlighter-rouge">_</code>，从而 _outputProperties 和 getOutputProperties() 可以成功关联上。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">JavaBeanDeserializer</span>
+
+<span class="kd">public</span> <span class="n">FieldDeserializer</span> <span class="nf">smartMatch</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">fieldDeserializer</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kt">boolean</span> <span class="n">snakeOrkebab</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+            <span class="n">String</span> <span class="n">key2</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">key</span><span class="o">.</span><span class="na">length</span><span class="o">();</span> <span class="o">++</span><span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+                <span class="kt">char</span> <span class="n">ch</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">ch</span> <span class="o">==</span> <span class="sc">'_'</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">snakeOrkebab</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+                    <span class="n">key2</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="na">replaceAll</span><span class="o">(</span><span class="s">"_"</span><span class="o">,</span> <span class="s">""</span><span class="o">);</span>
+                    <span class="k">break</span><span class="o">;</span>
+                <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">ch</span> <span class="o">==</span> <span class="sc">'-'</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">snakeOrkebab</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+                    <span class="n">key2</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="na">replaceAll</span><span class="o">(</span><span class="s">"-"</span><span class="o">,</span> <span class="s">""</span><span class="o">);</span>
+                    <span class="k">break</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">snakeOrkebab</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">fieldDeserializer</span> <span class="o">=</span> <span class="n">getFieldDeserializer</span><span class="o">(</span><span class="n">key2</span><span class="o">);</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">fieldDeserializer</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="k">for</span> <span class="o">(</span><span class="n">FieldDeserializer</span> <span class="n">fieldDeser</span> <span class="o">:</span> <span class="n">sortedFieldDeserializers</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="k">if</span> <span class="o">(</span><span class="n">fieldDeser</span><span class="o">.</span><span class="na">fieldInfo</span><span class="o">.</span><span class="na">name</span><span class="o">.</span><span class="na">equalsIgnoreCase</span><span class="o">(</span><span class="n">key2</span><span class="o">))</span> <span class="o">{</span>
+                            <span class="n">fieldDeserializer</span> <span class="o">=</span> <span class="n">fieldDeser</span><span class="o">;</span>
+                            <span class="k">break</span><span class="o">;</span>
+                        <span class="o">}</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+</code></pre></div></div>
+
+<h2 id="为什么需要对_bytecodes进行base64编码">为什么需要对_bytecodes进行Base64编码</h2>
+
+<p>细心的你可以发现，PoC中的 _bytecodes 字段是经过Base64编码的。为什么要这么做呢？
+分析FastJson对JSON字符串的解析过程，原来FastJson提取byte[]数组字段值时会进行Base64解码，所以我们构造payload时需要对 _bytecodes 进行Base64处理。FastJson的处理代码如下：</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ObjectArrayCodec</span>
+    <span class="kd">public</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">T</span> <span class="nf">deserialze</span><span class="o">(</span><span class="n">DefaultJSONParser</span> <span class="n">parser</span><span class="o">,</span> <span class="n">Type</span> <span class="n">type</span><span class="o">,</span> <span class="n">Object</span> <span class="n">fieldName</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">final</span> <span class="n">JSONLexer</span> <span class="n">lexer</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="na">lexer</span><span class="o">;</span>
+        <span class="c1">// ......省略部分代码</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">lexer</span><span class="o">.</span><span class="na">token</span><span class="o">()</span> <span class="o">==</span> <span class="n">JSONToken</span><span class="o">.</span><span class="na">LITERAL_STRING</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kt">byte</span><span class="o">[]</span> <span class="n">bytes</span> <span class="o">=</span> <span class="n">lexer</span><span class="o">.</span><span class="na">bytesValue</span><span class="o">();</span>  <span class="c1">// ... 在这里解析byte数组值</span>
+            <span class="n">lexer</span><span class="o">.</span><span class="na">nextToken</span><span class="o">(</span><span class="n">JSONToken</span><span class="o">.</span><span class="na">COMMA</span><span class="o">);</span>
+            <span class="k">return</span> <span class="o">(</span><span class="n">T</span><span class="o">)</span> <span class="n">bytes</span><span class="o">;</span>
+        <span class="o">}</span>
+
+<span class="c1">// 接着调用JSONScanner.bytesValue()</span>
+
+<span class="n">JSONScanner</span>
+    <span class="kd">public</span> <span class="kt">byte</span><span class="o">[]</span> <span class="nf">bytesValue</span><span class="o">()</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="n">IOUtils</span><span class="o">.</span><span class="na">decodeBase64</span><span class="o">(</span><span class="n">text</span><span class="o">,</span> <span class="n">np</span> <span class="o">+</span> <span class="mi">1</span><span class="o">,</span> <span class="n">sp</span><span class="o">);</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+      <footer class="entry-meta">
+        <span class="entry-tags" style="color:black;font-size:13px;margin-bottom: 0px;">欢迎订阅我的微信公众号</span>
+        <img src="/images/secengine.jpg" alt="welcome subscribe"/>
+        <span class="entry-tags"><a href="https://kingx.me/tags/#Vulnerability" title="Pages tagged Vulnerability" class="tag"><span class="term">Vulnerability</span></a><a href="https://kingx.me/tags/#Java" title="Pages tagged Java" class="tag"><span class="term">Java</span></a></span>
+        
+        <div class="social-share">
+  <ul class="socialcount socialcount-small inline-list">
+    <li class="weibo"><a href="http://service.weibo.com/share/share.php?title=分享KINGX的文章《FastJson反序列化漏洞利用的三个细节 - TemplatesImpl的利用链》&url=https://kingx.me/Details-in-FastJson-RCE.html&source=bookmark" title="Share on Weibo" target="_blank"><span class="count"><i class="fa fa-weibo"></i> WEIBO</span></a></li>
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=https://kingx.me/Details-in-FastJson-RCE.html" title="Share on Facebook"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=https://kingx.me/Details-in-FastJson-RCE.html" title="Share on Twitter"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <li class="googleplus"><a href="https://plus.google.com/share?url=https://kingx.me/Details-in-FastJson-RCE.html" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li>
+  </ul>
+</div><!-- /.social-share -->
+<!--
+<div class="ds-share" data-thread-key="/Details-in-FastJson-RCE" data-title="FastJson反序列化漏洞利用的三个细节 - TemplatesImpl的利用链" data-images="" data-content="FastJson反序列化漏洞利用的三个细节 - TemplatesImpl的利用链" data-url="https://kingx.me/Details-in-FastJson-RCE.html">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+</div>
+-->
+      </footer>
+    </div><!-- /.entry-content -->
+    
+    
+
+    <div class="read-more">
+  
+    <div class="read-more-header">
+      
+        <a href="https://kingx.me/spring-messaging-rce-cve-2018-1270.html" class="read-more-btn">Read More</a>
+      
+    </div><!-- /.read-more-header -->
+    <div class="read-more-content">
+      
+      <h3><a href="https://kingx.me/Restrictions-and-Bypass-of-JNDI-Manipulations-RCE.html" title="如何绕过高版本JDK的限制进行JNDI注入利用">如何绕过高版本JDK的限制进行JNDI注入利用</a></h3>
+      <p>Restrictions of JNDI Manipulation RCE & Bypass <a href="https://kingx.me/Restrictions-and-Bypass-of-JNDI-Manipulations-RCE.html">Continue reading</a></p>
+      
+    </div><!-- /.read-more-content -->
+  
+  <div class="read-more-list">
+    
+      
+      <div class="list-item">
+        <h4><a href="https://kingx.me/Thinking-about-Red-Teaming.html" title="【红蓝对抗】大型互联网企业安全蓝军建设">【红蓝对抗】大型互联网企业安全蓝军建设</a></h4>
+        <span>Published on March 12, 2019</span>
+      </div><!-- /.list-item -->
+      
+    
+      
+      <div class="list-item">
+        <h4><a href="https://kingx.me/CobaltStrike-Patch.html" title="内网渗透有它就够了，手把手教你分析CobaltStrike3.12">内网渗透有它就够了，手把手教你分析CobaltStrike3.12</a></h4>
+        <span>Published on November 19, 2018</span>
+      </div><!-- /.list-item -->
+      
+    
+  </div><!-- /.read-more-list -->
+</div><!-- /.read-more -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo">
+    <span>&copy; 2019 KINGX. Powered by Jekyll using the HPSTR Theme.</span>
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+<!-- <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="https://kingx.me/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="https://kingx.me/assets/js/scripts.min.js"></script>
+
+
+
+
+<script>
+
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  if(location.host=="kingx.me"){
+    hm.src = "https://hm.baidu.com/hm.js?d11d8512e0bc6992b9c9bbf2d266ce31";
+  }else if(location.host=="kingx.sinaapp.com"){
+    hm.src = "https://hm.baidu.com/hm.js?d1b3dbd97b73868454f102755fdf51ba";
+  }
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Busuanzi Analytics -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+	        
+
+</body>
+</html>

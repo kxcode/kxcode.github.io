@@ -1,0 +1,330 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>OAuth2安全问题的一些思考 &#8211; KINGX</title>
+<meta name="description" content="thoughts of auth2 security">
+<meta name="keywords" content="oauth, thoughts">
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://kingx.me/images/">
+<meta name="twitter:title" content="OAuth2安全问题的一些思考">
+<meta name="twitter:description" content="thoughts of auth2 security">
+<meta name="twitter:creator" content="@https://example.com">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OAuth2安全问题的一些思考">
+<meta property="og:description" content="thoughts of auth2 security">
+<meta property="og:url" content="https://kingx.me/about-oauth2-security.html">
+<meta property="og:site_name" content="KINGX">
+
+
+
+
+
+<link rel="canonical" href="https://kingx.me/about-oauth2-security.html">
+<link href="https://kingx.me/feed.xml" type="application/atom+xml" rel="alternate" title="KINGX Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="https://kingx.me/assets/css/main.css">
+<!-- Webfonts -->
+<link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel="stylesheet" type="text/css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script src="https://kingx.me/assets/js/vendor/modernizr-2.6.2.custom.min.js"></script>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="https://kingx.me/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="https://kingx.me/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="https://kingx.me/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://kingx.me/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://kingx.me/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://kingx.me/images/apple-touch-icon-144x144-precomposed.png">
+
+
+
+</head>
+
+<body id="post" >
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+<nav id="dl-menu" class="dl-menuwrapper" role="navigation">
+	<button class="dl-trigger">Open Menu</button>
+	<ul class="dl-menu">
+		<li><a href="https://kingx.me/">Home</a></li>
+		<li>
+			<a href="#">About</a>
+			<ul class="dl-submenu">
+				<li>
+					<img src="https://kingx.me/images/avatar.jpg" alt="KINGX photo" class="author-photo">
+					<h4>KINGX</h4>
+					<p>What is Security</p>
+				</li>
+				<li><a href="https://kingx.me/about/"><span class="btn btn-inverse">Learn More</span></a></li>
+				<li>
+					<a href="mailto:root#kingx.me"><i class="fa fa-fw fa-envelope"></i> Email</a>
+				</li>
+				<li>
+					<a href="https://example.com"><i class="fa fa-fw fa-twitter"></i> Twitter</a>
+				</li>
+				<li>
+					<a href="http://example.com"><i class="fa fa-fw fa-weibo"></i> Weibo</a>
+				</li>
+				
+				
+				
+				<li>
+					<a href="https://example.com"><i class="fa fa-fw fa-github"></i> GitHub</a>
+				</li>
+				
+				
+				
+				
+			</ul><!-- /.dl-submenu -->
+		</li>
+		<!-- <li>
+			<a href="#">Posts</a>
+			<ul class="dl-submenu">
+				<li><a href="https://kingx.me/posts/">All Posts</a></li>
+				<li><a href="https://kingx.me/tags/">All Tags</a></li>
+			</ul>
+		</li> -->
+		
+	    
+	    <li><a href="https://kingx.me/latest-events/" >Security Incidents</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/latest-vulns/" >Vulnerabilities</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/pentest-tools/" >Red Team</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/posts/" >Archives</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/tags/" >Tags</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/links/" >Links</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/feed.xml" >RSS</a></li>
+	  
+	</ul><!-- /.dl-menu -->
+</nav><!-- /.dl-menuwrapper -->
+
+
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    <header class="header-title">
+      <div class="header-title-wrap">
+        
+          <h1 class="entry-title"><a href="https://kingx.me/about-oauth2-security.html" rel="bookmark" title="OAuth2安全问题的一些思考">OAuth2安全问题的一些思考</a></h1>
+        
+        <h2><span class="entry-date date published"><time datetime="2012-10-25T00:00:00-04:00">October 25, 2012</time></span></h2>
+        
+        <p class="entry-reading-time">
+          <i class="fa fa-clock-o"></i>
+          
+Reading time ~1 minute
+          
+          <span id="busuanzi_container_page_pv">
+             / Page View <span id="busuanzi_value_page_pv">0</span> / Site Visitor <span id="busuanzi_value_site_uv">0</span>
+          </span>
+          
+        </p><!-- /.entry-reading-time -->
+        
+
+      </div><!-- /.header-title-wrap -->
+    </header>
+    <div class="entry-content">
+      <span class="entry-tags" style="color:red;font-size:13px;margin-bottom: 0px;">「声明：本博客中涉及到的相关漏洞均为官方已经公开并修复的漏洞，涉及到的安全技术也仅用于企业安全建设和安全对抗研究。本文仅限业内技术研究与讨论，严禁用于非法用途，否则产生的一切后果自行承担。」</span>
+      <p>OAuth是一种简单开放的授权协议，使得第三方应用可以在用户授权的情况下获得accessToken，随后第三方应用用它访问用户的资料，而无需获得用户的账户密码。</p>
+
+<p>目前国内大部分互联网公司提供的API都通过OAuth进行第三方应用授权。如：豆瓣、腾讯、新浪等。另外利用微博账号、SNS账号等的快速登录，可以使中小型网站轻松获得新用户，用户无需注册流程直接登录，提升用户登录率。</p>
+
+<p>刚接触OAuth时，有点不靠谱的感觉，虽然说OAuth授权不用我们透露自己的账号，但是授权之后第三方应用不用我们的账号就可以直接读写我们的信息。而很多小应用往往会期望获得远远超过自身需要的权限，这种感觉就好像有点引狼入室的感觉。谁知道那些应用什么时候会窃取我们的个人资料干些什么勾当，发广告还是小的。</p>
+
+<blockquote>
+  <p>对于开发者开说，尽量获取到用户账户的使用权限似乎是一种‘追求’，而不管用不用得到，这不禁让人想起了 Android 移动应用上的普遍高权限。</p>
+</blockquote>
+
+<p>最近在freebuf上看到了一个关于OAuth2安全性的讨论。
+对于一些提供快速登录的网站，往往会将微博等账号与该网站账户进行绑定的功能，这样就有可能存在一些CSRF隐患。
+这里大致说一下OAuth2的授权流程：</p>
+
+<p>第三方应用向服务提供商请求授权，将用户重定向到该授权页面。提交到该页面的参数包括</p>
+
+<ul>
+  <li>client_id：标志该应用的ID</li>
+  <li>redirect_uri：授权后的回调地址</li>
+  <li>response_type：code 或者 token</li>
+  <li>scope：申请权限的范围.</li>
+  <li>state：用来维护请求和回调状态的附加字符串，在授权完成回调时会附加此参数，应用可以根据此字符串来判断上下文关系。</li>
+</ul>
+
+<p>用户在该授权页面上选择授权与否，如果授权的话再重定向到回调页面，并返回一个authorization_code
+应用再通过该authorization_code向服务提供商请求accessToken</p>
+
+<p>存在一种攻击情景是，使用OAuth机制+能够向配置中添加OAuth提供者的信息，攻击OAuth：</p>
+
+<blockquote>
+  <ol>
+    <li>找到一个第三方应用（网站）A，点击“使用B网站账号登录”。然后用你的B网站账号登录一下，点击授权后，拦截数据包。你需要从B网站那里得到回调但先不要访问它。</li>
+    <li>不要访问回调的URL(类似于：http://pinterest.com/connect/facebook/?code=xxxxxxxx),仅仅把它放在&lt;img src=”URL”&gt;或&lt;iframe&gt;标签下保存起来就可以了。</li>
+    <li>现在你需要做的是诱使用户(某一特定的用户或者A网站上的随机的用户)点击该链接，发送HTTP请求到你的callback URL。
+目标必须在发送HTTP请求时处于登录状态。 做得好，你的B网站账户已经和目标在A网站上的账户连接上了。
+现在，按下“Log In with that OAuth Provider”-你现在直接可以登录到目标在A的账户上了。享受吧：读取私信，发送评论，更改支付细节额，做任何你想做的事情。
+当你玩儿够了之后你只要和那个OAuth提供商断开并登出就可以了。</li>
+  </ol>
+</blockquote>
+
+<p>攻击思路是攻击者将自己的服务提供商的账号进行授权，到第二步进行重定向时终止，然后实施类似于CSRF的攻击，将该URL发送给一个已经登录第三方网站的受害者，使得他点击后完成OAuth流程，最后攻击者的授权账号与受害者第三方网站账号进行了绑定，最后攻击者可以对其账号进行非法操作。如果网站没有使用判断上下文环境的参数state，而且回调地址是不存在随机hash的固定地址，那么可能存在这种风险。博文中也列出了很多漏洞站点。</p>
+
+<p>根据文中步骤对国内一些网站进行了少量的测试。结果显示，国内站点已经考虑到了这方面的安全风险并做了一定的措施。</p>
+
+<p>115网盘提供的使用第三方合作伙伴豆瓣账号登陆的功能，在同意授权之后，重定向回115时，即使用户之前处于登陆状态，也会要求用户再次输入账号密码，才能绑定。
+虾米使用QQ账号登陆，实施这种CSRF时会有openid错误提示。</p>
+
+<p>说到底，OAuth也只是进行授权(authorization),而非认证(authentication)。很多风险也是由于开发者将授权与认证相混淆导致的。OAuth本身也提供了一个用于判断上下文的参数state，对于这里的state可以使用一个随机hash值，网站对账号添加绑定时，可以验证session[state]与提交的state参数，或许会使用户体验有所提升,不用进行很多的授权和登陆动作。</p>
+
+<p><strong>Reference</strong></p>
+
+<p><a href="http://www.freebuf.com/articles/web/5997.html">http://www.freebuf.com/articles/web/5997.html</a></p>
+
+<p><a href="http://www.freebuf.com/articles/1381.html">http://www.freebuf.com/articles/1381.html</a></p>
+
+<p><a href="http://homakov.blogspot.com/2012/07/saferweb-most-common-oauth2.html">http://homakov.blogspot.com/2012/07/saferweb-most-common-oauth2.html</a></p>
+
+      <footer class="entry-meta">
+        <span class="entry-tags" style="color:black;font-size:13px;margin-bottom: 0px;">欢迎订阅我的微信公众号</span>
+        <img src="/images/secengine.jpg" alt="welcome subscribe"/>
+        <span class="entry-tags"><a href="https://kingx.me/tags/#oauth" title="Pages tagged oauth" class="tag"><span class="term">oauth</span></a><a href="https://kingx.me/tags/#thoughts" title="Pages tagged thoughts" class="tag"><span class="term">thoughts</span></a></span>
+        <span>Updated on <span class="entry-date date updated"><time datetime="2016-04-10">April 10, 2016</time></span></span>
+        <span class="author vcard"><span class="fn">KINGX</span></span>
+        <div class="social-share">
+  <ul class="socialcount socialcount-small inline-list">
+    <li class="weibo"><a href="http://service.weibo.com/share/share.php?title=分享KINGX的文章《OAuth2安全问题的一些思考》&url=https://kingx.me/about-oauth2-security.html&source=bookmark" title="Share on Weibo" target="_blank"><span class="count"><i class="fa fa-weibo"></i> WEIBO</span></a></li>
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=https://kingx.me/about-oauth2-security.html" title="Share on Facebook"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=https://kingx.me/about-oauth2-security.html" title="Share on Twitter"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <li class="googleplus"><a href="https://plus.google.com/share?url=https://kingx.me/about-oauth2-security.html" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li>
+  </ul>
+</div><!-- /.social-share -->
+<!--
+<div class="ds-share" data-thread-key="/about-oauth2-security" data-title="OAuth2安全问题的一些思考" data-images="" data-content="OAuth2安全问题的一些思考" data-url="https://kingx.me/about-oauth2-security.html">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+</div>
+-->
+      </footer>
+    </div><!-- /.entry-content -->
+    
+    
+
+    <div class="read-more">
+  
+    <div class="read-more-header">
+      
+        <a href="https://kingx.me" class="read-more-btn">Read More</a>
+      
+    </div><!-- /.read-more-header -->
+    <div class="read-more-content">
+      
+      <h3><a href="https://kingx.me/Restrictions-and-Bypass-of-JNDI-Manipulations-RCE.html" title="如何绕过高版本JDK的限制进行JNDI注入利用">如何绕过高版本JDK的限制进行JNDI注入利用</a></h3>
+      <p>Restrictions of JNDI Manipulation RCE & Bypass <a href="https://kingx.me/Restrictions-and-Bypass-of-JNDI-Manipulations-RCE.html">Continue reading</a></p>
+      
+    </div><!-- /.read-more-content -->
+  
+  <div class="read-more-list">
+    
+      
+      <div class="list-item">
+        <h4><a href="https://kingx.me/Thinking-about-Red-Teaming.html" title="【红蓝对抗】大型互联网企业安全蓝军建设">【红蓝对抗】大型互联网企业安全蓝军建设</a></h4>
+        <span>Published on March 12, 2019</span>
+      </div><!-- /.list-item -->
+      
+    
+      
+      <div class="list-item">
+        <h4><a href="https://kingx.me/CobaltStrike-Patch.html" title="内网渗透有它就够了，手把手教你分析CobaltStrike3.12">内网渗透有它就够了，手把手教你分析CobaltStrike3.12</a></h4>
+        <span>Published on November 19, 2018</span>
+      </div><!-- /.list-item -->
+      
+    
+  </div><!-- /.read-more-list -->
+</div><!-- /.read-more -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo">
+    <span>&copy; 2019 KINGX. Powered by Jekyll using the HPSTR Theme.</span>
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+<!-- <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="https://kingx.me/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="https://kingx.me/assets/js/scripts.min.js"></script>
+
+
+
+
+<script>
+
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  if(location.host=="kingx.me"){
+    hm.src = "https://hm.baidu.com/hm.js?d11d8512e0bc6992b9c9bbf2d266ce31";
+  }else if(location.host=="kingx.sinaapp.com"){
+    hm.src = "https://hm.baidu.com/hm.js?d1b3dbd97b73868454f102755fdf51ba";
+  }
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Busuanzi Analytics -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+	        
+
+</body>
+</html>

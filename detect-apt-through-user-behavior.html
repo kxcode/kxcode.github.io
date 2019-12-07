@@ -1,0 +1,423 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>基于行为相似性度量检测APT活动 &#8211; KINGX</title>
+<meta name="description" content="Data finds abnormal">
+<meta name="keywords" content="DataScience, MachineLearning, APT">
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://kingx.me/images/">
+<meta name="twitter:title" content="基于行为相似性度量检测APT活动">
+<meta name="twitter:description" content="Data finds abnormal">
+<meta name="twitter:creator" content="@https://example.com">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于行为相似性度量检测APT活动">
+<meta property="og:description" content="Data finds abnormal">
+<meta property="og:url" content="https://kingx.me/detect-apt-through-user-behavior.html">
+<meta property="og:site_name" content="KINGX">
+
+
+
+
+
+<link rel="canonical" href="https://kingx.me/detect-apt-through-user-behavior.html">
+<link href="https://kingx.me/feed.xml" type="application/atom+xml" rel="alternate" title="KINGX Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="https://kingx.me/assets/css/main.css">
+<!-- Webfonts -->
+<link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel="stylesheet" type="text/css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script src="https://kingx.me/assets/js/vendor/modernizr-2.6.2.custom.min.js"></script>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="https://kingx.me/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="https://kingx.me/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="https://kingx.me/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://kingx.me/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://kingx.me/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://kingx.me/images/apple-touch-icon-144x144-precomposed.png">
+
+
+
+
+<style type="text/css">body {background-image:url(https://kingx.me/images/triangular.png);}</style>
+
+
+</head>
+
+<body id="post" >
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+<nav id="dl-menu" class="dl-menuwrapper" role="navigation">
+	<button class="dl-trigger">Open Menu</button>
+	<ul class="dl-menu">
+		<li><a href="https://kingx.me/">Home</a></li>
+		<li>
+			<a href="#">About</a>
+			<ul class="dl-submenu">
+				<li>
+					<img src="https://kingx.me/images/avatar.jpg" alt="KINGX photo" class="author-photo">
+					<h4>KINGX</h4>
+					<p>What is Security</p>
+				</li>
+				<li><a href="https://kingx.me/about/"><span class="btn btn-inverse">Learn More</span></a></li>
+				<li>
+					<a href="mailto:root#kingx.me"><i class="fa fa-fw fa-envelope"></i> Email</a>
+				</li>
+				<li>
+					<a href="https://example.com"><i class="fa fa-fw fa-twitter"></i> Twitter</a>
+				</li>
+				<li>
+					<a href="http://example.com"><i class="fa fa-fw fa-weibo"></i> Weibo</a>
+				</li>
+				
+				
+				
+				<li>
+					<a href="https://example.com"><i class="fa fa-fw fa-github"></i> GitHub</a>
+				</li>
+				
+				
+				
+				
+			</ul><!-- /.dl-submenu -->
+		</li>
+		<!-- <li>
+			<a href="#">Posts</a>
+			<ul class="dl-submenu">
+				<li><a href="https://kingx.me/posts/">All Posts</a></li>
+				<li><a href="https://kingx.me/tags/">All Tags</a></li>
+			</ul>
+		</li> -->
+		
+	    
+	    <li><a href="https://kingx.me/latest-events/" >Security Incidents</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/latest-vulns/" >Vulnerabilities</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/pentest-tools/" >Red Team</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/posts/" >Archives</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/tags/" >Tags</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/links/" >Links</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/feed.xml" >RSS</a></li>
+	  
+	</ul><!-- /.dl-menu -->
+</nav><!-- /.dl-menuwrapper -->
+
+
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    <header class="header-title">
+      <div class="header-title-wrap">
+        
+          <h1 class="entry-title"><a href="https://kingx.me/detect-apt-through-user-behavior.html" rel="bookmark" title="基于行为相似性度量检测APT活动">基于行为相似性度量检测APT活动</a></h1>
+        
+        <h2><span class="entry-date date published"><time datetime="2017-12-04T00:00:00-05:00">December 04, 2017</time></span></h2>
+        
+        <p class="entry-reading-time">
+          <i class="fa fa-clock-o"></i>
+          
+Reading time ~1 minute
+          
+          <span id="busuanzi_container_page_pv">
+             / Page View <span id="busuanzi_value_page_pv">0</span> / Site Visitor <span id="busuanzi_value_site_uv">0</span>
+          </span>
+          
+        </p><!-- /.entry-reading-time -->
+        
+
+      </div><!-- /.header-title-wrap -->
+    </header>
+    <div class="entry-content">
+      <span class="entry-tags" style="color:red;font-size:13px;margin-bottom: 0px;">「声明：本博客中涉及到的相关漏洞均为官方已经公开并修复的漏洞，涉及到的安全技术也仅用于企业安全建设和安全对抗研究。本文仅限业内技术研究与讨论，严禁用于非法用途，否则产生的一切后果自行承担。」</span>
+      <h2 id="1-概述">1. 概述</h2>
+
+<p>在基于大数据的安全防御建设中，为了从数据挖掘出异常行为，通常我们需要计算不同个体之间的差异，从而通过相似性和类别来判定异常行为和正常行为，找出偏离用户行为基线的异常点。数据科学中有很多常用的”距离“、”相似性“的计算方法。我们可以根据数据特性而采用不同的度量方法。比如：</p>
+
+<ul>
+  <li>空间：欧氏距离</li>
+  <li>路径：曼哈顿距离</li>
+  <li>国际象棋国王：切比雪夫距离</li>
+</ul>
+
+<p>以上三种的统一形式: 闵可夫斯基距离</p>
+
+<ul>
+  <li>加权：标准化欧氏距离</li>
+  <li>排除量纲和依存：马氏距离</li>
+  <li>向量差距：夹角余弦</li>
+  <li>编码差别：汉明距离</li>
+  <li>集合近似度：杰卡德类似系数与距离</li>
+  <li>相关：相关系数与相关距离</li>
+</ul>
+
+<p>定义一个距离函数，需要满足几个准则：</p>
+
+<ol>
+  <li>仅到自己的距离为零</li>
+  <li>距离非负</li>
+  <li>三角形法则，两边之和大于第三边</li>
+</ol>
+
+<h2 id="2-余弦相似度向量内积">2. 余弦相似度（向量内积）</h2>
+
+<p>适合高维度向量vectors的相似度计算。两个向量的Cosine距离就是这两个向量之间的夹角。
+Cosine值越接近0表示夹角越大，越接近于1表示夹角越小。</p>
+
+<p>http://www.cnblogs.com/chaosimple/p/3160839.html</p>
+
+<p>余弦相似度，又称为余弦相似性，是通过计算两个向量的夹角余弦值来评估他们的相似度。余弦相似度将向量根据坐标值，绘制到向量空间中，如最常见的二维空间。</p>
+
+<p>将向量根据坐标值，绘制到向量空间中。如最常见的二维空间。
+　　
+求得他们的夹角，并得出夹角对应的余弦值，此余弦值就可以用来表征，这两个向量的相似性。夹角越小，余弦值越接近于1，它们的方向更加吻合，则越相似。</p>
+
+<h3 id="计算方法">计算方法</h3>
+<p>假设两个向量，a向量是(x1,x2,x3…)   b向量是 (y1,y2,y3…)</p>
+
+<p>假设a向量是（x1, y1,…），b向量是(x2, y2,…)</p>
+
+<p>x1<em>x2+y1</em>y2+……/更号(x1^2+y1^2…)+更号(x2^2+y2^2…)</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="kn">import</span> <span class="n">cosine</span>
+<span class="n">cosine_value</span> <span class="o">=</span> <span class="mi">1</span><span class="o">-</span><span class="n">cosine</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">q</span><span class="p">)</span>	
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#-*-coding:utf-8-*-
+</span><span class="k">def</span> <span class="nf">cos</span><span class="p">(</span><span class="n">vector1</span><span class="p">,</span><span class="n">vector2</span><span class="p">):</span>
+    <span class="n">dot_product</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+    <span class="n">normA</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+    <span class="n">normB</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+    <span class="k">for</span> <span class="n">a</span><span class="p">,</span><span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">vector1</span><span class="p">,</span><span class="n">vector2</span><span class="p">):</span>
+        <span class="n">dot_product</span> <span class="o">+=</span> <span class="n">a</span><span class="o">*</span><span class="n">b</span>
+        <span class="n">normA</span> <span class="o">+=</span> <span class="n">a</span><span class="o">**</span><span class="mi">2</span>
+        <span class="n">normB</span> <span class="o">+=</span> <span class="n">b</span><span class="o">**</span><span class="mi">2</span>
+    <span class="k">if</span> <span class="n">normA</span> <span class="o">==</span> <span class="mf">0.0</span> <span class="ow">or</span> <span class="n">normB</span><span class="o">==</span><span class="mf">0.0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">dot_product</span> <span class="o">/</span> <span class="p">((</span><span class="n">normA</span><span class="o">*</span><span class="n">normB</span><span class="p">)</span><span class="o">**</span><span class="mf">0.5</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="3-欧氏距离">3. 欧氏距离</h2>
+<p>只的是在多维空间中两个点之间的真实距离，或者向量的自然长度（即该点到原点的距离）。在数学上也可以成为范数。</p>
+
+<h3 id="计算方法-1">计算方法</h3>
+<p>两个向量各个元素的差值的平方求和然后求平方根。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dist = numpy.sqrt(numpy.sum(numpy.square(vec1 - vec2)))  
+或者
+dist = numpy.linalg.norm(vec1 - vec2)
+</code></pre></div></div>
+
+<h2 id="4-kl散度相对熵-kullback-leibler-divergence">4. KL散度（相对熵） Kullback-Leibler divergence</h2>
+<p>KL散度是用来度量使用基于Q的编码来编码来自P的样本平均所需的额外的位元数，是描述两个概率分布P和Q差异的一种方法。测量两个概率分布之间的距离。可以看做是概率分布P到目标概率Q之间距离。一般情况下，P表示数据的真是分布，Q表示数据的理论分布，也可以理解为影响P分布的一种因素。计算公式为：</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>　　　　　　　　　　　　　　　　　　　　　　DKL(P</td>
+      <td> </td>
+      <td>Q) =ΣP(i)log(P(i)/Q(i))</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>KL散度是不对称的，如果希望对称：</p>
+
+<p>Ds(p1, p2) = (D(p1, p2) + D(p2, p1)) / 2</p>
+
+<p><strong>Tips:</strong></p>
+
+<p>KL散度需要满足</p>
+
+<ul>
+  <li>概率P和Q各自总和均为1</li>
+  <li>概率P(i)和Q(i)均大于0</li>
+</ul>
+
+<p>时才有定义。</p>
+
+<h3 id="计算方法-2">计算方法</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="kn">import</span> <span class="nn">scipy.stats</span>
+	<span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">970.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">]</span>
+	<span class="n">b</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">102.0</span><span class="p">,</span><span class="mf">75.625</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">]</span>
+	<span class="n">KL</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> 
+</code></pre></div></div>
+
+<p>scipy.stats.entropy(p, q) 会计算：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>S = sum(pk * log(pk / qk), axis=0).
+</code></pre></div></div>
+
+<p>除了用函数库之外，也可以自行编程实现计算：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+
+	<span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.00000001</span><span class="p">,</span><span class="mf">0.00000001</span><span class="p">,</span><span class="mf">0.00000001</span><span class="p">,</span><span class="mf">1.001</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.00000001</span><span class="p">,</span><span class="mf">0.00000001</span><span class="p">,</span><span class="mf">0.00000001</span><span class="p">,</span><span class="mf">0.00000001</span><span class="p">]</span>
+	<span class="n">b</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.00000001</span><span class="p">,</span><span class="mf">0.00000001</span><span class="p">,</span><span class="mf">0.00000001</span><span class="p">,</span><span class="mf">0.00000000001</span><span class="p">,</span><span class="mf">0.9</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.00000001</span><span class="p">,</span><span class="mf">0.00000001</span><span class="p">,</span><span class="mf">0.00000001</span><span class="p">,</span><span class="mf">0.00000001</span><span class="p">]</span>
+	<span class="c1"># 归一化
+</span>	<span class="n">pa</span> <span class="o">=</span> <span class="n">a</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+	<span class="n">pb</span> <span class="o">=</span> <span class="n">b</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+	<span class="n">KL</span> <span class="o">=</span> <span class="mf">0.0</span>
+	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+	    <span class="n">KL</span> <span class="o">+=</span> <span class="n">pa</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">pa</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">pb</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+	    <span class="c1"># print(str(px[i]) + ' ' + str(py[i]) + ' ' + str(px[i] * np.log(px[i] / py[i])))
+</span>	<span class="k">print</span><span class="p">(</span><span class="n">KL</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="适用场景">适用场景</h3>
+
+<p>《【原】浅谈KL散度（相对熵）在用户画像中的应用》https://www.cnblogs.com/charlotte77/p/5392052.html</p>
+
+<h2 id="5-k-s统计作为距离度量">5. K-S统计作为距离度量</h2>
+
+<h2 id="6-检测分布尖峰的变化">6. 检测分布尖峰的变化</h2>
+
+<h2 id="references-使用-anomalize-算法进行异常检测与威胁狩猎">References 使用 Anomalize 算法进行异常检测与威胁狩猎</h2>
+<p>https://holisticinfosec.blogspot.com/2018/06/toolsmith-133-anomaly-detection-threat.html</p>
+
+      <footer class="entry-meta">
+        <span class="entry-tags" style="color:black;font-size:13px;margin-bottom: 0px;">欢迎订阅我的微信公众号</span>
+        <img src="/images/secengine.jpg" alt="welcome subscribe"/>
+        <span class="entry-tags"><a href="https://kingx.me/tags/#DataScience" title="Pages tagged DataScience" class="tag"><span class="term">DataScience</span></a><a href="https://kingx.me/tags/#MachineLearning" title="Pages tagged MachineLearning" class="tag"><span class="term">MachineLearning</span></a><a href="https://kingx.me/tags/#APT" title="Pages tagged APT" class="tag"><span class="term">APT</span></a></span>
+        
+        <div class="social-share">
+  <ul class="socialcount socialcount-small inline-list">
+    <li class="weibo"><a href="http://service.weibo.com/share/share.php?title=分享KINGX的文章《基于行为相似性度量检测APT活动》&url=https://kingx.me/detect-apt-through-user-behavior.html&source=bookmark" title="Share on Weibo" target="_blank"><span class="count"><i class="fa fa-weibo"></i> WEIBO</span></a></li>
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=https://kingx.me/detect-apt-through-user-behavior.html" title="Share on Facebook"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=https://kingx.me/detect-apt-through-user-behavior.html" title="Share on Twitter"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <li class="googleplus"><a href="https://plus.google.com/share?url=https://kingx.me/detect-apt-through-user-behavior.html" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li>
+  </ul>
+</div><!-- /.social-share -->
+<!--
+<div class="ds-share" data-thread-key="/detect-apt-through-user-behavior" data-title="基于行为相似性度量检测APT活动" data-images="" data-content="基于行为相似性度量检测APT活动" data-url="https://kingx.me/detect-apt-through-user-behavior.html">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+</div>
+-->
+      </footer>
+    </div><!-- /.entry-content -->
+    
+    
+
+    <div class="read-more">
+  
+    <div class="read-more-header">
+      
+        <a href="https://kingx.me/Struts2-S2-052.html" class="read-more-btn">Read More</a>
+      
+    </div><!-- /.read-more-header -->
+    <div class="read-more-content">
+      
+      <h3><a href="https://kingx.me/Restrictions-and-Bypass-of-JNDI-Manipulations-RCE.html" title="如何绕过高版本JDK的限制进行JNDI注入利用">如何绕过高版本JDK的限制进行JNDI注入利用</a></h3>
+      <p>Restrictions of JNDI Manipulation RCE & Bypass <a href="https://kingx.me/Restrictions-and-Bypass-of-JNDI-Manipulations-RCE.html">Continue reading</a></p>
+      
+    </div><!-- /.read-more-content -->
+  
+  <div class="read-more-list">
+    
+      
+      <div class="list-item">
+        <h4><a href="https://kingx.me/Thinking-about-Red-Teaming.html" title="【红蓝对抗】大型互联网企业安全蓝军建设">【红蓝对抗】大型互联网企业安全蓝军建设</a></h4>
+        <span>Published on March 12, 2019</span>
+      </div><!-- /.list-item -->
+      
+    
+      
+      <div class="list-item">
+        <h4><a href="https://kingx.me/CobaltStrike-Patch.html" title="内网渗透有它就够了，手把手教你分析CobaltStrike3.12">内网渗透有它就够了，手把手教你分析CobaltStrike3.12</a></h4>
+        <span>Published on November 19, 2018</span>
+      </div><!-- /.list-item -->
+      
+    
+  </div><!-- /.read-more-list -->
+</div><!-- /.read-more -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo">
+    <span>&copy; 2019 KINGX. Powered by Jekyll using the HPSTR Theme.</span>
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+<!-- <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="https://kingx.me/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="https://kingx.me/assets/js/scripts.min.js"></script>
+
+
+
+
+<script>
+
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  if(location.host=="kingx.me"){
+    hm.src = "https://hm.baidu.com/hm.js?d11d8512e0bc6992b9c9bbf2d266ce31";
+  }else if(location.host=="kingx.sinaapp.com"){
+    hm.src = "https://hm.baidu.com/hm.js?d1b3dbd97b73868454f102755fdf51ba";
+  }
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Busuanzi Analytics -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+	        
+
+</body>
+</html>
