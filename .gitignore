@@ -4,6 +4,8 @@
 _site/
 *.bak
 *unpublish.md
+*unpublish*
 bundle/
 serve.sh
 serve-docker.sh
+*.sh
