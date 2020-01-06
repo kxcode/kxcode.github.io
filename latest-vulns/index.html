@@ -165,6 +165,14 @@ Reading time ~6 minutes
       <span class="entry-tags" style="color:red;font-size:13px;margin-bottom: 0px;">「声明：本博客中涉及到的相关漏洞均为官方已经公开并修复的漏洞，涉及到的安全技术也仅用于企业安全建设和安全对抗研究。本文仅限业内技术研究与讨论，严禁用于非法用途，否则产生的一切后果自行承担。」</span>
       <h2 id="2019">2019</h2>
 <ol>
+  <li><strong>【20191220】Apache Log4j 1.2 SocketServer 反序列化漏洞CVE-2019-17571</strong>
+    <ul>
+      <li>漏洞信息：<a href="https://seclists.org/oss-sec/2019/q4/167">https://seclists.org/oss-sec/2019/q4/167</a></li>
+      <li>影响范围：Apache Log4j 1.2.27及以下版本都受影响，在Log4j 2.8.2中修复了这个漏洞（CVE-2017-5645）。</li>
+      <li>漏洞分析：<a href="https://mp.weixin.qq.com/s/VgYiuFl9PsiKJt0_t0ae7w">https://mp.weixin.qq.com/s/VgYiuFl9PsiKJt0_t0ae7w</a></li>
+      <li>漏洞描述：在2.8.2之前的2.x版本都存在反序列化漏洞（CVE-2017-5645），然而在1.x版本同样存在这个反序列化漏洞，分配漏洞编号为CVE-2019-17571。</li>
+    </ul>
+  </li>
   <li><strong>【20191119】Apache Solr默认配置对外开放JMX端口导致命令执行CVE-2019-12409</strong>
     <ul>
       <li><a href="https://www.mail-archive.com/announce@apache.org/msg05559.html">https://www.mail-archive.com/announce@apache.org/msg05559.html</a></li>
@@ -1196,7 +1204,7 @@ https://github.com/rapid7/metasploit-framework/blob/22503209d9b8aa0a0e21ed60d9a0
 
 <div class="footer-wrapper">
   <footer role="contentinfo">
-    <span>&copy; 2019 KINGX. Powered by Jekyll using the HPSTR Theme.</span>
+    <span>&copy; 2020 KINGX. Powered by Jekyll using the HPSTR Theme.</span>
   </footer>
 </div><!-- /.footer-wrapper -->
 
