@@ -168,7 +168,24 @@ Reading time ~6 minutes
 
 <h2 id="2020">2020</h2>
 <ol>
-  <li><strong>【20190115】Weblogic命令执行漏洞CVE-2020-2546、CVE-2020-2551</strong>
+  <li><strong>【20200220】Tomcat AJP文件包含漏洞CVE-2020-1938</strong>
+    <ul>
+      <li>漏洞分析：<a href="https://mp.weixin.qq.com/s/GzqLkwlIQi_i3AVIXn59FQ">https://mp.weixin.qq.com/s/GzqLkwlIQi_i3AVIXn59FQ</a></li>
+      <li>PoC：<a href="https://github.com/YDHCUI/CNVD-2020-10487-Tomcat-Ajp-lfi/blob/master/CNVD-2020-10487-Tomcat-Ajp-lfi.py">https://github.com/YDHCUI/CNVD-2020-10487-Tomcat-Ajp-lfi/blob/master/CNVD-2020-10487-Tomcat-Ajp-lfi.py</a></li>
+      <li>PoC：<a href="https://github.com/threedr3am/learnjavabug/commit/6336bad2a7fb618cb5b982de77086b871dbed715">https://github.com/threedr3am/learnjavabug/commit/6336bad2a7fb618cb5b982de77086b871dbed715</a></li>
+      <li>影响版本：Apache Tomcat 9.x &lt; 9.0.31</li>
+      <li>Apache Tomcat 8.x &lt; 8.5.51</li>
+      <li>Apache Tomcat 7.x &lt; 7.0.100</li>
+      <li>Apache Tomcat 6.x</li>
+    </ul>
+  </li>
+  <li><strong>【202002】Dubbo HTTP反序列化漏洞CVE-2019-17564​</strong>
+    <ul>
+      <li>Dubbo是一个RPC框架，支持多种交互协议。漏洞没什么好说的，一个反序列化输入点，有Gadget就能打。</li>
+      <li>Dubbo HTTP借助了 Spring 提供的 HttpInvoker 封装了 refer 和 exporter 的逻辑。HttpInvoker中直接readObject()没什么防护。访问Dubbo HTTP的RPC接口地址，直接Post反序列化payload搞定。</li>
+    </ul>
+  </li>
+  <li><strong>【20200115】Weblogic命令执行漏洞CVE-2020-2546、CVE-2020-2551</strong>
     <ul>
       <li>漏洞信息：<a href="https://mp.weixin.qq.com/s/Q-ZtX-7vt0JnjNbBmyuG0w">https://mp.weixin.qq.com/s/Q-ZtX-7vt0JnjNbBmyuG0w</a></li>
       <li>CVE-2020-2546，通过T3协议实现利用、攻击者可通过此漏洞实现远程代码执行</li>
