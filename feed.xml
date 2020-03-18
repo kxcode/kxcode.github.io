@@ -4,7 +4,7 @@
 <generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="https://kingx.me/feed.xml" />
 <link rel="alternate" type="text/html" href="https://kingx.me" />
-<updated>2020-03-11T01:05:40-04:00</updated>
+<updated>2020-03-17T22:26:26-04:00</updated>
 <id>https://kingx.me/</id>
 <author>
   <name>KINGX</name>
@@ -1517,11 +1517,11 @@ Caused by: java.net.ConnectException: Operation timed out
   &lt;li&gt;&lt;a href=&quot;https://docs.oracle.com/javase/jndi/tutorial/objects/storing/reference.html&quot;&gt;https://docs.oracle.com/javase/jndi/tutorial/objects/storing/reference.html&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://docs.oracle.com/javase/tutorial/rmi/overview.html&quot;&gt;https://docs.oracle.com/javase/tutorial/rmi/overview.html&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://www.slideshare.net/codewhitesec/java-deserialization-vulnerabilities-the-forgotten-bug-class&quot;&gt;https://www.slideshare.net/codewhitesec/java-deserialization-vulnerabilities-the-forgotten-bug-class&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://kingx.me/Exploit-Java-Deserialization-with-RMI.html&quot;&gt;https://kingx.me/Exploit-Java-Deserialization-with-RMI.html&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://www.blackhat.com/docs/us-16/materials/us-16-Munoz-A-Journey-From-JNDI-LDAP-Manipulation-To-RCE-wp.pdf&quot;&gt;https://www.blackhat.com/docs/us-16/materials/us-16-Munoz-A-Journey-From-JNDI-LDAP-Manipulation-To-RCE-wp.pdf&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://www.blackhat.com/docs/us-16/materials/us-16-Munoz-A-Journey-From-JNDI-LDAP-Manipulation-To-RCE.pdf&quot;&gt;https://www.blackhat.com/docs/us-16/materials/us-16-Munoz-A-Journey-From-JNDI-LDAP-Manipulation-To-RCE.pdf&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
+&lt;p&gt;本文永久地址：&lt;a href=&quot;https://kingx.me/Exploit-Java-Deserialization-with-RMI.html&quot;&gt;https://kingx.me/Exploit-Java-Deserialization-with-RMI.html&lt;/a&gt;&lt;/p&gt;
 
     &lt;p&gt;&lt;a href=&quot;https://kingx.me/Exploit-Java-Deserialization-with-RMI.html&quot;&gt;深入理解JNDI注入与Java反序列化漏洞利用&lt;/a&gt; was originally published by KINGX at &lt;a href=&quot;https://kingx.me&quot;&gt;KINGX&lt;/a&gt; on August 10, 2018.&lt;/p&gt;
   </content>
