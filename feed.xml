@@ -4,7 +4,7 @@
 <generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="https://kingx.me/feed.xml" />
 <link rel="alternate" type="text/html" href="https://kingx.me" />
-<updated>2020-04-01T00:26:52-04:00</updated>
+<updated>2020-04-19T12:51:24-04:00</updated>
 <id>https://kingx.me/</id>
 <author>
   <name>KINGX</name>
@@ -1917,7 +1917,13 @@ You can also specify an id header which can then later on be used to UNSUBSCRIBE
     <email>root#kingx.me</email>
   </author>
   <content type="html">
-    &lt;h2 id=&quot;adversary-emulation&quot;&gt;Adversary Emulation&lt;/h2&gt;
+    &lt;h2 id=&quot;casb&quot;&gt;CASB&lt;/h2&gt;
+&lt;p&gt;Cloud Access Security Broker&lt;/p&gt;
+
+&lt;h2 id=&quot;rpa&quot;&gt;RPA&lt;/h2&gt;
+&lt;p&gt;Robotic Process Automation&lt;/p&gt;
+
+&lt;h2 id=&quot;adversary-emulation&quot;&gt;Adversary Emulation&lt;/h2&gt;
 &lt;p&gt;敌对模拟&lt;/p&gt;
 
 &lt;h2 id=&quot;osint&quot;&gt;OSINT&lt;/h2&gt;
