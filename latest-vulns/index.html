@@ -156,18 +156,38 @@
         <p class="entry-reading-time">
           <i class="fa fa-clock-o"></i>
           
-Reading time ~6 minutes
+Reading time ~7 minutes
         </p><!-- /.entry-reading-time -->
         
       </div><!-- /.header-title-wrap -->
     </header>
     <div class="entry-content">
       <span class="entry-tags" style="color:red;font-size:13px;margin-bottom: 0px;">「声明：本博客中涉及到的相关漏洞均为官方已经公开并修复的漏洞，涉及到的安全技术也仅用于企业安全建设和安全对抗研究。本文仅限业内技术研究与讨论，严禁用于非法用途，否则产生的一切后果自行承担。」</span>
-      <p><img src="../images/zsxq-s.png" alt="图1" height="200px" width="200px" />
-<b><center>欢迎加入知识星球，订阅最新推送</center></b></p>
+      <!-- 
+![图1](../images/zsxq-s.png){:height="200px" width="200px"}
+<b><center>欢迎加入知识星球，订阅最新推送</center></b>
+-->
+
+<p><img src="../images/secengine.jpg" alt="欢迎订阅" height="200px" width="200px" />
+<b><center>欢迎订阅我的微信公众号</center></b></p>
 
 <h2 id="2020">2020</h2>
 <ol>
+  <li><strong>【20200716】Apache Kylin命令注入漏洞CVE-2020-13925</strong>
+    <ul>
+      <li><a href="https://www.anquanke.com/post/id/210867">https://www.anquanke.com/post/id/210867</a></li>
+      <li>PoC: <code class="highlighter-rouge">http://example.com/kylin/api/diag/project/此处命令注入/download</code></li>
+      <li>影响版本：3.1.0以下版本</li>
+      <li>修复分析：dumpProjectDiagnosisInfo() 中增加了 CliCommandExecutor.checkParameter(project) 进行参数检查</li>
+      <li>历史相关漏洞：CVE-2020-1956 <a href="https://paper.seebug.org/1237/">https://paper.seebug.org/1237/</a></li>
+    </ul>
+  </li>
+  <li><strong>【20200715】Windows DNS Server命令执行漏洞CVE-2020-1350</strong>
+    <ul>
+      <li>漏洞描述：<a href="https://cert.360.cn/warning/detail?id=f0dbf54330467091e86643d2c0419a6b">https://cert.360.cn/warning/detail?id=f0dbf54330467091e86643d2c0419a6b</a></li>
+      <li>官方修复指南：<a href="https://support.microsoft.com/zh-cn/help/4569509/windows-dns-server-remote-code-execution-vulnerability">https://support.microsoft.com/zh-cn/help/4569509/windows-dns-server-remote-code-execution-vulnerability</a></li>
+    </ul>
+  </li>
   <li><strong>【20200703】F5 BIG-IP的流量管理用户页面TMUI存在Java代码执行漏洞 CVE-2020-5902</strong>
     <ul>
       <li><a href="https://cert.360.cn/warning/detail?id=a1768348bde7807647cbc7232edce7df">https://cert.360.cn/warning/detail?id=a1768348bde7807647cbc7232edce7df</a></li>
@@ -191,6 +211,12 @@ Reading time ~6 minutes
   <li><strong>【20200501】SaltStack认证绕过远程命令执行</strong>
     <ul>
       <li><a href="https://labs.f-secure.com/advisories/saltstack-authorization-bypass">https://labs.f-secure.com/advisories/saltstack-authorization-bypass</a></li>
+    </ul>
+  </li>
+  <li><strong>【20200401】Liferay 反序列化漏洞 CVE-2020-7961</strong>
+    <ul>
+      <li><a href="https://www.anquanke.com/post/id/203870">https://www.anquanke.com/post/id/203870</a></li>
+      <li>浅谈Liferay Portal JSON Web Service未授权反序列化远程代码执行漏洞 <a href="https://xz.aliyun.com/t/7485">https://xz.aliyun.com/t/7485</a></li>
     </ul>
   </li>
   <li><strong>【20200312】微软SMBv3蠕虫级远程命令执行漏洞CVE-2020-0976</strong>
