@@ -1,0 +1,361 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>浅谈大规模红蓝对抗攻与防 &#8211; KINGX</title>
+<meta name="description" content="Thinking about the Offensive and Defense of RedTeam Engagement">
+<meta name="keywords" content="RedTeam, Offensive">
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://kingx.me/images/">
+<meta name="twitter:title" content="浅谈大规模红蓝对抗攻与防">
+<meta name="twitter:description" content="Thinking about the Offensive and Defense of RedTeam Engagement">
+<meta name="twitter:creator" content="@https://twitter.com/KINGX_CN">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅谈大规模红蓝对抗攻与防">
+<meta property="og:description" content="Thinking about the Offensive and Defense of RedTeam Engagement">
+<meta property="og:url" content="https://kingx.me/Thinking-about-the-RedTeam-Engagement.html">
+<meta property="og:site_name" content="KINGX">
+
+
+
+
+
+<link rel="canonical" href="https://kingx.me/Thinking-about-the-RedTeam-Engagement.html">
+<link href="https://kingx.me/feed.xml" type="application/atom+xml" rel="alternate" title="KINGX Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="https://kingx.me/assets/css/main.css">
+<!-- Webfonts -->
+<link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel="stylesheet" type="text/css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script src="https://kingx.me/assets/js/vendor/modernizr-2.6.2.custom.min.js"></script>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="https://kingx.me/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="https://kingx.me/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="https://kingx.me/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://kingx.me/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://kingx.me/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://kingx.me/images/apple-touch-icon-144x144-precomposed.png">
+
+
+
+
+<style type="text/css">body {background-image:url(https://kingx.me/images/triangular.png);}</style>
+
+
+</head>
+
+<body id="post" >
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+<nav id="dl-menu" class="dl-menuwrapper" role="navigation">
+	<button class="dl-trigger">Open Menu</button>
+	<ul class="dl-menu">
+		<li><a href="https://kingx.me/">Home</a></li>
+		<li>
+			<a href="#">About</a>
+			<ul class="dl-submenu">
+				<li>
+					<img src="https://kingx.me/images/avatar.jpg" alt="KINGX photo" class="author-photo">
+					<h4>KINGX</h4>
+					<p>What is Security</p>
+				</li>
+				<li><a href="https://kingx.me/about/"><span class="btn btn-inverse">Learn More</span></a></li>
+				<li>
+					<a href="mailto:root#kingx.me"><i class="fa fa-fw fa-envelope"></i> Email</a>
+				</li>
+				<li>
+					<a href="https://twitter.com/KINGX_CN"><i class="fa fa-fw fa-twitter"></i> Twitter</a>
+				</li>
+				<li>
+					<a href="https://weibo.com/u/1624430122"><i class="fa fa-fw fa-weibo"></i> Weibo</a>
+				</li>
+				
+				
+				
+				<li>
+					<a href="https://github.com/KINGX-Code"><i class="fa fa-fw fa-github"></i> GitHub</a>
+				</li>
+				
+				
+				
+				
+			</ul><!-- /.dl-submenu -->
+		</li>
+		<!-- <li>
+			<a href="#">Posts</a>
+			<ul class="dl-submenu">
+				<li><a href="https://kingx.me/posts/">All Posts</a></li>
+				<li><a href="https://kingx.me/tags/">All Tags</a></li>
+			</ul>
+		</li> -->
+		
+	    
+	    <li><a href="https://kingx.me/latest-events/" >Security Incidents</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/latest-vulns/" >Vulnerabilities</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/pentest-tools/" >Red Team</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/stop-learning/" >Stop Learning</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/posts/" >Archives</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/tags/" >Tags</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/links/" >Links</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/feed.xml" >RSS</a></li>
+	  
+	</ul><!-- /.dl-menu -->
+</nav><!-- /.dl-menuwrapper -->
+
+
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    <header class="header-title">
+      <div class="header-title-wrap">
+        
+          <h1 class="entry-title"><a href="https://kingx.me/Thinking-about-the-RedTeam-Engagement.html" rel="bookmark" title="浅谈大规模红蓝对抗攻与防">浅谈大规模红蓝对抗攻与防</a></h1>
+        
+        <h2><span class="entry-date date published"><time datetime="2020-10-12T00:00:00-04:00">October 12, 2020, KINGX</time></span></h2>
+        
+        <p class="entry-reading-time">
+          <i class="fa fa-clock-o"></i>
+          
+Reading time ~1 minute
+          
+          <span id="busuanzi_container_page_pv">
+             / Page View <span id="busuanzi_value_page_pv">0</span> / Site Visitor <span id="busuanzi_value_site_uv">0</span>
+          </span>
+          
+        </p><!-- /.entry-reading-time -->
+        
+
+      </div><!-- /.header-title-wrap -->
+    </header>
+    <div class="entry-content">
+      <span class="entry-tags" style="color:red;font-size:13px;margin-bottom: 0px;">「声明：本博客中涉及到的相关漏洞均为官方已经公开并修复的漏洞，涉及到的安全技术也仅用于企业安全建设和安全对抗研究。本文仅限业内技术研究与讨论，严禁用于非法用途，否则产生的一切后果自行承担。」</span>
+      <p>近年来各种大规模的红蓝对抗赛事方兴未艾，攻防实战受到了更多的重视。红队和蓝队的打法逐渐提升并趋于成熟，已不再是单方面的攻击与防御，而演变为攻防博弈和几乎不限手法的对抗演习。与传统的渗透测试相比，这种高强度的红蓝对抗有着明显不同，甚至较量的不仅仅是技法，而包括战术打法、心态与体力的考验。</p>
+
+<h2 id="溯源与反溯源">溯源与反溯源</h2>
+
+<p>溯源让演习得以攻守互换，是防守方的重要工作之一。演习攻击方并不能毫无顾忌的肆意输出，首先需要考虑的是隐藏自身，这也让演习更加贴近于真实的攻击行动。这里讨论的溯源并不只是停留在分析攻击手法和定位来源IP上，更进一步需要关联到真实的行为人，所以攻击方使用匿名资源变得非常必要：</p>
+
+<ul>
+  <li>VPN、匿名代理</li>
+  <li>纯净的渗透环境、虚拟机</li>
+  <li>匿名邮箱、手机号、VPS等</li>
+  <li>纯净的移动设备、无线设备等</li>
+</ul>
+
+<p>实名的资源变得不太可靠，这并不是夸张，防守方通过各种途径可以反查到攻击者的踪迹，甚至动用“社工”等攻击手段，包括不限于博客、实名认证的社交账号、手机号、服务器等等。在攻防基础设施相对完善的前提下，很多溯源与反溯源的对抗会下沉到细节层面，比如攻击队员通过社交工具传递目标可疑URL时，如果误点击通过系统默认的浏览器打开，则可能会被JSONP蜜罐捕获社交账号或者被抓到真实出口IP。当然这也对防守方的溯源分析能力是一个考验，从海量攻击数据中提取出有效的关键信息。现在大量的蜜罐等主动防御手段起到了不错的效果，需要注意的是蜜罐本身安全措施也需要隔离得当，避免造成安全隐患。</p>
+
+<p>作为应对，攻击方必须使用纯净的专用渗透环境进行攻击，完全与日常工作环境区分开来，并做测试环境的定期还原。在识别蜜罐之后，可以通过投喂大量脏数据，甚至伪造一个反向蜜罐，诱导防守方进入并误导溯源或者消耗防守方的精力，这也是防守方需要甄别和解决的问题，在演习行动的过程中，溯源与反溯源的故事一直在继续。</p>
+
+<h2 id="数据储备">数据储备</h2>
+
+<p>圈定时间的演习对抗跟真实世界的攻击还是有一定区别的，防守方有相对充足的时间提前修筑防御工事，比如收敛外网的入口、关闭不重要的业务网站、限制关键系统的访问来源、降低安全设备拦截阈值等，甚至不惜降低用户体验以提升安全性。而攻击方由于演习前目标未知，在战时状态下再临时进行信息搜集和扫描探测效果必然会有一定折扣，并且很容易被拦截和封禁，往往很难定位到关键的资产。此时，全网数据和被动信息搜集就会变得非常有价值，比如DNS历史解析记录、Whois历史信息、历史端口开放情况、网络流量信息等等，这些数据可以帮助你：</p>
+
+<ul>
+  <li>找出网站真实IP，挖掘相邻网段、绕过安全设备</li>
+  <li>判断目标是否为蜜罐</li>
+  <li>定位内网IP和系统</li>
+  <li>定位关键的应用系统</li>
+</ul>
+
+<p>另外对于集团型目标，企业关系错综复杂，企业信息的数据储备则有助于快速定位关键目标，如天眼查、企查查、备案信息等。对于集团来说，不同领域的控股子公司，以及他们的孙公司往往差异很大，与目标系统不一定网络可通。通过控股关系，可以优先筛选出一批离目标系统较近的资产列表。另外通过采购公告、版权声明、专利、软件著作权、知识产权列表，也可能可以直接定位到目标系统的研发单位，特别是对一些有自己IT支撑单位的目标集团。</p>
+
+<h2 id="0day储备">0day储备</h2>
+
+<p>大规模演习项目时间紧、任务重、人力有限，效率非常重要。常规突破手段无法完全满足需求，在对目标组织结构没有详细了解的情况下，正面硬刚的路径会很长，光是突破边界、摸清内网状态，判断是否连通靶标就需要花费较长时间。此时攻击关键的基础设施：邮件系统、OA系统、VPN系统、企业知识库、域控、集中管控等系统的价值则非常大。一个有效的0day则可以节省数天时间，至少可以直接获得一个外网的有效突破口，起到事半功倍的效果。譬如拿到OA系统可以摸清目标集团的组织架构，定位靶标系统位置，邮箱和VPN则更不用多说，从今年陆续曝出的0day数量也略见一斑。</p>
+
+<p>对于防守方来说，从行为检测上看，其实0day并没有那么可怕，即使遭遇0day攻击，主机上的对抗也会回到基本面上，比如：Webshell、恶意命令、反弹Shell、端口扫描、黑客工具、端口转发、提权、C2通信等等，这里就要求防守方超越IoC和传统黑特征的束缚，不依赖对特定漏洞利用的先验知识，而全面基于行为数据进行建模，从而拥有发现和识别通过未知漏洞突破的恶意活动检测能力。对于完善的纵深防御体系来说，抓住端点上的蛛丝马迹，可能在攻击者尝试执行探测命令时就可以告警了，甚至可以用蜜罐捕获0day。攻击队的0day利用也需要深思熟虑，识别绕过蜜罐，并尽量趋向于合法操作，比如添加账号，而不是执行黑命令或者直接反弹Shell。</p>
+
+<p><span style="color:white;">本文来源：<a style="color:white;" href="https://kingx.me/Thinking-about-the-RedTeam-Engagement.html">https://kingx.me/Thinking-about-the-RedTeam-Engagement.html</a></span><br />
+<span style="color:white;">公众号：安全引擎，转载请注明出处</span></p>
+
+<h2 id="工具储备">工具储备</h2>
+
+<p>工欲善其事必先利其器，对于攻击队来说，需要将所使用的到的工具进行免杀处理。C2载荷常见的处理方式包括域前置、ShellcodeLoader、加壳，也包括合法的软件签名等等，除了对木马进行免杀之外，渗透过程中也尽量不直接使用公开的工具，至少重新编译或者消除已知的文件特征，否则防守方通过最简单的IoC匹配就能成功告警。一个典型场景：当挖掘到一个潜在的上传漏洞，并且花费时间绕过了WAF，结果上传了一个一句话木马，很可能会直接触发主机层面的Webshell文件告警，导致功亏一篑。内网渗透中的端口转发、扫描、密码抓取等工具也是同理。当然也看到目前渗透工具广泛的使用了无文件的攻击方式，如进程注入、从内存加载.Net程序集、向Java Servlet容器中动态注册字节码等等，显著提升了恶意工具执行的隐蔽性。另外，一些工程化的工具，比如邮件内容批量分析、通讯录提取等等，也会提升相当效率，节省宝贵时间。
+相对应的从防守角度来说，无论是C2通信、横向移动、扫描，即使绕过端点检测系统，流量中也难免会留下蛛丝马迹，并且无文件的程序最终也会执行命令，所以除了静态文件检测外，还可以尝试通过RASP、流量取证分析、行为数据流等方式从多个维度发现潜在的攻击行为。</p>
+
+<p><span style="color:white;">本文来源：<a style="color:white;" href="https://kingx.me/Thinking-about-the-RedTeam-Engagement.html">https://kingx.me/Thinking-about-the-RedTeam-Engagement.html</a></span><br />
+<span style="color:white;">公众号：安全引擎，转载请注明出处</span></p>
+
+<h2 id="弱口令与字典">弱口令与字典</h2>
+
+<p>横亘在攻击者与目标企业内部资源之间的非常直接的因素就是账号，当不必要的业务都下线关站之后，一个可以进入在线业务系统的账号变得非常珍贵，比如域账号、WiFi账号、邮箱账号、员工OA账号、管理后台账号等等。除了考验攻击队的信息搜集能力之外，各种字典的合理性和命中率就可以在攻击队之间拉开一定的差距，常见的字典比如：用户名字典、针对性的密码字典、网站目录字典、参数字典等等。一个好字典发挥的作用很可能超出预期，哪怕是边界网络设备的弱口令，也可能会打开直达内网的通路。</p>
+
+<p>爆破账号时如果可以对用户名、密码分开爆破是最好的，在通过各种途径获取到一批用户后，可以以密码为维度进行密码喷射爆破。对于Web系统来说，可能会遇到验证码增加爆破成本和难度，这里可以调用打码平台的API，传统图片验证码的识别率已经相当高了。</p>
+
+<p>对于防守方来说，需要建模检测广度优先的密码喷射爆破行为及账号异常登录行为。另外可以将验证码升级为更加智能的下一代行为验证码，增加人机设备识别、滑动验证码等措施来有效防止爆破。</p>
+
+<p><span style="color:white;">本文来源：<a style="color:white;" href="https://kingx.me/Thinking-about-the-RedTeam-Engagement.html">https://kingx.me/Thinking-about-the-RedTeam-Engagement.html</a></span><br />
+<span style="color:white;">公众号：安全引擎，转载请注明出处</span></p>
+
+<h2 id="分工配合">分工配合</h2>
+
+<p>大规模红蓝对抗有逐渐类军事化对抗的趋势，全局上要求攻击方具有更组织化的分工与合作，像社工钓鱼、近源渗透、无线入侵等入口也需要提前安排部署。大体上人员技能可以分为：</p>
+
+<ul>
+  <li>信息搜集、数据分析</li>
+  <li>外网渗透</li>
+  <li>内网渗透、域渗透</li>
+  <li>逆向分析</li>
+  <li>钓鱼社工</li>
+  <li>近源渗透</li>
+  <li>漏洞利用、0day挖掘</li>
+  <li>报告编写</li>
+</ul>
+
+<p>其他的技能点还包括安全设备绕过、数据库利用、网络设备利用、木马免杀、持久化、工具与协同平台支持等等。对于项目来说，报告编写往往是展现成果最直接的环节，报告的细节、侧重点需要尽可能贴近项目要求或者比赛规则，是比较繁杂而不可或缺的工作。</p>
+
+<p>作为防守方，为了应对全方位的攻击手法，除了常规防御外，加派安保人员防范近源渗透也不失为防御体系的一环。</p>
+
+<p>以上是笔者一些粗浅的观察，仅当抛砖引玉。攻击和防守的博弈需要靠技术和经验，同时也是个体力活。言知之易，行之难，如何在有限时间内达成目标？合理的分工协同与工作节奏非常重要，攻防过程中需要保持良好的心态与清晰的思路，沉着冷静避免失误。道阻且长，行则将至，攻防双方均需砥砺前行。</p>
+
+<p><span style="color:white;">本文来源：<a style="color:white;" href="https://kingx.me/Thinking-about-the-RedTeam-Engagement.html">https://kingx.me/Thinking-about-the-RedTeam-Engagement.html</a></span><br />
+<span style="color:white;">公众号：安全引擎，转载请注明出处</span></p>
+
+      <footer class="entry-meta">
+        <span class="entry-tags" style="color:black;font-size:13px;margin-bottom: 0px;">欢迎订阅我的微信公众号</span>
+        <img src="/images/secengine.jpg" alt="welcome subscribe"/>
+        <span class="entry-tags"><a href="https://kingx.me/tags/#RedTeam" title="Pages tagged RedTeam" class="tag"><span class="term">RedTeam</span></a><a href="https://kingx.me/tags/#Offensive" title="Pages tagged Offensive" class="tag"><span class="term">Offensive</span></a></span>
+        
+        <div class="social-share">
+  <ul class="socialcount socialcount-small inline-list">
+    <li class="weibo"><a href="http://service.weibo.com/share/share.php?title=分享KINGX的文章《浅谈大规模红蓝对抗攻与防》&url=https://kingx.me/Thinking-about-the-RedTeam-Engagement.html&source=bookmark" title="Share on Weibo" target="_blank"><span class="count"><i class="fa fa-weibo"></i> WEIBO</span></a></li>
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=https://kingx.me/Thinking-about-the-RedTeam-Engagement.html" title="Share on Facebook"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=https://kingx.me/Thinking-about-the-RedTeam-Engagement.html" title="Share on Twitter"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <li class="googleplus"><a href="https://plus.google.com/share?url=https://kingx.me/Thinking-about-the-RedTeam-Engagement.html" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li>
+  </ul>
+</div><!-- /.social-share -->
+<!--
+<div class="ds-share" data-thread-key="/Thinking-about-the-RedTeam-Engagement" data-title="浅谈大规模红蓝对抗攻与防" data-images="" data-content="浅谈大规模红蓝对抗攻与防" data-url="https://kingx.me/Thinking-about-the-RedTeam-Engagement.html">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+</div>
+-->
+      </footer>
+    </div><!-- /.entry-content -->
+    
+    
+
+    <div class="read-more">
+  
+    <div class="read-more-header">
+      
+        <a href="https://kingx.me/Exploit-FastJson-Without-Reverse-Connect.html" class="read-more-btn">Read More</a>
+      
+    </div><!-- /.read-more-header -->
+    <div class="read-more-content">
+      
+      <h3><a href="https://kingx.me/Exploit-FastJson-Without-Reverse-Connect.html" title="Java动态类加载，当FastJson遇到内网">Java动态类加载，当FastJson遇到内网</a></h3>
+      <p>Exploit FastJson Without Reverse Connect <a href="https://kingx.me/Exploit-FastJson-Without-Reverse-Connect.html">Continue reading</a></p>
+      
+    </div><!-- /.read-more-content -->
+  
+  <div class="read-more-list">
+    
+      
+      <div class="list-item">
+        <h4><a href="https://kingx.me/Restrictions-and-Bypass-of-JNDI-Manipulations-RCE.html" title="如何绕过高版本JDK的限制进行JNDI注入利用">如何绕过高版本JDK的限制进行JNDI注入利用</a></h4>
+        <span>Published on June 03, 2019</span>
+      </div><!-- /.list-item -->
+      
+    
+      
+      <div class="list-item">
+        <h4><a href="https://kingx.me/Thinking-about-Red-Teaming.html" title="【红蓝对抗】大型互联网企业安全蓝军建设">【红蓝对抗】大型互联网企业安全蓝军建设</a></h4>
+        <span>Published on March 12, 2019</span>
+      </div><!-- /.list-item -->
+      
+    
+  </div><!-- /.read-more-list -->
+</div><!-- /.read-more -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo">
+    <span>&copy; 2020 KINGX. Powered by Jekyll using the HPSTR Theme.</span>
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+<!-- <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="https://kingx.me/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="https://kingx.me/assets/js/scripts.min.js"></script>
+
+
+
+
+<script>
+
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  if(location.host=="kingx.me"){
+    hm.src = "https://hm.baidu.com/hm.js?d11d8512e0bc6992b9c9bbf2d266ce31";
+  }else if(location.host=="kingx.sinaapp.com"){
+    hm.src = "https://hm.baidu.com/hm.js?d1b3dbd97b73868454f102755fdf51ba";
+  }
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Busuanzi Analytics -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+	        
+
+</body>
+</html>
