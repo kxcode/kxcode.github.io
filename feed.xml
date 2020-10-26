@@ -4,7 +4,7 @@
 <generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="https://kingx.me/feed.xml" />
 <link rel="alternate" type="text/html" href="https://kingx.me" />
-<updated>2020-10-13T11:56:17-04:00</updated>
+<updated>2020-10-26T07:17:13-04:00</updated>
 <id>https://kingx.me/</id>
 <author>
   <name>KINGX</name>
@@ -606,7 +606,15 @@ MVN依赖写法如下：&lt;/p&gt;
 
 &lt;p&gt;这也是我们在《深入理解JNDI注入与Java反序列化漏洞利用》中主要讨论的利用方式。攻击者通过RMI服务返回一个JNDI Naming Reference，受害者解码Reference时会去我们指定的Codebase远程地址加载Factory类，但是原理上并非使用RMI Class Loading机制的，因此不受 java.rmi.server.useCodebaseOnly 系统属性的限制，相对来说更加通用。&lt;/p&gt;
 
-&lt;p&gt;但是在JDK 6u132, JDK 7u122, JDK 8u113 中Java提升了JNDI 限制了Naming/Directory服务中JNDI Reference远程加载Object Factory类的特性。系统属性 com.sun.jndi.rmi.object.trustURLCodebase、com.sun.jndi.cosnaming.object.trustURLCodebase 的默认值变为false，即默认不允许从远程的Codebase加载Reference工厂类。如果需要开启 RMI Registry 或者 COS Naming Service Provider的远程类加载功能，需要将前面说的两个属性值设置为true。&lt;/p&gt;
+&lt;p&gt;但是在&lt;s&gt;JDK 6u132, JDK 7u122, JDK 8u113&lt;/s&gt; JDK 6u141, JDK 7u131, JDK 8u121 中Java提升了JNDI 限制了Naming/Directory服务中JNDI Reference远程加载Object Factory类的特性。系统属性 com.sun.jndi.rmi.object.trustURLCodebase、com.sun.jndi.cosnaming.object.trustURLCodebase 的默认值变为false，即默认不允许从远程的Codebase加载Reference工厂类。如果需要开启 RMI Registry 或者 COS Naming Service Provider的远程类加载功能，需要将前面说的两个属性值设置为true。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;注：上一段中JDK小版本号与下文Changelog对应的JDK小版本号不匹配，已更正，感谢@Satan指出~&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;想了解Java所有历史版本信息，可以移步：https://en.wikipedia.org/wiki/Java_version_history&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;p&gt;Changelog:&lt;/p&gt;
 
