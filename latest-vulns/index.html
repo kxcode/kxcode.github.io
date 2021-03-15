@@ -174,6 +174,39 @@ Reading time ~7 minutes
 <p><img src="../images/secengine.jpg" alt="欢迎订阅" height="200px" width="200px" />
 <b><center>欢迎订阅我的微信公众号</center></b></p>
 
+<h2 id="2021">2021</h2>
+<ol>
+  <li><strong>【20210303】Exchange RCE CVE-2021-26855</strong>
+    <ul>
+      <li><a href="https://www.volexity.com/blog/2021/03/02/active-exploitation-of-microsoft-exchange-zero-day-vulnerabilities/">https://www.volexity.com/blog/2021/03/02/active-exploitation-of-microsoft-exchange-zero-day-vulnerabilities/</a></li>
+      <li><a href="https://www.praetorian.com/blog/reproducing-proxylogon-exploit/">https://www.praetorian.com/blog/reproducing-proxylogon-exploit/</a></li>
+    </ul>
+  </li>
+  <li><strong>【20210129】Apache Druid RCE漏洞CVE-2021-25646</strong>
+    <ul>
+      <li>Apache Druid 是用Java编写的面向列的开源分布式数据存储，由于Apache Druid 默认情况下缺乏授权认证，攻击者可直接构造恶意请求执行任意代码，控制服务器。</li>
+      <li><a href="https://help.aliyun.com/noticelist/articleid/1060799717.html">https://help.aliyun.com/noticelist/articleid/1060799717.html</a></li>
+      <li>PoC <a href="https://github.com/kxcode/snippet/blob/master/CVE-2021-25646.txt">https://github.com/kxcode/snippet/blob/master/CVE-2021-25646.txt</a></li>
+    </ul>
+  </li>
+  <li><strong>【20210127】Sudo溢出提权漏洞CVE-2021-3156</strong>
+    <ul>
+      <li><a href="https://blog.qualys.com/vulnerabilities-research/2021/01/26/cve-2021-3156-heap-based-buffer-overflow-in-sudo-baron-samedit">https://blog.qualys.com/vulnerabilities-research/2021/01/26/cve-2021-3156-heap-based-buffer-overflow-in-sudo-baron-samedit</a></li>
+      <li>PoC/Exp: <a href="https://mp.weixin.qq.com/s/v7mot0nCvTmsCqJhBBncuQ">https://mp.weixin.qq.com/s/v7mot0nCvTmsCqJhBBncuQ</a></li>
+      <li><a href="https://github.com/r4j0x00/exploits/tree/master/CVE-2021-3156">https://github.com/r4j0x00/exploits/tree/master/CVE-2021-3156</a></li>
+    </ul>
+  </li>
+  <li><strong>【20210126】SonicWall SSL-VPN 远程命令执行</strong>
+    <ul>
+      <li>特定的User-Agent可导致某CGI触发逻辑问题，引起Shellshock命令执行漏洞</li>
+      <li><a href="https://cert.360.cn/warning/detail?id=4dd54b6c9463194279a407590e0ec925">https://cert.360.cn/warning/detail?id=4dd54b6c9463194279a407590e0ec925</a></li>
+      <li>针对 http header 进行检测，可能存在的特征字符串如下<code class="highlighter-rouge">() { :; };</code></li>
+      <li>修复：升级到 Sonic SMA 8.0.0.4</li>
+      <li>Exploit: <a href="https://github.com/darrenmartyn/VisualDoor">https://github.com/darrenmartyn/VisualDoor</a></li>
+    </ul>
+  </li>
+</ol>
+
 <h2 id="2020">2020</h2>
 <ol>
   <li><strong>【20201116】XStream反序列化漏洞CVE-2020-26217</strong>
