@@ -176,10 +176,75 @@ Reading time ~7 minutes
 
 <h2 id="2021">2021</h2>
 <ol>
-  <li><strong>【20210303】Exchange RCE CVE-2021-26855</strong>
+  <li><strong>【20211117】Gitlab RCE漏洞CVE-2021-22205</strong>
     <ul>
+      <li>GitLab没有正确验证传递到文件解析器的image文件而导致的远程命令执行，远程攻击者可以利用此漏洞访问存储库，并删除、修改或窃取源代码。</li>
+      <li>PoC: <a href="https://packetstormsecurity.com/files/164994/gitlab13102reverse-exec.txt">https://packetstormsecurity.com/files/164994/gitlab13102reverse-exec.txt</a></li>
+      <li><a href="https://mp.weixin.qq.com/s?__biz=MzUxMDQzNTMyNg==&amp;mid=2247497310&amp;idx=2&amp;sn=361d0f36b3d5891aa600b44bb5fa16ee&amp;chksm=f901bccfce7635d9d4ad0ad51e3ed08eae439dbb467b391bb21439c38c7cf224d3cf9cbc725d#rd">https://mp.weixin.qq.com/s?__biz=MzUxMDQzNTMyNg==&amp;mid=2247497310&amp;idx=2&amp;sn=361d0f36b3d5891aa600b44bb5fa16ee&amp;chksm=f901bccfce7635d9d4ad0ad51e3ed08eae439dbb467b391bb21439c38c7cf224d3cf9cbc725d#rd</a></li>
+    </ul>
+  </li>
+  <li><strong>【20211115】Hadoop Yarn RPC未鉴权</strong>
+    <ul>
+      <li><a href="https://mp.weixin.qq.com/s/0F06a7GppFz3KV3XNb-Xrg">https://mp.weixin.qq.com/s/0F06a7GppFz3KV3XNb-Xrg</a></li>
+    </ul>
+  </li>
+  <li><strong>【20210905】GhostScript 9.50 RCE</strong>
+    <ul>
+      <li><a href="https://github.com/duc-nt/RCE-0-day-for-GhostScript-9.50">https://github.com/duc-nt/RCE-0-day-for-GhostScript-9.50</a></li>
+    </ul>
+  </li>
+  <li><strong>【20210720】Linux内核提权漏洞 Sequoia CVE-2021-33909</strong>
+    <ul>
+      <li>Linux 内核的seq_file 接口存在size_t-to-int 类型转换漏洞，由于fs/seq_file.c 没有正确限制 seq 缓冲区分配，从而导致整数溢出、越界写入以及权限提升。可导致提权，特权容器的逃逸。</li>
+      <li>分析：<a href="https://www.qualys.com/2021/07/20/cve-2021-33909/sequoia-local-privilege-escalation-linux.txt">https://www.qualys.com/2021/07/20/cve-2021-33909/sequoia-local-privilege-escalation-linux.txt</a></li>
+      <li>分析: <a href="http://blog.nsfocus.net/linux-2021-33909/">http://blog.nsfocus.net/linux-2021-33909/</a></li>
+      <li>Crash PoC: <a href="https://www.qualys.com/2021/07/20/cve-2021-33909/cve-2021-33909-crasher.c">https://www.qualys.com/2021/07/20/cve-2021-33909/cve-2021-33909-crasher.c</a></li>
+      <li>影响内核 3.16 ~ 5.13.4，5.13.4及以上版本不受影响</li>
+    </ul>
+  </li>
+  <li><strong>【20210715】Linux内核提权漏洞 CVE-2021-22555</strong>
+    <ul>
+      <li>补丁：<a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/net/netfilter/x_tables.c?id=b29c457a6511435960115c0f548c4360d5f4801d">https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/net/netfilter/x_tables.c?id=b29c457a6511435960115c0f548c4360d5f4801d</a></li>
+      <li>成功利用此漏洞可以完成特权提升及实现docker、kubernetes环境逃逸</li>
+      <li>影响Linux Kernel版本 &gt;=2.6.19</li>
+      <li>安全版本 Linux Kernel版本 5.12(b29c457a6511435960115c0f548c4360d5f4801d)，5.10.31, 5.4.113, 4.19.188, 4.14.231, 4.9.267, 4.4.267</li>
+      <li>临时缓解方案：echo 0 &gt; /proc/sys/user/max_user_namespaces</li>
+      <li>PoC：<a href="https://github.com/google/security-research/blob/master/pocs/linux/cve-2021-22555/exploit.c">https://github.com/google/security-research/blob/master/pocs/linux/cve-2021-22555/exploit.c</a></li>
+    </ul>
+  </li>
+  <li><strong>【20210630】域控漏洞PrintNightmare CVE-2021-1675</strong>
+    <ul>
+      <li>CVE-2021-1675 打印机漏洞沦陷域控的补充 07/02/21 <a href="https://mp.weixin.qq.com/s/tMTIsijirsPc46CZVtcWQg">https://mp.weixin.qq.com/s/tMTIsijirsPc46CZVtcWQg</a></li>
+      <li>CVE-2021-1675 打印机漏洞沦陷域控的检测与防御<a href="https://mp.weixin.qq.com/s/k4OwCcJJxm-UHMdVdfBCIw">https://mp.weixin.qq.com/s/k4OwCcJJxm-UHMdVdfBCIw</a></li>
+      <li>exploit: <a href="https://github.com/gentilkiwi/mimikatz/releases/tag/2.2.0-20210701">https://github.com/gentilkiwi/mimikatz/releases/tag/2.2.0-20210701</a></li>
+    </ul>
+  </li>
+  <li><strong>【20210326】OpenSSL拒绝服务漏洞 CVE-2021-3449</strong>
+    <ul>
+      <li>分析：<a href="https://mp.weixin.qq.com/s/h1EGkxMcHvpk4V3iIFmAXA">https://mp.weixin.qq.com/s/h1EGkxMcHvpk4V3iIFmAXA</a></li>
+      <li>PoC: <a href="https://github.com/terorie/cve-2021-3449">https://github.com/terorie/cve-2021-3449</a></li>
+      <li>影响所有OpenSSL 1.1.1版本</li>
+    </ul>
+  </li>
+  <li><strong>【20210315】XStream多个命令执行高危漏洞</strong>
+    <ul>
+      <li><a href="https://cert.360.cn/warning/detail?id=8c087e83dc7e64c8aa47fb9b964ee310">https://cert.360.cn/warning/detail?id=8c087e83dc7e64c8aa47fb9b964ee310</a></li>
+      <li>命令执行：CVE-2021-21344、CVE-2021-21345、CVE-2021-21346、CVE-2021-21347、CVE-2021-21350、CVE-2021-21351</li>
+      <li>官方公告（含PoC）：https://x-stream.github.io/CVE-2021-21344.html</li>
+    </ul>
+  </li>
+  <li><strong>【20210311】F5 BIG-IP命令执行漏洞CVE-2021-22986</strong>
+    <ul>
+      <li><a href="https://xz.aliyun.com/t/9312">https://xz.aliyun.com/t/9312</a></li>
+    </ul>
+  </li>
+  <li><strong>【20210303】Exchange RCE CVE-2021-26855 CVE-2021-27065 ProxyLogon</strong>
+    <ul>
+      <li>CVE-2021-26855 是一个SSRF 漏洞可以获取用户的sid，CVE-2021-27065是一个写文件漏洞，文件名与路径可以任意设置。</li>
       <li><a href="https://www.volexity.com/blog/2021/03/02/active-exploitation-of-microsoft-exchange-zero-day-vulnerabilities/">https://www.volexity.com/blog/2021/03/02/active-exploitation-of-microsoft-exchange-zero-day-vulnerabilities/</a></li>
       <li><a href="https://www.praetorian.com/blog/reproducing-proxylogon-exploit/">https://www.praetorian.com/blog/reproducing-proxylogon-exploit/</a></li>
+      <li>Exchange 攻击链 CVE-2021-26855&amp;CVE-2021-27065 分析 <a href="https://webcache.googleusercontent.com/search?q=cache:ITolLchEeE0J:https://paper.seebug.org/1501/+&amp;cd=1&amp;hl=zh-CN&amp;ct=clnk">https://webcache.googleusercontent.com/search?q=cache:ITolLchEeE0J:https://paper.seebug.org/1501/+&amp;cd=1&amp;hl=zh-CN&amp;ct=clnk</a></li>
+      <li>Exploit: <a href="https://github.com/Immersive-Labs-Sec/ProxyLogon">https://github.com/Immersive-Labs-Sec/ProxyLogon</a></li>
     </ul>
   </li>
   <li><strong>【20210129】Apache Druid RCE漏洞CVE-2021-25646</strong>
@@ -358,6 +423,12 @@ Reading time ~7 minutes
       <li>漏洞描述：在2.8.2之前的2.x版本都存在反序列化漏洞（CVE-2017-5645），然而在1.x版本同样存在这个反序列化漏洞，分配漏洞编号为CVE-2019-17571。</li>
     </ul>
   </li>
+  <li><strong>【20191130】MySQL JDBC Deserialization 反序列化RCE</strong>
+    <ul>
+      <li><a href="https://i.blackhat.com/eu-19/Thursday/eu-19-Zhang-New-Exploit-Technique-In-Java-Deserialization-Attack.pdf">https://i.blackhat.com/eu-19/Thursday/eu-19-Zhang-New-Exploit-Technique-In-Java-Deserialization-Attack.pdf</a></li>
+      <li><a href="https://su18.org/post/jdbc-connection-url-attack/">https://su18.org/post/jdbc-connection-url-attack/</a></li>
+    </ul>
+  </li>
   <li><strong>【20191119】Apache Solr默认配置对外开放JMX端口导致命令执行CVE-2019-12409</strong>
     <ul>
       <li><a href="https://www.mail-archive.com/announce@apache.org/msg05559.html">https://www.mail-archive.com/announce@apache.org/msg05559.html</a></li>
@@ -407,6 +478,8 @@ Reading time ~7 minutes
   <li><strong>【20191017】Kibana &lt; 6.6.0 控制台命令执行漏洞</strong>
     <ul>
       <li><a href="https://mp.weixin.qq.com/s/R4rzYDp9-q2NYAOvPK951A">https://mp.weixin.qq.com/s/R4rzYDp9-q2NYAOvPK951A</a></li>
+      <li>PoC需要Timelion、Canvas两个功能 <a href="https://github.com/jas502n/kibana-RCE">https://github.com/jas502n/kibana-RCE</a></li>
+      <li>没有Canvas情况下的利用，可能会把目标打挂 <a href="https://www.synacktiv.com/en/publications/pwning-an-outdated-kibana-with-not-so-sad-vulnerabilities.html">https://www.synacktiv.com/en/publications/pwning-an-outdated-kibana-with-not-so-sad-vulnerabilities.html</a></li>
     </ul>
   </li>
   <li><strong>【20191010】iTerm2存在严重漏洞可导致远程命令执行</strong>
