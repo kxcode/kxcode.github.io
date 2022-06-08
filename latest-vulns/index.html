@@ -176,11 +176,42 @@ Reading time ~8 minutes
 
 <h2 id="2022">2022</h2>
 <ol>
+  <li><strong>【20220603】Confluence OGNL 命令注入漏洞CVE-2022-26134</strong>
+    <ul>
+      <li>https://cert.360.cn/warning/detail?id=b5ed926c419f0eeccc3c801c31e9d1a0</li>
+      <li>POC <a href="https://github.com/Nwqda/CVE-2022-26134/blob/master/cve-2022-26134.py">https://github.com/Nwqda/CVE-2022-26134/blob/master/cve-2022-26134.py</a></li>
+      <li>POC <a href="https://github.com/vulhub/vulhub/tree/master/confluence/CVE-2022-26134">https://github.com/vulhub/vulhub/tree/master/confluence/CVE-2022-26134</a></li>
+    </ul>
+  </li>
+  <li><strong>【20220531】Microsoft Office命令执行 Follina</strong>
+    <ul>
+      <li><a href="https://mp.weixin.qq.com/s/GFHih6KY_MCbzR5x2ftHkA">https://mp.weixin.qq.com/s/GFHih6KY_MCbzR5x2ftHkA</a></li>
+      <li>使用 Word 远程模板功能从远程 Web 服务器检索 HTML 文件，该服务器又使用 ms-msdt MSProtocol URI 方案加载代码并执行一些 PowerShell。即使禁用宏，Microsoft Word 也会通过 msdt执行代码。如果您将文档更改为 RTF 形式，它甚至无需打开文档（通过资源管理器中的预览选项卡）即可运行。</li>
+      <li>PoC: <a href="https://github.com/chvancooten/follina.py">https://github.com/chvancooten/follina.py</a></li>
+      <li>PoC: <a href="https://github.com/JMousqueton/PoC-CVE-2022-30190/blob/main/cve-2022-30190.py">https://github.com/JMousqueton/PoC-CVE-2022-30190/blob/main/cve-2022-30190.py</a></li>
+      <li>漏洞公告：<a href="https://msrc.microsoft.com/update-guide/en-US/vulnerability/CVE-2022-30190">https://msrc.microsoft.com/update-guide/en-US/vulnerability/CVE-2022-30190</a></li>
+    </ul>
+  </li>
+  <li><strong>【20220523】FastJson &lt;=1.2.80反序列化漏洞，绕过autotype</strong>
+    <ul>
+      <li><a href="https://github.com/alibaba/fastjson/wiki/security_update_20220523">https://github.com/alibaba/fastjson/wiki/security_update_20220523</a></li>
+      <li>1.2.83 ~ 1.2.80 版本对比 <a href="https://github.com/alibaba/fastjson/compare/1.2.80...1.2.83">https://github.com/alibaba/fastjson/compare/1.2.80...1.2.83</a></li>
+      <li>关键Commit <a href="https://github.com/alibaba/fastjson/commit/35db4adad70c32089542f23c272def1ad920a60d">https://github.com/alibaba/fastjson/commit/35db4adad70c32089542f23c272def1ad920a60d</a></li>
+    </ul>
+  </li>
+  <li><strong>【20220330】Spring Core RCE 0day漏洞 CVE-2022-22965</strong>
+    <ul>
+      <li>详细分析 <a href="https://mp.weixin.qq.com/s/kgw-O4Hsd9r2vfme3Y2Ynw">https://mp.weixin.qq.com/s/kgw-O4Hsd9r2vfme3Y2Ynw</a></li>
+      <li>利用细节分析 <a href="https://mp.weixin.qq.com/s/plFLE8e0-Fc2tHJ4HaiSSw">https://mp.weixin.qq.com/s/plFLE8e0-Fc2tHJ4HaiSSw</a></li>
+    </ul>
+  </li>
   <li><strong>【20220325】Spring Cloud Function Spel 表达式注入</strong>
     <ul>
       <li><a href="http://blog.nsfocus.net/spring-cloud-function-spel/">http://blog.nsfocus.net/spring-cloud-function-spel/</a></li>
       <li><a href="https://mp.weixin.qq.com/s/onYJWIESgLaWS64lCgsKdw">https://mp.weixin.qq.com/s/onYJWIESgLaWS64lCgsKdw</a></li>
       <li>影响版本：0.0.RELEASE &lt;= Spring Cloud Function &lt;= 3.2.2 （发布时间为2019年11月22日至2022年2月17日）</li>
+      <li><a href="https://mp.weixin.qq.com/s/Q-Koj0MojkHwFtHzVtNPKQ">https://mp.weixin.qq.com/s/Q-Koj0MojkHwFtHzVtNPKQ</a></li>
+      <li><a href="https://www.anquanke.com/post/id/271167">https://www.anquanke.com/post/id/271167</a></li>
     </ul>
   </li>
   <li><strong>【20220317】OpenSSL证书解析拒绝服务漏洞 CVE-2022-0778</strong>
