@@ -159,7 +159,7 @@
         <p class="entry-reading-time">
           <i class="fa fa-clock-o"></i>
           
-Reading time ~8 minutes
+Reading time ~9 minutes
         </p><!-- /.entry-reading-time -->
         
       </div><!-- /.header-title-wrap -->
@@ -176,11 +176,43 @@ Reading time ~8 minutes
 
 <h2 id="2022">2022</h2>
 <ol>
+  <li><strong>【20220706】OpenSSL 远程代码执行漏洞（影响有限）</strong>
+    <ul>
+      <li><a href="https://www.openssl.org/news/secadv/20220705.txt">https://www.openssl.org/news/secadv/20220705.txt</a></li>
+      <li>此漏洞仅影响 OpenSSL 3.0.4 版本，并且只有支持 AVX512IFMA 扩展指令的系统才会受影响。OpenSSL 1.1.1/1.0.2系列版本不受此漏洞影响，这意味着常规Linux发行版例如 CentOS、Debain、Ubuntu 在安装系统原生软件包时不会受到影响。此漏洞影响范围有限，用户不必惊慌。</li>
+      <li>PoC: <a href="https://gist.github.com/guidovranken/4b468777d9f108a26a5a45ce62b88b17">https://gist.github.com/guidovranken/4b468777d9f108a26a5a45ce62b88b17</a></li>
+    </ul>
+  </li>
+  <li><strong>【20220705】Django SQL注入</strong>
+    <ul>
+      <li>漏洞环境和POC：<a href="https://github.com/aeyesec/CVE-2022-34265">https://github.com/aeyesec/CVE-2022-34265</a></li>
+      <li>影响 Django 3.2.x prior to 3.2.14</li>
+      <li>影响 Django 4.0.x prior to 4.0.6</li>
+    </ul>
+  </li>
+  <li><strong>【20220622】Microsoft Windows DFSCoerce 域控提权漏洞</strong>
+    <ul>
+      <li><a href="https://thehackernews.com/2022/06/new-ntlm-relay-attack-lets-attackers.html">https://thehackernews.com/2022/06/new-ntlm-relay-attack-lets-attackers.html</a></li>
+      <li>PoC <a href="https://github.com/Wh04m1001/DFSCoerce">https://github.com/Wh04m1001/DFSCoerce</a></li>
+      <li>CNVD <a href="https://www.cnvd.org.cn/flaw/show/CNVD-2022-46482">https://www.cnvd.org.cn/flaw/show/CNVD-2022-46482</a></li>
+    </ul>
+  </li>
+  <li><strong>【20220610】PHP M有SQL、Postgre 函数存在RCE漏洞 CVE-2022-31626、CVE-2022-31625</strong>
+    <ul>
+      <li>官方Issue（含测试脚本）：https://bugs.php.net/bug.php?id=81719</li>
+      <li>官方Issue（含测试脚本）：https://bugs.php.net/bug.php?id=81720</li>
+      <li>漏洞分析：<a href="https://mp.weixin.qq.com/s/JjLtu3JMYGWT0WGOpEDpkg">https://mp.weixin.qq.com/s/JjLtu3JMYGWT0WGOpEDpkg</a></li>
+      <li>漏洞分析：<a href="https://mp.weixin.qq.com/s/2jleLB3fdisJShbTBGLFfw">https://mp.weixin.qq.com/s/2jleLB3fdisJShbTBGLFfw</a></li>
+      <li>安全版本：PHP 8.1.7 或 PHP 8.0.20 或 PHP 7.4.30</li>
+      <li>影响版本：8.1.0 &lt;= PHP &lt; 8.1.7、8.0.0 &lt;= PHP &lt; 8.0.20、7.0.1 &lt;= PHP &lt; 7.4.30</li>
+    </ul>
+  </li>
   <li><strong>【20220603】Confluence OGNL 命令注入漏洞CVE-2022-26134</strong>
     <ul>
       <li>https://cert.360.cn/warning/detail?id=b5ed926c419f0eeccc3c801c31e9d1a0</li>
       <li>POC <a href="https://github.com/Nwqda/CVE-2022-26134/blob/master/cve-2022-26134.py">https://github.com/Nwqda/CVE-2022-26134/blob/master/cve-2022-26134.py</a></li>
       <li>POC <a href="https://github.com/vulhub/vulhub/tree/master/confluence/CVE-2022-26134">https://github.com/vulhub/vulhub/tree/master/confluence/CVE-2022-26134</a></li>
+      <li><a href="https://y4er.com/post/cve-2022-26134-confluence-server-data-center-ognl-rce/">https://y4er.com/post/cve-2022-26134-confluence-server-data-center-ognl-rce/</a></li>
     </ul>
   </li>
   <li><strong>【20220531】Microsoft Office命令执行 Follina</strong>
@@ -203,6 +235,8 @@ Reading time ~8 minutes
     <ul>
       <li>详细分析 <a href="https://mp.weixin.qq.com/s/kgw-O4Hsd9r2vfme3Y2Ynw">https://mp.weixin.qq.com/s/kgw-O4Hsd9r2vfme3Y2Ynw</a></li>
       <li>利用细节分析 <a href="https://mp.weixin.qq.com/s/plFLE8e0-Fc2tHJ4HaiSSw">https://mp.weixin.qq.com/s/plFLE8e0-Fc2tHJ4HaiSSw</a></li>
+      <li><a href="https://michaelkoczwara.medium.com/spring4shell-rce-in-spring-core-simple-analysis-cd4436a577d5">https://michaelkoczwara.medium.com/spring4shell-rce-in-spring-core-simple-analysis-cd4436a577d5</a></li>
+      <li><a href="https://github.com/reznok/Spring4Shell-POC/blob/master/exploit.py">https://github.com/reznok/Spring4Shell-POC/blob/master/exploit.py</a></li>
     </ul>
   </li>
   <li><strong>【20220325】Spring Cloud Function Spel 表达式注入</strong>
