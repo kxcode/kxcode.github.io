@@ -159,7 +159,7 @@
         <p class="entry-reading-time">
           <i class="fa fa-clock-o"></i>
           
-Reading time ~9 minutes
+Reading time ~10 minutes
         </p><!-- /.entry-reading-time -->
         
       </div><!-- /.header-title-wrap -->
@@ -174,8 +174,206 @@ Reading time ~9 minutes
 <p><img src="../images/secengine.jpg" alt="欢迎订阅" height="200px" width="200px" />
 <b><center>欢迎订阅我的微信公众号</center></b></p>
 
+<h2 id="2023">2023</h2>
+<ol>
+  <li><strong>【20231129】Apache ActiveMQ RCE漏洞 CVE-2022-41678</strong>
+    <ul>
+      <li>2023年11月，Apache发布新版本修复漏洞</li>
+      <li>登录后的攻击者，可以利用 /api/jolokia 接口来执行一系列的操作，写入Webshell</li>
+      <li>影响范围：&lt; 5.16.6、&lt; 5.17.4 受影响， 5.18.0 不受影响，6.0.0 不受影响</li>
+      <li>jetty 允许 org.jolokia.http.AgentServlet 处理对 /api/jolokia 的请求</li>
+      <li>org.jolokia.http.HttpRequestHandler#handlePostRequest 能够通过 JSONObject 创建 JmxRequest。并调用 org.jolokia.http.HttpRequestHandler#executeRequest。可以通过Java 11以上版本上存在的jdk.management.jfr.FlightRecorderMXBeanImpl来实现RCE。1 调用 newRecording. 2 调用setConfiguration。其中隐藏着一个webshell数据，3 调用startRecording、stopRecording，4 调用 copyTo 方法写入 Webshell 到 jsp 文件</li>
+      <li>缓解措施：限制（默认情况下）Jolokia 上授权的操作，或禁用 Jolokia</li>
+    </ul>
+  </li>
+  <li><strong>【20231122】iDocView /html/2word 远程代码执行漏洞</strong>
+    <ul>
+      <li>iDocView /html/2word 远程代码执行漏洞</li>
+      <li>本次漏洞出现在在线文档解析应用中的远程页面缓存功能。具体问题在于该应用未能对用户输入的URL进行充分的安全验证，从而导致存在安全隐患。攻击者可通过构造特殊的URL，引诱应用下载恶意文件。</li>
+      <li>iDocView &lt; 13.10.1_20231115</li>
+    </ul>
+  </li>
+  <li><strong>【20231031】Atlassian Confluence 权限绕过代码执行漏洞 CVE-2023-22518</strong>
+    <ul>
+      <li><a href="https://confluence.atlassian.com/security/cve-2023-22518-improper-authorization-vulnerability-in-confluence-data-center-and-confluence-server-1311473907.html">https://confluence.atlassian.com/security/cve-2023-22518-improper-authorization-vulnerability-in-confluence-data-center-and-confluence-server-1311473907.html</a></li>
+    </ul>
+  </li>
+  <li><strong>【20231025】Apache ActiveMQ RCE</strong>
+    <ul>
+      <li>影响范围 &lt; 5.18.3, &lt; 5.17.6, &lt; 5.16.7, &lt; 5.15.16</li>
+      <li>默认端口 61616</li>
+    </ul>
+  </li>
+  <li><strong>【20231011】Curl溢出漏洞（实用性一般）</strong>
+    <ul>
+      <li><a href="https://daniel.haxx.se/blog/2023/10/11/how-i-made-a-heap-overflow-in-curl/">https://daniel.haxx.se/blog/2023/10/11/how-i-made-a-heap-overflow-in-curl/</a></li>
+    </ul>
+  </li>
+  <li><strong>【20230911】libwebp (WebP) 堆缓冲区溢出漏洞 CVE-2023-4863 CVE-2023-41064</strong>
+    <ul>
+      <li>PoC：https://github.com/mistymntncop/CVE-2023-4863</li>
+      <li>漏洞分析：https://mp.weixin.qq.com/s/zqxkYk7vRvDPKxgoVj1PRw</li>
+      <li>webp图片的处理代码逻辑中。当解析一个无损格式的webp图片时，解码器采用了范式霍夫曼编码 (Canonical Huffman Code) 算法，首先从图片流中读取前缀编码的数据，基于此数据构建一个完整的霍夫曼编码表，随后依照这个编码表对图片流中的压缩数据进行解码，得到原始的图像。</li>
+      <li>解码器以为图片中保存的霍夫曼编码表数据是合理的，因此提前计算了这一情况下能够容纳的最大内存长度。而霍夫曼编码表数据是来自不受信任源的，是可以由攻击者任意构造的，且编码器不会对这些数据进行有效性检查。因此，如果攻击者能够构造出一个非法的霍夫曼表，包含了大量的长编码，这将导致解码器将分配过多的二级表，使得霍夫曼表的总内存大小超过分配大小，发生堆缓冲区溢出。</li>
+      <li>该漏洞发生在一个基础库中，影响范围非常广。</li>
+    </ul>
+  </li>
+  <li><strong>【20230726】Citrix ADC&amp;Citrix Gateway RCE漏洞 CVE-2023-3519</strong>
+    <ul>
+      <li><a href="https://mp.weixin.qq.com/s/_8Zvj_Gr7tR2pO447ZoKMA">https://mp.weixin.qq.com/s/_8Zvj_Gr7tR2pO447ZoKMA</a></li>
+      <li><a href="https://github.com/synfinner/CitriDish">https://github.com/synfinner/CitriDish</a></li>
+    </ul>
+  </li>
+  <li><strong>【20230725】Ivanti Mobileircon RCE</strong>
+    <ul>
+      <li>https://forums.ivanti.com/s/article/CVE-2023-35078-Remote-unauthenticated-API-access-vulnerability?language=en_US</li>
+      <li><a href="https://github.com/vchan-in/CVE-2023-35078-Exploit-POC/">https://github.com/vchan-in/CVE-2023-35078-Exploit-POC/</a></li>
+    </ul>
+  </li>
+  <li><strong>【20230722】Metabase 前台 RCE CVE-2023-38646</strong>
+    <ul>
+      <li>POC1: <a href="https://blog.assetnote.io/2023/07/22/pre-auth-rce-metabase/">https://blog.assetnote.io/2023/07/22/pre-auth-rce-metabase/</a></li>
+      <li>POC2: <a href="https://mp.weixin.qq.com/s/iV68Vx-AP5_KreCG-aMiJA">https://mp.weixin.qq.com/s/iV68Vx-AP5_KreCG-aMiJA</a></li>
+      <li>利用大小写转换绕过INT：https://rce.moe/2023/07/28/Metabase-CVE-2023-38646/</li>
+      <li>http://127.0.0.1:3000/api/session/properties</li>
+      <li>测试环境：https://downloads.metabase.com/v0.46.6.1/metabase.jar</li>
+      <li>测试环境：https://downloads.metabase.com/v0.46.6/metabase.jar</li>
+    </ul>
+  </li>
+  <li><strong>【20230711】Ghostscript RCE 漏洞CVE-2023-36664</strong>
+    <ul>
+      <li><a href="https://www.kroll.com/en/insights/publications/cyber/ghostscript-cve-2023-36664-remote-code-execution-vulnerability">https://www.kroll.com/en/insights/publications/cyber/ghostscript-cve-2023-36664-remote-code-execution-vulnerability</a></li>
+      <li>Exploit: <a href="https://github.com/jakabakos/CVE-2023-36664-Ghostscript-command-injection">https://github.com/jakabakos/CVE-2023-36664-Ghostscript-command-injection</a></li>
+    </ul>
+  </li>
+  <li><strong>【20230707】Linux内核提权 StackRot (CVE-2023-3269)</strong>
+    <ul>
+      <li><a href="https://github.com/lrh2000/StackRot">https://github.com/lrh2000/StackRot</a></li>
+    </ul>
+  </li>
+  <li><strong>【20230601】Apache RocketMQ 远程命令执行漏洞（CVE-2023-33246）</strong>
+    <ul>
+      <li>RocketMQ Broker组件如果暴露端口且未授权访问，则可能被RCE</li>
+      <li>影响版本：<code class="highlighter-rouge">&lt;RocketMQ 4.9.6</code>，<code class="highlighter-rouge">&lt;RocketMQ 5.1.1</code></li>
+      <li>EXP: <a href="https://github.com/Malayke/CVE-2023-33246_RocketMQ_RCE_EXPLOIT">https://github.com/Malayke/CVE-2023-33246_RocketMQ_RCE_EXPLOIT</a></li>
+      <li>复现分析：<a href="https://mp.weixin.qq.com/s?__biz=MjM5MTYxNjQxOA==&amp;mid=2652897338&amp;idx=1&amp;sn=58492b8499ab8e6e2a6406937a7f9bb4">https://mp.weixin.qq.com/s?__biz=MjM5MTYxNjQxOA==&amp;mid=2652897338&amp;idx=1&amp;sn=58492b8499ab8e6e2a6406937a7f9bb4</a></li>
+    </ul>
+  </li>
+  <li><strong>【20230525】Nacos内网集群Raft反序列化漏洞</strong>
+    <ul>
+      <li><a href="https://avd.aliyun.com/high-risk/list">https://avd.aliyun.com/high-risk/list</a></li>
+      <li>影响版本： 1.3.0 &lt;= com.alibaba.nacos:nacos-consistency &lt; 1.4.6 ， 2.0.0 &lt;= com.alibaba.nacos:nacos-consistency &lt; 2.2.3</li>
+    </ul>
+  </li>
+  <li><strong>【20230415】Windows 消息队列服务 RCE CVE-2023-21554</strong>
+    <ul>
+      <li><a href="https://mp.weixin.qq.com/s?__biz=MzAxMjYyMzkwOA==&amp;mid=2247497261&amp;idx=1&amp;sn=086072aa3f9a8e91f32bc0ffec4fd924">https://mp.weixin.qq.com/s?__biz=MzAxMjYyMzkwOA==&amp;mid=2247497261&amp;idx=1&amp;sn=086072aa3f9a8e91f32bc0ffec4fd924</a></li>
+    </ul>
+  </li>
+  <li><strong>【20230428】Exchange RCE漏洞 CVE-2023-21707</strong>
+    <ul>
+      <li>CVE-2023-21707</li>
+      <li><a href="https://starlabs.sg/blog/2023/04-microsoft-exchange-powershell-remoting-deserialization-leading-to-rce-cve-2023-21707/">https://starlabs.sg/blog/2023/04-microsoft-exchange-powershell-remoting-deserialization-leading-to-rce-cve-2023-21707/</a></li>
+    </ul>
+  </li>
+  <li><strong>【20230420】PostgreSQL权限提升漏洞</strong>
+    <ul>
+      <li>当攻击者拥有PostgreSQL数据库的普通账号权限后，可以在PostgreSQL数据库上创建一个恶意函数（函数内容为执行恶意命令）用于覆盖劫持正常函数，随后安装插件（安装插件时候会以最高权限执行该恶意函数），造成服务器被入侵控制。</li>
+      <li>修复方案：禁止pg_bigm、postgis插件安装</li>
+      <li>https://cloud.tencent.com/document/product/409/90358</li>
+    </ul>
+  </li>
+  <li><strong>【20230419】MySQL Server远程拒绝服务漏洞 CVE-2023-21912</strong>
+    <ul>
+      <li>Oracle MySQL Server中存在漏洞，允许未经身份验证的攻击者通过多种协议对MySQL Server进行利用，进而导致MySQL Server崩溃。</li>
+      <li>https://nvd.nist.gov/vuln/detail/CVE-2023-21912</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>【20230327】OpenAI存在Web Cache Deception漏洞</strong></p>
+  </li>
+  <li><strong>【20230327】影响ChatGPT，redis-py 信息泄露漏洞(CVE-2023-28858)</strong>
+    <ul>
+      <li>使用redis-py时，如果在不恰当的时候取消异步Redis命令，会导致连接未关闭，这会产生响应的错位，即后续命令会获取到之前命令的响应。</li>
+      <li>https://github.com/redis/redis-py/issues/2624</li>
+      <li>https://github.com/redis/redis-py/issues/2665</li>
+    </ul>
+  </li>
+  <li><strong>【20230324】ImageMagic文件读取漏洞 CVE-2022-44268</strong>
+    <ul>
+      <li>ImageMagick 图像处理软件7.1.0-49版本存在信息泄露漏洞，成功利用该漏洞可在解析图像时从服务器读取任意文件，可升级到ImageMagick 7.1.0-52版本</li>
+    </ul>
+  </li>
+  <li><strong>【20230323】MinIO 信息泄露漏洞(CVE-2023-28432)</strong>
+    <ul>
+      <li>未经身份认证的远程攻击者通过发送特殊HTTP请求即可获取所有环境变量，其中包括MINIO_SECRET_KEY和MINIO_ROOT_PASSWORD，造成敏感信息泄露，最终可能导致攻击者以管理员身份登录MinIO。</li>
+      <li>https://github.com/minio/minio/releases/tag/RELEASE.2023-03-20T20-16-18Z</li>
+      <li>https://mp.weixin.qq.com/s/BPUEAGTbNaQhlXMMLbvpkw</li>
+    </ul>
+  </li>
+  <li><strong>【20230310】Apache Dubbo RCE 反序列化漏洞CVE-2023-23638</strong>
+    <ul>
+      <li><a href="https://xz.aliyun.com/t/12396">https://xz.aliyun.com/t/12396</a></li>
+      <li>Exploit：<a href="https://github.com/YYHYlh/Apache-Dubbo-CVE-2023-23638-exp/tree/main">https://github.com/YYHYlh/Apache-Dubbo-CVE-2023-23638-exp/tree/main</a></li>
+      <li>分析与利用：https://forum.butian.net/share/2277</li>
+    </ul>
+  </li>
+  <li><strong>【20230208】Apache Kafka远程代码执行漏洞 CVE-2023-25194</strong>
+    <ul>
+      <li>不安全的反序列化，利用条件比较高</li>
+      <li><a href="https://mvip.riskivy.com/detail/1623079710978347008?oi=otbzlvsIExhEyHYz1qtihs9407P8&amp;fr=wechat&amp;pmi=18">https://mvip.riskivy.com/detail/1623079710978347008?oi=otbzlvsIExhEyHYz1qtihs9407P8&amp;fr=wechat&amp;pmi=18</a></li>
+      <li>受影响范围 Apache Kafka 2.3.0 ~ 3.3.2</li>
+    </ul>
+  </li>
+</ol>
+
 <h2 id="2022">2022</h2>
 <ol>
+  <li><strong>【20221111】YAPI命令执行</strong>
+    <ul>
+      <li><a href="https://mp.weixin.qq.com/s?__biz=Mzg5MTc3ODY4Mw==&amp;mid=2247497035&amp;idx=1&amp;sn=475242beb208f6464824430c6110bee9">https://mp.weixin.qq.com/s?__biz=Mzg5MTc3ODY4Mw==&amp;mid=2247497035&amp;idx=1&amp;sn=475242beb208f6464824430c6110bee9</a></li>
+      <li>&lt;=1.10.2</li>
+      <li>补丁 <a href="https://github.com/YMFE/yapi/commit/59bade3a8a43e7db077d38a4b0c7c584f30ddf8c">https://github.com/YMFE/yapi/commit/59bade3a8a43e7db077d38a4b0c7c584f30ddf8c</a></li>
+    </ul>
+  </li>
+  <li><strong>TCP/IP 漏洞 CVE-2022-34718 PoC</strong>
+    <ul>
+      <li><a href="https://paper.seebug.org/1996/">https://paper.seebug.org/1996/</a></li>
+    </ul>
+  </li>
+  <li><strong>【20221013】Apache Commons Text RCE CVE-2022-42889漏洞</strong>
+    <ul>
+      <li><a href="https://www.4hou.com/posts/QLGq">https://www.4hou.com/posts/QLGq</a></li>
+      <li>影响 &lt;1.10.0</li>
+    </ul>
+  </li>
+  <li><strong>【20220930】Exchange RCE</strong>
+    <ul>
+      <li><a href="https://www.rapid7.com/blog/post/2022/09/29/suspected-post-authentication-zero-day-vulnerabilities-in-microsoft-exchange-server/">https://www.rapid7.com/blog/post/2022/09/29/suspected-post-authentication-zero-day-vulnerabilities-in-microsoft-exchange-server/</a></li>
+      <li><a href="https://gteltsc.vn/blog/warning-new-attack-campaign-utilized-a-new-0day-rce-vulnerability-on-microsoft-exchange-server-12715.html">https://gteltsc.vn/blog/warning-new-attack-campaign-utilized-a-new-0day-rce-vulnerability-on-microsoft-exchange-server-12715.html</a></li>
+      <li><a href="https://github.com/testanull/ProxyNotShell-PoC">https://github.com/testanull/ProxyNotShell-PoC</a></li>
+    </ul>
+  </li>
+  <li><strong>【20220921】CobaltStrike Beacon XSS RCE CVE-2022-39197</strong>
+    <ul>
+      <li><a href="https://mp.weixin.qq.com/s/BJ4GVI_7Adrj6L6yqPR3sQ">https://mp.weixin.qq.com/s/BJ4GVI_7Adrj6L6yqPR3sQ</a></li>
+      <li><a href="https://mp.weixin.qq.com/s/l5e2p_WtYSCYYhYE0lzRdQ">https://mp.weixin.qq.com/s/l5e2p_WtYSCYYhYE0lzRdQ</a></li>
+      <li>复现细节 <a href="https://mp.weixin.qq.com/s/89wXyPaSn3TYn4pmVdr-Mw">https://mp.weixin.qq.com/s/89wXyPaSn3TYn4pmVdr-Mw</a></li>
+      <li>临时补丁 <a href="https://github.com/burpheart/CVE-2022-39197-patch">https://github.com/burpheart/CVE-2022-39197-patch</a></li>
+      <li>官方再次发布新版本 4.7.2 修复绕过，<a href="https://www.cobaltstrike.com/blog/out-of-band-update-cobalt-strike-4-7-2/">https://www.cobaltstrike.com/blog/out-of-band-update-cobalt-strike-4-7-2/</a></li>
+      <li>漏洞分析：<a href="https://securityintelligence.com/posts/analysis-rce-vulnerability-cobalt-strike/">https://securityintelligence.com/posts/analysis-rce-vulnerability-cobalt-strike/</a></li>
+    </ul>
+  </li>
+  <li><strong>【20220827】Chrome 2022年在野利用的漏洞</strong>
+    <ul>
+      <li>2月 CVE-2022-0609</li>
+      <li>3月 CVE-2022-1096</li>
+      <li>4月 CVE-2022-1364</li>
+      <li>5月 CVE-2022-2294</li>
+      <li>8月 CVE-2022-2856</li>
+      <li><a href="https://mp.weixin.qq.com/s?__biz=MzI0MDY1MDU4MQ==&amp;mid=2247549180&amp;idx=2&amp;sn=4433324f9099181c91b8b8a2101a3ae9">https://mp.weixin.qq.com/s?__biz=MzI0MDY1MDU4MQ==&amp;mid=2247549180&amp;idx=2&amp;sn=4433324f9099181c91b8b8a2101a3ae9</a></li>
+    </ul>
+  </li>
   <li><strong>【20220706】OpenSSL 远程代码执行漏洞（影响有限）</strong>
     <ul>
       <li><a href="https://www.openssl.org/news/secadv/20220705.txt">https://www.openssl.org/news/secadv/20220705.txt</a></li>
@@ -229,6 +427,12 @@ Reading time ~9 minutes
       <li><a href="https://github.com/alibaba/fastjson/wiki/security_update_20220523">https://github.com/alibaba/fastjson/wiki/security_update_20220523</a></li>
       <li>1.2.83 ~ 1.2.80 版本对比 <a href="https://github.com/alibaba/fastjson/compare/1.2.80...1.2.83">https://github.com/alibaba/fastjson/compare/1.2.80...1.2.83</a></li>
       <li>关键Commit <a href="https://github.com/alibaba/fastjson/commit/35db4adad70c32089542f23c272def1ad920a60d">https://github.com/alibaba/fastjson/commit/35db4adad70c32089542f23c272def1ad920a60d</a></li>
+    </ul>
+  </li>
+  <li><strong>【20220429】微软Azure Postgre 存在 “ExtraReplica” 漏洞</strong>
+    <ul>
+      <li><a href="https://www.wiz.io/blog/wiz-research-discovers-extrareplica-cross-account-database-vulnerability-in-azure-postgresql">https://www.wiz.io/blog/wiz-research-discovers-extrareplica-cross-account-database-vulnerability-in-azure-postgresql</a></li>
+      <li>Postgresql可提权并获取命令执行权限，控制实例所在主机。主机上不同租户PG实例未隔离。Postgresql客户端证书身份验证的“pgusermap”字段配置正则存在缺陷，可绕过证书CommonName校验，从而登录任意用户的PostgreSQL实例。</li>
     </ul>
   </li>
   <li><strong>【20220330】Spring Core RCE 0day漏洞 CVE-2022-22965</strong>
@@ -290,6 +494,14 @@ Reading time ~9 minutes
   <li>
     <p><strong>【20220215】向日葵RCE漏洞</strong></p>
   </li>
+  <li><strong>【20220206】Linux容器逃逸漏洞 CVE-2022-0492</strong>
+    <ul>
+      <li>https://github.com/PaloAltoNetworks/can-ctr-escape-cve-2022-0492/blob/main/can-ctr-escape-cve-2022-0492.sh</li>
+      <li>https://github.com/puckiestyle/CVE-2022-0492/tree/main</li>
+      <li>https://github.com/chenaotian/CVE-2022-0492</li>
+      <li>漏洞分析：<a href="https://unit42.paloaltonetworks.com/cve-2022-0492-cgroups/">https://unit42.paloaltonetworks.com/cve-2022-0492-cgroups/</a></li>
+    </ul>
+  </li>
   <li><strong>【20220125】APISIX batch-requests插件默认Key命令执行漏洞</strong>
     <ul>
       <li>Key: edd1c9f034335f136f87ad84b625c8f1</li>
@@ -297,13 +509,19 @@ Reading time ~9 minutes
       <li>出自 Real World CTF 题目 API6: <a href="https://github.com/perfectblue/ctf-writeups/blob/master/2022/realworld-ctf-2022/API6/solve.py">https://github.com/perfectblue/ctf-writeups/blob/master/2022/realworld-ctf-2022/API6/solve.py</a></li>
     </ul>
   </li>
-  <li><strong>【20220125】Linux pwnkit提权漏洞CVE-2021-4034</strong>
+  <li><strong>【20220125】Linux pwnkit提权漏洞CVE-2021-4034【好用】</strong>
     <ul>
       <li><a href="https://blog.qualys.com/vulnerabilities-threat-research/2022/01/25/pwnkit-local-privilege-escalation-vulnerability-discovered-in-polkits-pkexec-cve-2021-4034">https://blog.qualys.com/vulnerabilities-threat-research/2022/01/25/pwnkit-local-privilege-escalation-vulnerability-discovered-in-polkits-pkexec-cve-2021-4034</a></li>
       <li>Polkit pkexec权限提升漏洞<a href="https://mp.weixin.qq.com/s?__biz=MzUxMDQzNTMyNg==&amp;mid=2247498693&amp;idx=2&amp;sn=a09f300fd93917c2191cba0a0019cc1f&amp;chksm=f901b154ce76384279cc74095a5d49e9ca2607ba8aa542621cc2a7b0de991238b2c19a1484cb#rd">https://mp.weixin.qq.com/s?__biz=MzUxMDQzNTMyNg==&amp;mid=2247498693&amp;idx=2&amp;sn=a09f300fd93917c2191cba0a0019cc1f&amp;chksm=f901b154ce76384279cc74095a5d49e9ca2607ba8aa542621cc2a7b0de991238b2c19a1484cb#rd</a></li>
       <li>从 2009 年开始的所有 Polkit 版本都存在漏洞</li>
       <li>使用Linux 发行版系统相应的包管理器更新 polkit 程序包，如 apt upgrade policykit-1 或者 yum clean all &amp;&amp; yum -y update polkit</li>
       <li>PoC代码：<a href="https://github.com/arthepsy/CVE-2021-4034">https://github.com/arthepsy/CVE-2021-4034</a></li>
+    </ul>
+  </li>
+  <li><strong>【20220119】Linux内核提权、容器逃逸 CVE-2022-0185</strong>
+    <ul>
+      <li><a href="https://blog.nsfocus.net/linux-cve-2022-0185/">https://blog.nsfocus.net/linux-cve-2022-0185/</a></li>
+      <li>影响范围：5.1-rc1 ~ 5.16.2（修复）</li>
     </ul>
   </li>
   <li><strong>【20220111】Alibaba Dubbo Hession-lite反序列化漏洞 CVE-2021-43297</strong>
@@ -493,6 +711,15 @@ Reading time ~9 minutes
       <li>通过expectClass绕过Autotype限制</li>
       <li>需要目标服务器上存在可利用的Gadget，才能进行命令执行</li>
       <li><a href="https://paper.seebug.org/1236/">https://paper.seebug.org/1236/</a></li>
+    </ul>
+  </li>
+  <li><strong>【20200525】Nexus Repository Manager 后台 RCE (CVE-2020-10199)</strong>
+    <ul>
+      <li>受影响版本：Nexus Repository Manager OSS/Pro 3.x &lt;= 3.21.1</li>
+      <li>在Nexus Repository Manager OSS/Pro 3.21.1 及之前的版本中，由于某处功能安全处理不当，导致经过授权认证的攻击者，可以在远程通过构造恶意的 HTTP 请求，在服务端执行任意恶意代码、执行了不安全的EL表达式，从而获取到系统权限。</li>
+      <li>https://github.com/fofapro/vulfocus</li>
+      <li><code class="highlighter-rouge">docker pull vulfocus/nexus-cve_2020_10199</code></li>
+      <li><a href="https://github.com/vulhub/vulhub/blob/master/nexus/CVE-2020-10199/README.md">https://github.com/vulhub/vulhub/blob/master/nexus/CVE-2020-10199/README.md</a></li>
     </ul>
   </li>
   <li><strong>【20200501】SaltStack认证绕过远程命令执行</strong>
@@ -705,7 +932,7 @@ Reading time ~9 minutes
       <li>PoC: <a href="https://github.com/SandboxEscaper/polarbearrepo/tree/master/sandboxescape">https://github.com/SandboxEscaper/polarbearrepo/tree/master/sandboxescape</a></li>
     </ul>
   </li>
-  <li><strong>【20190515】Windows RDP远程命令执行CVE-2019-0708</strong>
+  <li><strong>【20190515】Windows RDP远程命令执行CVE-2019-0708 BlueKeep</strong>
     <ul>
       <li>Windows RDP远程桌面存在远程命令执行漏洞。</li>
       <li>影响：Windows XP/2003/7/Server 2008/Server 2008R2</li>
@@ -1560,6 +1787,7 @@ https://github.com/rapid7/metasploit-framework/blob/22503209d9b8aa0a0e21ed60d9a0
       <li>影响范围：Linux 内核 &gt;=2.6.22（2007 年发行）开始就受影响了，直到 2016 年 10 月 18 日才修复。</li>
       <li>PoC: <a href="https://github.com/dirtycow/dirtycow.github.io/wiki/PoCs">https://github.com/dirtycow/dirtycow.github.io/wiki/PoCs</a></li>
       <li><a href="https://dirtycow.ninja/">https://dirtycow.ninja/</a></li>
+      <li>EXP: 可逃逸容器，获取反弹shell <a href="https://github.com/scumjr/dirtycow-vdso">https://github.com/scumjr/dirtycow-vdso</a></li>
       <li>影响范围<a href="https://github.com/dirtycow/dirtycow.github.io/wiki/VulnerabilityDetails">https://github.com/dirtycow/dirtycow.github.io/wiki/VulnerabilityDetails</a></li>
       <li>影响范围<a href="https://github.com/kcgthb/RHEL6.x-COW">https://github.com/kcgthb/RHEL6.x-COW</a></li>
     </ul>
@@ -1614,7 +1842,7 @@ https://github.com/rapid7/metasploit-framework/blob/22503209d9b8aa0a0e21ed60d9a0
 
 <div class="footer-wrapper">
   <footer role="contentinfo">
-    <span>&copy; 2022 KINGX. Powered by Jekyll using the HPSTR Theme.</span>
+    <span>&copy; 2023 KINGX. Powered by Jekyll using the HPSTR Theme.</span>
   </footer>
 </div><!-- /.footer-wrapper -->
 
