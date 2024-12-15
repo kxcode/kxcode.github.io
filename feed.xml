@@ -4,7 +4,7 @@
 <generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="https://kingx.me/feed.xml" />
 <link rel="alternate" type="text/html" href="https://kingx.me" />
-<updated>2024-12-14T22:38:10-05:00</updated>
+<updated>2024-12-14T22:39:48-05:00</updated>
 <id>https://kingx.me/</id>
 <author>
   <name>KINGX</name>
@@ -81,24 +81,25 @@ prompts.py   各种Prompt模板
 symbol_finder.py 代码符号查找工具类
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;ol&gt;
+&lt;ul&gt;
   &lt;li&gt;预处理，筛选出核心代码文件&lt;/li&gt;
-&lt;/ol&gt;
+&lt;/ul&gt;
 
 &lt;p&gt;排除代码仓库中的测试、示例、文档等非核心文件，然后使用大量正则表达式识别出可能包含网络相关功能的代码，例如 Python Web 框架、WebSocket、服务器启动代码等。&lt;/p&gt;
 
-&lt;ol&gt;
+&lt;ul&gt;
   &lt;li&gt;代码项目整体解读，进入通用代码分析阶段&lt;/li&gt;
-&lt;/ol&gt;
+&lt;/ul&gt;
 
 &lt;p&gt;找到项目的  Readme 文件进行总结，并将总结结果合并作为 System Prompt 的内容。Prompt中将大模型定设定为“Python静态代码安全审计专家”的角色，并多次强调可以主动请求更多的上下文代码。接下来遍历预处理筛选出来的重点代码文件，进行第一轮通用代码分析。&lt;/p&gt;
 
 &lt;p&gt;第一轮分析的 Prompt 中包括代码内容、通用分析指令、分析方法、输出规范、输出格式Schema等等。重点在于尽可能的找出所有潜在风险点，并且给大模型阐明了具体的分析方法和原则。例如：先整体Review、再关注远程可利用的漏洞、分析用户输入的数据流处理存储以及输出的逻辑、分析安全控制措施，并提醒大模型关注上下文。输出规范的 Prompt 中对 JSON 格式提出了细节规范的要求。&lt;/p&gt;
 
-&lt;ol&gt;
-  &lt;li&gt;针对性漏洞检测阶段，多轮精确扫描
-对通用扫描中发现漏洞并且置信度大于0的漏洞类型，逐个进行针对性的漏洞扫描。与通用代码分析阶段相比，此阶段附上了大模型所请求的上下文代码，指令 Prompt 更新为特定漏洞类型的 Prompt、并且增加了特定漏洞类型的 Bypass Payload，例如 XSS 的代码审计 Prompt、SQLi 的代码审计 Prompt，指令更具针对性。&lt;/li&gt;
-&lt;/ol&gt;
+&lt;ul&gt;
+  &lt;li&gt;针对性漏洞检测阶段，多轮精确扫描&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;对通用扫描中发现漏洞并且置信度大于0的漏洞类型，逐个进行针对性的漏洞扫描。与通用代码分析阶段相比，此阶段附上了大模型所请求的上下文代码，指令 Prompt 更新为特定漏洞类型的 Prompt、并且增加了特定漏洞类型的 Bypass Payload，例如 XSS 的代码审计 Prompt、SQLi 的代码审计 Prompt，指令更具针对性。&lt;/p&gt;
 
 &lt;p&gt;根据大模型对上下文的请求情况，此阶段最多迭代7次。此阶段的第一轮不会立即获取上下文代码，而是等到迭代的第二轮才会处理 context_code 请求。如果大模型重复请求同一个上下文超过 1 次，则跳出迭代。&lt;/p&gt;
 
@@ -116,9 +117,9 @@ symbol_finder.py 代码符号查找工具类
 
 &lt;p&gt;如果引用的类/函数在第三方代码中，则返回一句话 “Third party library. Claude, use what you already know about {name.full_name} to understand the code” 作为源代码内容。&lt;/p&gt;
 
-&lt;ol&gt;
+&lt;ul&gt;
   &lt;li&gt;结果输出&lt;/li&gt;
-&lt;/ol&gt;
+&lt;/ul&gt;
 
 &lt;p&gt;修改版中将多轮检测迭代完成之后依然存在的漏洞结果输出到报告文件中。&lt;/p&gt;
 
