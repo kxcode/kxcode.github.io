@@ -4,7 +4,7 @@
 <generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="https://kingx.me/feed.xml" />
 <link rel="alternate" type="text/html" href="https://kingx.me" />
-<updated>2024-12-14T22:39:48-05:00</updated>
+<updated>2024-12-14T22:40:35-05:00</updated>
 <id>https://kingx.me/</id>
 <author>
   <name>KINGX</name>
@@ -74,7 +74,7 @@ python run.py -r path/to/target -l claude
 python run.py -r ../../targets/dvpwa -l gpt -m gpt-4o -vv -k your-api-key
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;##代码简读&lt;/p&gt;
+&lt;h2 id=&quot;代码简读&quot;&gt;代码简读&lt;/h2&gt;
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;__main__.py   主逻辑
 LLMs.py    大模型接入类
 prompts.py   各种Prompt模板
